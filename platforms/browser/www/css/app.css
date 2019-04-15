@@ -1,0 +1,194 @@
+* {
+  font-family: 'Noto Sans', sans-serif;
+}
+a {
+  color: #58595b;
+}
+/* Your app styles here */
+.ios .tabbar-labels .tab-link:not(.tab-link-active) .icon-ios-fill {
+  display: none;
+}
+.ios .tabbar-labels .tab-link.tab-link-active .icon:not(.icon-ios-fill) {
+  display: none;
+}
+.demo-swiper .swiper-slide {
+  font-size: 25px;
+  font-weight: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  color: #000;
+}
+.demo-swiper .swiper-slide {
+  box-sizing: border-box;
+  border: 0;
+}
+.demo-swiper {
+  margin: -56px 0 0 0;
+  font-size: 18px;
+  height: 100vh;
+}
+.demo-swiper.demo-swiper-auto .swiper-slide {
+  width: 85%;
+}
+.demo-swiper.demo-swiper-auto .swiper-slide:nth-child(2n) {
+  width: 70%;
+}
+.demo-swiper.demo-swiper-auto .swiper-slide:nth-child(3n) {
+  width: 30%;
+}
+.loginoptions {
+  text-align: center;
+  font-size: 18px;
+  text-transform: uppercase;
+  line-height: 35px;
+}
+.loginoptions .col-50 {
+  margin-top: 13px;
+  font-weight: 700;
+}
+.loginoptions .col-50 a {
+  text-decoration: none;
+  color: #58595b;
+}
+
+.shader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  background-color: black;
+  opacity: 0.4;
+  height: 100vh;
+  width: 100vw;
+}
+
+.logo-overlay {
+  background-color: transparent;
+  width: 100vw;
+  height: 120px;
+  padding: 0 25px 0 0;
+  text-align: center;
+  display: inline-block;
+  position: fixed;
+  top: calc(50% - 160px);
+  z-index: 5;
+  opacity: 0;
+}
+
+.logo-overlay img {
+  max-width: 40%;
+  display: inline-block;
+  margin-top: 10px;
+  height: auto;
+}
+
+.logo-overlay span {
+  font-size: 20px;
+  color: white;
+  display: inline-block;
+  margin-top: -12px;
+  font-weight: normal;
+}
+
+@keyframes leaves {
+0% {
+  transform: scale(4.0);
+  -webkit-transform: scale(4.0);
+}
+45% {
+  opacity: 0;
+}
+
+100% {
+  opacity: 1;
+  transform: scale(1.0);
+  -webkit-transform: scale(1.0);
+}
+}
+.logo-overlay {
+  animation: leaves 2s ease-in alternate;
+  -webkit-animation: leaves 2s ease-in alternate;
+  animation-timing-function:linear;
+  animation-fill-mode:forwards;
+  animation-iteration-count: 1;
+  -webkit-animation-iteration-count: 1;
+  -webkit-animation-timing-function:linear;
+  -webkit-animation-fill-mode: forwards;
+}
+.login-screen-title {
+  color: #58595b;
+}
+.login-close {
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  color: #58595b;
+}
+.login-button {
+  border-radius: 8px;
+  padding: 8px;
+}
+.seperator {
+  max-width: 620px;
+  height: 3px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+.seperator .blue {
+  float: left;
+  width: calc(50% - 15px);
+  display: block;
+  height: 3px;
+  background-color: #0089cd;
+}
+.seperator .red {
+  float: right;
+  height: 3px;
+  width: calc(50% - 15px);
+  display: block;
+  background-color: #e21a27;
+}
+.seperator .white {
+  background-color: white !important;
+}
+.nobg {
+  background-color: transparent !important;
+}
+h2.pagetitle {
+  text-align: center;
+  font-weight: normal;
+}
+@-webkit-keyframes blink {
+  0%   { border-color:#e21a27; }
+  50%  { border-color:#0089cd;}
+  100% { border-color:#e21a27; }
+}
+@-moz-keyframes blink {
+  0%   { border-color:#e21a27; }
+  50%  { border-color:#0089cd;}
+  100% { border-color:#e21a27; }
+}
+@-ms-keyframes blink {
+  0%   { border-color:#e21a27; }
+  50%  { border-color:#0089cd;}
+  100% { border-color:#e21a27; }
+}
+.qr-border {
+  -webkit-animation: blink 3s infinite;
+  -moz-animation:    blink 3s infinite;
+  -ms-animation:     blink 3s infinite;
+  border: 4px solid;
+  margin: 5% auto 0 auto;
+  width: 65vw;
+  height: 50vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
