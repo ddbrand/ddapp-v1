@@ -2,7 +2,7 @@
 
 platform :ios, '9.0'
 
-target 'DDApp' do
-	project 'DDApp.xcodeproj'
+target 'DD App' do
+	project 'DD App.xcodeproj'
 
 end

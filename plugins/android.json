@@ -7,10 +7,10 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-qrscanner": {
+    "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.ddrobotec.dd"
     },
-    "cordova-plugin-whitelist": {
+    "cordova-plugin-qrscanner": {
       "PACKAGE_NAME": "com.ddrobotec.dd"
     }
   },

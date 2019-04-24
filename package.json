@@ -24,17 +24,21 @@
     "cordova-plugin-qrscanner": "^3.0.1"
   },
   "devDependencies": {
-    "cordova-plugin-whitelist": "^1.3.3"
+    "cordova-plugin-whitelist": "^1.3.3",
+    "cordova-plugin-media-capture": "1.4.1"
   },
   "cordova": {
     "plugins": {
       "cordova-plugin-whitelist": {},
+      "cordova-plugin-media-capture": {
+        "CAMERA_USAGE_DESCRIPTION": "We are using a camera to enable you to login directly via your phone."
+      },
       "cordova-plugin-qrscanner": {}
     },
     "platforms": [
-      "ios",
       "browser",
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

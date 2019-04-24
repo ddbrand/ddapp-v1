@@ -6,10 +6,8 @@ routes = [
       pageInit: function (event, page) {
         autologin(function (callback) {
           if (callback === false) {
-
-                homeView.router.navigate('/authbox/', {reloadCurrent: false, animate: false});
-
-
+            homeView.router.navigate('/authbox/', {reloadCurrent: true,
+              ignoreCache: true});
           } else {
             $('.navbar').slideDown(700);
           }
@@ -35,11 +33,13 @@ routes = [
     }
   },
   {
-    path: '/catalog/',
-    componentUrl: './pages/catalog.html',
+    path: '/stats/',
+    url: './pages/stats.html',
+    componentUrl: './pages/stats.html',
   },
   {
     path: '/search/',
+    url: './pages/search.html',
     componentUrl: './pages/search.html',
   },
   {
@@ -49,43 +49,24 @@ routes = [
   },
   {
     path: '/stories/',
+    url: './pages/stories.html',
     componentUrl: './pages/stories.html',
   },
   {
-    path: '/product/:id/',
-    componentUrl: './pages/product.html',
+    path: '/user/',
+    url: './pages/user.html',
   },
   {
     path: '/settings/',
     url: './pages/settings.html',
   },
-  // Page Loaders & Router
   {
-    path: '/page-loader-template7/:user/:userId/:posts/:postId/',
-    templateUrl: './pages/page-loader-template7.html',
+    path: '/timeline/',
+    url: './pages/timeline.html',
   },
   {
-    path: '/page-loader-component/:user/:userId/:posts/:postId/',
-    componentUrl: './pages/page-loader-component.html',
-  },
-  {
-    path: '/request-and-load/user/:userId/',
-    async: function (routeTo, routeFrom, resolve, reject) {
-      // Router instance
-      var router = this;
-
-      // App instance
-      var app = router.app;
-
-      // Show Preloader
-      app.preloader.show();
-
-      // User ID from request
-      var userId = routeTo.params.userId;
-
-      // Simulate Ajax Request
-
-    },
+    path: '/changeuser/',
+    url: './pages/changeuser.html',
   },
   // Default route (404 page). MUST BE THE LAST
   {

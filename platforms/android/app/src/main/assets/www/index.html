@@ -15,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#58595b">
+  <meta name="theme-color" content="#82bec8">
   <meta name="format-detection" content="telephone=no">
   <meta name="msapplication-tap-highlight" content="no">
   <title>My App</title>
@@ -73,8 +73,8 @@
             <span class="tabbar-label">Home</span>
           </a>
           <a href="#view-stats" class="tab-link">
-            <i class="icon f7-icons ios-only">bar_chart</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">bar_chart</i>
+            <i class="icon f7-icons ios-only">bars_chart</i>
+            <i class="icon f7-icons ios-only icon-ios-fill">bars_chart</i>
             <i class="icon material-icons md-only">bar_chart</i>
             <span class="tabbar-label">Stats</span>
           </a>
@@ -91,8 +91,8 @@
             <span class="tabbar-label">Stories</span>
           </a>
           <a href="#view-user" class="tab-link">
-            <i class="icon f7-icons ios-only">face</i>
-            <i class="icon f7-icons ios-only icon-ios-fill">face</i>
+            <i class="icon f7-icons ios-only">person_round</i>
+            <i class="icon f7-icons ios-only icon-ios-fill">person_round</i>
             <i class="icon material-icons md-only">face</i>
             <span class="tabbar-label insert-username">User</span>
           </a>
@@ -125,11 +125,38 @@
           </div>
 
           <!-- Scrollable page content-->
-          <div class="page-content">
+          <div class="page-content startpage" style="background-image: url('img/pictures/slide1-jumper.jpg'); background-size: cover;">
             <h2 class="pagetitle">Ready for your training, <span class="insert-username"></span></h2>
             <div class="seperator">
               <div class="blue"></div>
               <div class="red"></div>
+            </div>
+            <div class="nav_button">
+              <a class="cameramode" href="">
+                <i class="icon material-icons">camera_enhance</i>
+                <span class="linklabel">Connect with the robot</span>
+              </a>
+            </div>
+            <div class="nav_button">
+              <a href="/stats/" class="showstats" data-view="#view-stats">
+                <i class="icon f7-icons ios-only">bars_chart</i>
+                <i class="icon material-icons md-only">bar_chart</i>
+                <span class="linklabel">View Training Statistics</span>
+              </a>
+            </div>
+            <div class="nav_button">
+              <a href="/search/" class="showsearch" data-view="#view-search">
+                <i class="icon f7-icons ios-only">search</i>
+                <i class="icon material-icons md-only">search</i>
+                <span class="linklabel">Search Training Plans</span>
+              </a>
+            </div>
+            <div class="nav_button">
+              <a href="/stories/" class="showstories" data-view="#view-stories">
+                <i class="icon f7-icons ios-only">star</i>
+                <i class="icon material-icons md-only">star</i>
+                <span class="linklabel">Browse Stories</span>
+              </a>
             </div>
           </div>
         </div>
@@ -159,27 +186,6 @@
       </div>
     </div>
 
-    <!-- Popup -->
-    <div class="popup" id="my-popup">
-      <div class="view">
-        <div class="page">
-          <div class="navbar">
-            <div class="navbar-inner">
-              <div class="title">Popup</div>
-              <div class="right">
-                <a href="#" class="link popup-close">Close</a>
-              </div>
-            </div>
-          </div>
-          <div class="page-content">
-            <div class="block">
-              <p>The QR code you have scanned seems to be invalid. Try again.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
 
     <!-- Scan failed Popup -->
     <div class="popup" id="failed-scan-popup">
@@ -195,7 +201,7 @@
           </div>
           <div class="page-content">
             <div class="block">
-              <p>Popup content goes here.</p>
+              <p>The QR code you have scanned seems to be invalid. Close this popup and try it again.</p>
             </div>
           </div>
         </div>
@@ -221,7 +227,7 @@
                   <div class="item-inner">
                     <div class="item-title item-label">Username</div>
                     <div class="item-input-wrap">
-                      <input type="text" name="username" value="mario" placeholder="Your username">
+                      <input type="text" name="username" placeholder="Your username">
                     </div>
                   </div>
                 </li>
@@ -229,7 +235,7 @@
                   <div class="item-inner">
                     <div class="item-title item-label">E-Mail</div>
                     <div class="item-input-wrap">
-                      <input type="email" name="email" value="renewedplains@gmail.com" placeholder="Your email">
+                      <input type="email" name="email" placeholder="Your email">
                     </div>
                   </div>
                 </li>
@@ -237,7 +243,7 @@
                   <div class="item-inner">
                     <div class="item-title item-label">Password</div>
                     <div class="item-input-wrap">
-                      <input type="password" name="password" value="test92" placeholder="Your password">
+                      <input type="password" name="password" placeholder="Your password">
                     </div>
                   </div>
                 </li>
@@ -276,7 +282,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Username</div>
                   <div class="item-input-wrap">
-                    <input type="text" name="username" value="mario11" placeholder="Your username">
+                    <input type="text" name="username" placeholder="Your username">
                   </div>
                 </div>
               </li>
@@ -284,7 +290,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">E-Mail</div>
                   <div class="item-input-wrap">
-                    <input type="email" name="email" value="renewedplains@gmail.com" placeholder="Your email">
+                    <input type="email" name="email" placeholder="Your email">
                   </div>
                 </div>
               </li>
@@ -292,7 +298,7 @@
                 <div class="item-inner">
                   <div class="item-title item-label">Password</div>
                   <div class="item-input-wrap">
-                    <input type="password" name="password" value="test92" placeholder="Your password">
+                    <input type="password" name="password" placeholder="Your password">
                   </div>
                 </div>
               </li>

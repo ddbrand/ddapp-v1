@@ -6,7 +6,8 @@ routes = [
       pageInit: function (event, page) {
         autologin(function (callback) {
           if (callback === false) {
-            homeView.router.navigate('/authbox/', {reloadAll: false, animate: false});
+            homeView.router.navigate('/authbox/', {reloadCurrent: true,
+              ignoreCache: true});
           } else {
             $('.navbar').slideDown(700);
           }
