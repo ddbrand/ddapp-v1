@@ -29,6 +29,9 @@
     <feature name="QRScanner">
         <param name="ios-package" value="QRScanner" />
     </feature>
+    <feature name="DeviceName">
+        <param name="ios-package" value="CDVDeviceName" />
+    </feature>
     <name>DD App</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.

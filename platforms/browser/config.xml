@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ddrobotec.dd" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>DDApp</name>
+    <name>DD App</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
@@ -15,7 +15,4 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <feature name="QRScanner">
-        <param name="browser-package" value="QRScanner" />
-    </feature>
 </widget>

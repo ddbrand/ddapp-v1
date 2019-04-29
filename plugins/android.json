@@ -12,6 +12,9 @@
     },
     "cordova-plugin-qrscanner": {
       "PACKAGE_NAME": "com.ddrobotec.dd"
+    },
+    "cordova-plugin-device-name": {
+      "PACKAGE_NAME": "com.ddrobotec.dd"
     }
   },
   "dependent_plugins": {

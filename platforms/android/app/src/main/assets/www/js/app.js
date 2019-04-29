@@ -73,7 +73,9 @@ $$(document).on('page:init', function (e) {
   var current_email = localStorage.getItem("email");
   $$('.insert-email').html(current_email);
 
+  //var deviceName = cordova.plugins.deviceName;
 
+  // alert(deviceName.name);
 
 
 // Start a scan. Scanning will continue until something is detected or
@@ -129,20 +131,16 @@ $$(document).on('page:init', function (e) {
 
     $$(".scanback").on('click', function () {
       QRScanner.cancelScan(function (status) {
-        $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-        app.tab.show("#view-home", true);
-        app.toolbar.show('.toolbar-bottom', true);
+
       });
-
+      $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
+      app.tab.show("#view-home", true);
+      app.toolbar.show('.toolbar-bottom', true);
+      this.QRScanner.hide();
+      this.QRScanner.cancelScan();
     });
-
   });
 });
-
-
-
-
-
 
 
 $$(document).on('page:init', '.page[data-name="authbox"]', function (e) {

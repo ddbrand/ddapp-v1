@@ -127,13 +127,17 @@ function displayContents(err, text) {
                 QRScanner.cancelScan(function (status) {
                     $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
                     app.toolbar.show('.toolbar-bottom', true);
+                    this.QRScanner.hide();
                 });
                 app.tab.show("#view-stats", true);
                 statsView.router.navigate('/stats/', {reloadAll: true, animate: true});
+
             }
         } else {
             QRScanner.cancelScan(function (status) {
+                this.QRScanner.hide();
             });
+
 
             app.popup.open('#failed-scan-popup', true);
 

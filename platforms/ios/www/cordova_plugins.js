@@ -242,6 +242,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "QRScanner"
       ]
+    },
+    {
+      "id": "cordova-plugin-device-name.DeviceName",
+      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
+      "pluginId": "cordova-plugin-device-name",
+      "clobbers": [
+        "cordova.plugins.deviceName"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -250,6 +258,7 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-media-capture": "1.4.1",
     "cordova-plugin-qrscanner": "3.0.1",
-    "cordova-plugin-whitelist": "1.3.3"
+    "cordova-plugin-whitelist": "1.3.3",
+    "cordova-plugin-device-name": "1.3.5"
   };
 });

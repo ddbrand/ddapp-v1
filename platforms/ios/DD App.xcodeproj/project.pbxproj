@@ -19,6 +19,7 @@
 		94FC2D8C646A4E7E8E943661 /* CDVCapture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C9B063E082054D5A848AAB41 /* CDVCapture.bundle */; };
 		DA0FA091F431426F99503C63 /* QRScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37E142238A3049F5A049C507 /* QRScanner.swift */; };
 		E8A13277111A4A8EBD959477 /* CDVLocalFilesystem.m in Sources */ = {isa = PBXBuildFile; fileRef = D7FE04F6101F4362AF68037E /* CDVLocalFilesystem.m */; };
+		AD3476A435444D5CB745BB85 /* CDVDeviceName.m in Sources */ = {isa = PBXBuildFile; fileRef = 7BF4B0B427984AF4A6202D17 /* CDVDeviceName.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,6 +77,8 @@
 		EB87FDF41871DAF40020F90C /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = ../../config.xml; sourceTree = "<group>"; };
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = "DD App/config.xml"; sourceTree = "<group>"; };
+		7BF4B0B427984AF4A6202D17 /* CDVDeviceName.m */ = {isa = PBXFileReference; name = "CDVDeviceName.m"; path = "cordova-plugin-device-name/CDVDeviceName.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		181A5F0A635F4AFDAFCED81E /* CDVDeviceName.h */ = {isa = PBXFileReference; name = "CDVDeviceName.h"; path = "cordova-plugin-device-name/CDVDeviceName.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +193,8 @@
 				7D5FEB56713D429A8A587C9D /* CDVCapture.m */,
 				9613F30599834D4DBE588B84 /* CDVCapture.h */,
 				37E142238A3049F5A049C507 /* QRScanner.swift */,
+				7BF4B0B427984AF4A6202D17 /* CDVDeviceName.m */,
+				181A5F0A635F4AFDAFCED81E /* CDVDeviceName.h */,
 			);
 			name = Plugins;
 			path = "DD App/Plugins";
@@ -325,6 +330,7 @@
 				40DCE7E50CCE4395976EC341 /* CDVAssetLibraryFilesystem.m in Sources */,
 				9365EDC9DAFE4CA49EB88490 /* CDVCapture.m in Sources */,
 				DA0FA091F431426F99503C63 /* QRScanner.swift in Sources */,
+				AD3476A435444D5CB745BB85 /* CDVDeviceName.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,13 +4,14 @@ routes = [
     url: './index.html',
     on: {
       pageInit: function (event, page) {
-        /*autologin(function (callback) {
+        autologin(function (callback) {
           if (callback === false) {
-            homeView.router.navigate('/authbox/', {reloadCurrent: false, animate: false});
+            homeView.router.navigate('/authbox/', {reloadCurrent: true,
+              ignoreCache: true});
           } else {
             $('.navbar').slideDown(700);
           }
-        });*/
+        });
       }
     }
   },
@@ -58,6 +59,14 @@ routes = [
   {
     path: '/settings/',
     url: './pages/settings.html',
+  },
+  {
+    path: '/timeline/',
+    url: './pages/timeline.html',
+  },
+  {
+    path: '/changeuser/',
+    url: './pages/changeuser.html',
   },
   // Default route (404 page). MUST BE THE LAST
   {
