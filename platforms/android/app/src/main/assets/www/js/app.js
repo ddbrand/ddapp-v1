@@ -14,13 +14,14 @@ var app  = new Framework7({
 // Init/Create views
 var homeView = app.views.create('#view-home', {
   url: '/',
+  componentUrl: '/',
   domCache: false,
-  reloadPages: true,
-  pushstate: true
+  reloadPages: true
 });
 var statsView = app.views.create('#view-stats', {
+  reloadPages: true,
   url: '/stats/',
-  pushstate: true
+  domCache: false
 });
 var searchView = app.views.create('#view-search', {
   url: '/search/'
@@ -70,6 +71,14 @@ $$('#my-login-screen .login-button').on('click', function () {
 
 
 $$(document).on('page:init', function (e) {
+  $("#view-stats" ).on('tab:show', function( event, ui ) {
+    // do whatever you want here, like alert a message!
+    statsView.router.navigate('/stats/', {
+      ignoreCache:true,
+      reloadCurrent:true,
+    })
+  });
+
     if(localStorage.getItem('theme') === 'theme-dark') {
     $('body').addClass('theme-dark');
     $('.darkmode').attr('checked', 'checked');
@@ -171,7 +180,7 @@ $$(document).on('page:init', function (e) {
   });
 });
 $$(document).on('page:init', '.page[data-name="stats"]', function (e) {
-  var username = localStorage.getItem('username');
+var username = localStorage.getItem('username');
   $.ajax({
     url: "https://ddrobotec.com/grafana/pull_report.php?username=" + username,
   }).done(function(result) {
@@ -191,23 +200,19 @@ $$(document).on('page:init', '.page[data-name="stats"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="trainingdetail"]', function (e) {
   var username = localStorage.getItem('username');
+  var traintitle = localStorage.getItem('traintitle');
   var clickedid = localStorage.getItem('detail_train_id');
   $.ajax({
-    url: "https://ddrobotec.com/grafana/detail_pull_report.php?username=" + username + "&dataid=" + clickedid,
+    url: "https://ddrobotec.com/grafana/detail_pull_report.php?username=" + username + "&title=" + traintitle + "&dataid=" + clickedid,
   }).done(function(result) {
     $('.traintitle').html(localStorage.getItem('traintitle'));
     $('.detailoverview').html(result);
-    // alert(result);
-    /*$$('.pullreport').html('');
-    $$( '.pullreport' ).append( result );
-    $$('.detailreport').on('click', function(e) {
-      var clicktitle = $(this).attr('data-title');
-      var clickeditem = $(this).attr('data-id');
-      localStorage.setItem('traintitle', clicktitle);
-      app.tab.show("#view-stats", false);
-      statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
-      e.preventDefault();
-    })*/
+
+    $.ajax({
+      url: "https://ddrobotec.com/grafana/detail_topscore.php?title=" + traintitle,
+    }).done(function(result) {
+      $('.score').html(result);
+    });
   });
 });
 
@@ -268,7 +273,10 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
       let userkey = localStorage.key(i).split("_");
       $('.list.media-list ul').append('<li>\n' +
           '                    <a href="#" class="item-link item-content changeme" data-user="'+ userkey[1] +'">\n' +
-          '                        <div class="item-media"><img src="img/baseline-person-24px.svg" width="44"/></div>\n' +
+          '                        <div class="item-media">' +
+          '                            <i class="icon f7-icons ios-only">person</i>\n' +
+          '                            <i class="icon f7-icons ios-only icon-ios-fill">person</i>\n' +
+          '                            <i class="icon material-icons md-only">person</i></div>\n' +
           '                        <div class="item-inner">\n' +
           '                            <div class="item-title-row">\n' +
           '                                <div class="item-title">' + localStorage.getItem('username_' + userkey[1]) + '</div>\n' +
@@ -299,8 +307,9 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
       closeTimeout: 4000,
     });
     toastCenter.open();
-    userView.router.navigate('/timeline/', {reloadAll: true, animate: true});
-
+    //
+    userView.router.navigate('/user/', {reloadAll: true, animate: true});
+    // app.tab.show("#view-stats", true);
   });
 
   $$('.login_add_screen_open').on('click', function () {
