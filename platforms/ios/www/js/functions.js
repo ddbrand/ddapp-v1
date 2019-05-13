@@ -1,7 +1,7 @@
 function autologin(callback) {
     var username_cookie = localStorage.getItem("username");
     var password_cookie = localStorage.getItem("pass");
-    var email_cookie = localStorage.getItem("email");
+    // var email_cookie = localStorage.getItem("email");
     $.ajax({
         type: "POST",
         url: "https://data-manager-1-dev.dd-brain.com/api/login",
@@ -9,7 +9,7 @@ function autologin(callback) {
         data: JSON.stringify({
             "CompId": "",
             "Username": username_cookie,
-            "Email": email_cookie,
+            // "Email": email_cookie,
             "Pass": password_cookie,
             "CacheName": ""
         }),
@@ -32,7 +32,7 @@ function autologin(callback) {
         error: function (errMsg) {
             localStorage.removeItem("username");
             localStorage.removeItem("pass");
-            localStorage.removeItem("email");
+            // localStorage.removeItem("email");
             callback(false);
         }
 
@@ -43,7 +43,7 @@ function autologin(callback) {
 function login(callback) {
     var username_cookie = $$('#my-login-screen [name="username"]').val();
     var password_cookie = $$('#my-login-screen [name="password"]').val();
-    var email_cookie = $$('#my-login-screen [name="email"]').val();
+    // var email_cookie = $$('#my-login-screen [name="email"]').val();
     $.ajax({
         type: "POST",
         url: "https://data-manager-1-dev.dd-brain.com/api/login",
@@ -51,7 +51,7 @@ function login(callback) {
         data: JSON.stringify({
             "CompId": "",
             "Username": username_cookie,
-            "Email": email_cookie,
+            // "Email": email_cookie,
             "Pass": password_cookie,
             "CacheName": ""
         }),
@@ -64,14 +64,14 @@ function login(callback) {
             } else {
                 localStorage.setItem("username", username_cookie);
                 localStorage.setItem("pass", password_cookie);
-                localStorage.setItem("email", email_cookie);
+                // localStorage.setItem("email", email_cookie);
                 callback(true);
             }
         },
         error: function (errMsg) {
             localStorage.removeItem("username");
             localStorage.removeItem("pass");
-            localStorage.removeItem("email");
+            // localStorage.removeItem("email");
             callback(false);
         }
     });

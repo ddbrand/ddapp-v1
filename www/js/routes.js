@@ -38,6 +38,11 @@ routes = [
     componentUrl: './pages/stats.html',
   },
   {
+    path: '/training_detail/',
+    url: './pages/training_detail.html',
+    componentUrl: './pages/training_detail.html',
+  },
+  {
     path: '/search/',
     url: './pages/search.html',
     componentUrl: './pages/search.html',

@@ -15,10 +15,12 @@ var app  = new Framework7({
 var homeView = app.views.create('#view-home', {
   url: '/',
   domCache: false,
-  reloadPages: true
+  reloadPages: true,
+  pushstate: true
 });
 var statsView = app.views.create('#view-stats', {
-  url: '/stats/'
+  url: '/stats/',
+  pushstate: true
 });
 var searchView = app.views.create('#view-search', {
   url: '/search/'
@@ -32,6 +34,7 @@ var scanView = app.views.create('#view-scan', {
 var userView = app.views.create('#view-user', {
   url: '/user/'
 });
+
 // Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
   login(function(callback){
@@ -67,11 +70,37 @@ $$('#my-login-screen .login-button').on('click', function () {
 
 
 $$(document).on('page:init', function (e) {
-
+    if(localStorage.getItem('theme') === 'theme-dark') {
+    $('body').addClass('theme-dark');
+    $('.darkmode').attr('checked', 'checked');
+  }
   var current_username = localStorage.getItem("username");
   $$('.insert-username').html(current_username);
   var current_email = localStorage.getItem("email");
   $$('.insert-email').html(current_email);
+
+  $$('.trainback').on('click', function() {
+    statsView.router.back('/stats/', {reloadAll: true, animate: true});
+
+    var username = localStorage.getItem('username');
+    $.ajax({
+      url: "https://ddrobotec.com/grafana/pull_report.php?username=" + username,
+    }).done(function(result) {
+      $$('.pullreport').html('');
+      $$( '.pullreport' ).append( result );
+      $$('.detailreport').on('click', function(e) {
+        var clicktitle = $(this).attr('data-title');
+        var clickeditem = $(this).attr('data-id');
+        localStorage.setItem('traintitle', clicktitle);
+        e.preventDefault();
+      })
+    });
+  });
+
+  $('.search_bar').keyup(function() {
+    var thato = $(this).val();
+    $('.item-content[data-title*="'+ thato +'"]').hide();
+  });
 
   //var deviceName = cordova.plugins.deviceName;
 
@@ -131,7 +160,7 @@ $$(document).on('page:init', function (e) {
 
     $$(".scanback").on('click', function () {
       QRScanner.cancelScan(function (status) {
-
+      this.QRScanner.destroy();
       });
       $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
       app.tab.show("#view-home", true);
@@ -141,7 +170,60 @@ $$(document).on('page:init', function (e) {
     });
   });
 });
+$$(document).on('page:init', '.page[data-name="stats"]', function (e) {
+  var username = localStorage.getItem('username');
+  $.ajax({
+    url: "https://ddrobotec.com/grafana/pull_report.php?username=" + username,
+  }).done(function(result) {
+    $$('.pullreport').html('');
+    $$( '.pullreport' ).append( result );
+    $$('.detailreport').on('click', function(e) {
+      var clicktitle = $(this).attr('data-title');
+      var clickeditem = $(this).attr('data-id');
+      localStorage.setItem('traintitle', clicktitle);
+      localStorage.setItem('detail_train_id', clickeditem);
+      app.tab.show("#view-stats", false);
+      statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
+      e.preventDefault();
+    })
+  });
+});
 
+$$(document).on('page:init', '.page[data-name="trainingdetail"]', function (e) {
+  var username = localStorage.getItem('username');
+  var clickedid = localStorage.getItem('detail_train_id');
+  $.ajax({
+    url: "https://ddrobotec.com/grafana/detail_pull_report.php?username=" + username + "&dataid=" + clickedid,
+  }).done(function(result) {
+    $('.traintitle').html(localStorage.getItem('traintitle'));
+    $('.detailoverview').html(result);
+    // alert(result);
+    /*$$('.pullreport').html('');
+    $$( '.pullreport' ).append( result );
+    $$('.detailreport').on('click', function(e) {
+      var clicktitle = $(this).attr('data-title');
+      var clickeditem = $(this).attr('data-id');
+      localStorage.setItem('traintitle', clicktitle);
+      app.tab.show("#view-stats", false);
+      statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
+      e.preventDefault();
+    })*/
+  });
+});
+
+/*
+$$(document).on('page:init', '.page[data-name="trainingdetail"]', function (e) {
+  var username = localStorage.getItem('username');
+  var traintitle = localStorage.getItem('traintitle');
+  $$('.traintitle').html(traintitle);
+  $.ajax({
+    url: "https://ddrobotec.com/grafana/pull_report.php?username=" + username,
+  }).done(function(result) {
+    $$('.pullreport').html('');
+    $$( '.pullreport' ).append( result );
+  });
+});
+*/
 
 $$(document).on('page:init', '.page[data-name="authbox"]', function (e) {
   $$('.login-close').on('click', function() {
@@ -157,6 +239,16 @@ $$(document).on('page:init', '.page[data-name="authbox"]', function (e) {
 });
 
 $$(document).on('page:init', '.page[data-name="user"]', function (e) {
+  $$('.darkmode').on('change', function() {
+    if($(this).prop('checked')) {
+      localStorage.setItem('theme', 'theme-dark');
+      $('body').addClass('theme-dark');
+    } else {
+      localStorage.removeItem('theme');
+      $('body').removeClass('theme-dark');
+    }
+
+  });
   $$('.logout').on('click', function() {
     localStorage.clear();
     var toastCenter = app.toast.create({
@@ -181,7 +273,6 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
           '                            <div class="item-title-row">\n' +
           '                                <div class="item-title">' + localStorage.getItem('username_' + userkey[1]) + '</div>\n' +
           '                            </div>\n' +
-          '                            <div class="item-subtitle">' + localStorage.getItem('email_' + userkey[1]) + '</div>\n' +
           '                        </div>\n' +
           '                    </a>\n' +
           '                </li>');
@@ -223,7 +314,7 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
 
       if(callback === true) {
         var toastCenter = app.toast.create({
-          text: 'Du wurdest erfolgreich eingeloggt.',
+          text: 'You have been successfully logged in.',
           position: 'bottom',
           closeTimeout: 4000,
         });
@@ -231,7 +322,7 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
         userView.router.navigate('/user/', {reloadAll: true, animate: true});
       } else {
         var toastCenter = app.toast.create({
-          text: 'Sie konnten nicht erfolgreich eingeloggt werden. Bitte versuchen Sie es erneut.',
+          text: 'You could not be successfully logged in. Please try again.',
           position: 'bottom',
           closeTimeout: 4000,
         });

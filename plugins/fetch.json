@@ -22,7 +22,9 @@
     },
     "is_top_level": true,
     "variables": {
-      "CAMERA_USAGE_DESCRIPTION": "We are using a camera to enable you to login directly via your phone."
+      "CAMERA_USAGE_DESCRIPTION": "We are using a camera to enable you to login directly via your phone.",
+      "MICROPHONE_USAGE_DESCRIPTION": " ",
+      "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
     }
   },
   "cordova-plugin-file": {
@@ -52,7 +54,15 @@
   "cordova-plugin-device-name": {
     "source": {
       "type": "registry",
-      "id": "cordova-plugin-device-name"
+      "id": "cordova-plugin-device-name@^1.3.5"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-support-google-services": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-support-google-services@1.3.1"
     },
     "is_top_level": true,
     "variables": {}

@@ -9,6 +9,10 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"DeviceName\"><param name=\"ios-package\" value=\"CDVDeviceName\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"File\"><param name=\"ios-package\" value=\"CDVFile\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -18,10 +22,6 @@
             },
             {
               "xml": "<feature name=\"QRScanner\"><param name=\"ios-package\" value=\"QRScanner\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"DeviceName\"><param name=\"ios-package\" value=\"CDVDeviceName\" /></feature>",
               "count": 1
             }
           ]
@@ -56,10 +56,10 @@
     }
   },
   "installed_plugins": {
-    "cordova-plugin-add-swift-support": {
+    "cordova-plugin-compat": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
-    "cordova-plugin-compat": {
+    "cordova-plugin-device-name": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova-plugin-file": {
@@ -71,18 +71,29 @@
       "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
     "cordova-plugin-qrscanner": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
-    "cordova-plugin-device-name": {
+    "cordova-support-google-services": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   },
   "dependent_plugins": {},
   "modules": [
+    {
+      "id": "cordova-plugin-device-name.DeviceName",
+      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
+      "pluginId": "cordova-plugin-device-name",
+      "clobbers": [
+        "cordova.plugins.deviceName"
+      ]
+    },
     {
       "id": "cordova-plugin-file.DirectoryEntry",
       "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
@@ -325,23 +336,16 @@
       "clobbers": [
         "QRScanner"
       ]
-    },
-    {
-      "id": "cordova-plugin-device-name.DeviceName",
-      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
-      "pluginId": "cordova-plugin-device-name",
-      "clobbers": [
-        "cordova.plugins.deviceName"
-      ]
     }
   ],
   "plugin_metadata": {
-    "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-compat": "1.2.0",
+    "cordova-plugin-device-name": "1.3.5",
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-media-capture": "1.4.1",
+    "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-device-name": "1.3.5"
+    "cordova-support-google-services": "1.3.1"
   }
 }
