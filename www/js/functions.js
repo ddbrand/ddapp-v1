@@ -4,7 +4,7 @@ function autologin(callback) {
     // var email_cookie = localStorage.getItem("email");
     $.ajax({
         type: "POST",
-        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+        url: "https://data-manager-1.dd-brain.com/api/login",
         // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({
             "CompId": "",
@@ -46,7 +46,7 @@ function login(callback) {
     // var email_cookie = $$('#my-login-screen [name="email"]').val();
     $.ajax({
         type: "POST",
-        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+        url: "https://data-manager-1.dd-brain.com/api/login",
         // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({
             "CompId": "",
@@ -93,7 +93,7 @@ function displayContents(err, text) {
                 var data = JSON.stringify({
                     "CompId": compid,
                     "UserName": username,
-                    "Email": email,
+                    //"Email": email,
                     "Pass": pass,
                     "CacheName": ""
                 });
@@ -102,13 +102,12 @@ function displayContents(err, text) {
                 xhr.withCredentials = true;
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState == 4) {
-
-                        /* app.popup.open('#failed-scan-popup', true);
+                        //app.popup.open('#failed-scan-popup', true);
                         QRScanner.destroy(function(status){
                           $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
                           app.tab.show("#view-home", true);
                           app.toolbar.show('.toolbar-bottom', true);
-                        });*/
+                        });
                     }
                 });
                 // Set http request method and url
@@ -128,6 +127,7 @@ function displayContents(err, text) {
                     $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
                     app.toolbar.show('.toolbar-bottom', true);
                     this.QRScanner.hide();
+                    this.QRScanner.destroy();
                 });
                 app.tab.show("#view-stats", true);
                 statsView.router.navigate('/stats/', {reloadAll: true, animate: true});
@@ -159,15 +159,15 @@ function displayContents(err, text) {
 function login_add(callback) {
     var next_username_cookie = $$('#my-login-add-screen [name="username"]').val();
     var next_password_cookie = $$('#my-login-add-screen [name="password"]').val();
-    var next_email_cookie = $$('#my-login-add-screen [name="email"]').val();
+    //var next_email_cookie = $$('#my-login-add-screen [name="email"]').val();
     $.ajax({
         type: "POST",
-        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+        url: "https://data-manager-1.dd-brain.com/api/login",
         // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({
             "CompId": "",
             "Username": next_username_cookie,
-            "Email": next_email_cookie,
+            //"Email": "",
             "Pass": next_password_cookie,
             "CacheName": ""
         }),

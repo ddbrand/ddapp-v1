@@ -212,9 +212,25 @@ $$(document).on('page:init', '.page[data-name="trainingdetail"]', function (e) {
       url: "https://ddrobotec.com/grafana/detail_topscore.php?title=" + traintitle,
     }).done(function(result) {
       $('.score').html(result);
+      var myscore = $('.myscore').attr('data-score');
+      var topscore = $('.topscore').attr('data-topscore');
+      var realdez = myscore / topscore;
+        var demoGauge = app.gauge.create({
+            el: '.score',
+            type: 'circle',
+            value: realdez,
+            size: 250,
+            borderColor: '#82bec8',
+            borderWidth: 10,
+            valueText: myscore,
+            valueFontSize: 41,
+            valueTextColor: '#82bec8',
+            labelText:  'Points from ' + topscore + ' topscore',
+        });
     });
   });
 });
+
 
 /*
 $$(document).on('page:init', '.page[data-name="trainingdetail"]', function (e) {
@@ -273,10 +289,8 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
       let userkey = localStorage.key(i).split("_");
       $('.list.media-list ul').append('<li>\n' +
           '                    <a href="#" class="item-link item-content changeme" data-user="'+ userkey[1] +'">\n' +
-          '                        <div class="item-media">' +
-          '                            <i class="icon f7-icons ios-only">person</i>\n' +
-          '                            <i class="icon f7-icons ios-only icon-ios-fill">person</i>\n' +
-          '                            <i class="icon material-icons md-only">person</i></div>\n' +
+          '                        <div class="item-media" style="padding-left: 8px;">' +
+          '                            <i class="icon f7-icons material-icons icon-ios-fill">person</i></div>\n' +
           '                        <div class="item-inner">\n' +
           '                            <div class="item-title-row">\n' +
           '                                <div class="item-title">' + localStorage.getItem('username_' + userkey[1]) + '</div>\n' +

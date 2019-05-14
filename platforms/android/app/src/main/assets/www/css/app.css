@@ -238,3 +238,8 @@ h2.pagetitle {
   font-size: 16px;
   text-decoration: none !important;
 }
+
+.topscore {
+  margin: auto;
+  text-align: center;
+}
