@@ -5,7 +5,7 @@ var $$ = Dom7;
 var app  = new Framework7({
   root: '#app', // App root element
   id: 'com.ddrobotec.ddios', // App bundle ID
-  name: '#ddrobotec', // App name
+  name: 'DD App', // App name
   theme: 'auto', // Automatic theme detection
   // App routes
   routes: routes,

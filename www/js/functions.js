@@ -103,10 +103,13 @@ function displayContents(err, text) {
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState == 4) {
                         //app.popup.open('#failed-scan-popup', true);
-                        QRScanner.destroy(function(status){
-                          $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                          app.tab.show("#view-home", true);
-                          app.toolbar.show('.toolbar-bottom', true);
+                        QRScanner.cancelScan(function(status){
+                            $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
+                            app.tab.show("#view-home", true);
+                            app.toolbar.show('.toolbar-bottom', true);
+                            QRScanner.destroy();
+                            QRScanner.cancelScan();
+                            QRScanner.hide();
                         });
                     }
                 });
