@@ -5,7 +5,7 @@ var $$ = Dom7;
 var app  = new Framework7({
   root: '#app', // App root element
   id: 'com.ddrobotec.ddios', // App bundle ID
-  name: '#ddrobotec', // App name
+  name: 'DD App', // App name
   theme: 'auto', // Automatic theme detection
   // App routes
   routes: routes,
@@ -139,13 +139,7 @@ $$(document).on('page:init', function (e) {
               QRScanner.scan(displayContents);
               QRScanner.show();
               $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").addClass('nobg');
-              $$(".scanback").on('click', function () {
-                  $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                  app.tab.show("#view-home", true);
-                  app.toolbar.show('.toolbar-bottom', true);
-                  QRScanner.cancelScan();
-                  QRScanner.hide();
-              });
+
           } else if (status.denied) {
               // The video preview will remain black, and scanning is disabled. We can
               // try to ask the user to change their mind, but we'll have to send them
@@ -164,6 +158,19 @@ $$(document).on('page:init', function (e) {
     /**/
   });
 });
+$$(document).on('page:init', '.page[data-name="scan"]', function (e) {
+
+  $$(".scanback").on('click', function (e) {
+    $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
+    app.tab.show("#view-home", true);
+    app.toolbar.show('.toolbar-bottom', true);
+    QRScanner.destroy();
+    QRScanner.cancelScan();
+    QRScanner.hide();
+  });
+  e.preventDefault();
+});
+
 $$(document).on('page:init', '.page[data-name="stats"]', function (e) {
 var username = localStorage.getItem('username');
   $.ajax({

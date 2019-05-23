@@ -125,9 +125,11 @@ function displayContents(err, text) {
                 toastCenter.open();
                 QRScanner.cancelScan(function (status) {
                     $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
+                    app.tab.show("#view-home", true);
                     app.toolbar.show('.toolbar-bottom', true);
-                    this.QRScanner.hide();
-                    this.QRScanner.destroy();
+                    QRScanner.destroy();
+                    QRScanner.cancelScan();
+                    QRScanner.hide();
                 });
                 app.tab.show("#view-stats", true);
                 statsView.router.navigate('/stats/', {reloadAll: true, animate: true});
