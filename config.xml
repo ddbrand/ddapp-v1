@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.ddrobotec.ddios" version="1.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>#ddrobotec</name>
+    <name>DD App</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        This app shows your newest trainingresults and let you log in on the machine with a QR code scanner.
     </description>
     <author email="mario@dynamicdevices.ch" href="https://ddrobotec.com">
         Dynamic Devices AG
