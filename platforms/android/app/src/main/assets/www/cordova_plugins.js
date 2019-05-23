@@ -263,7 +263,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-media-capture": "1.4.1",
     "cordova-plugin-qrscanner": "3.0.1",
-    "cordova-plugin-whitelist": "1.3.3",
-    "cordova-support-google-services": "1.3.1"
+    "cordova-plugin-whitelist": "1.3.3"
   };
 });
