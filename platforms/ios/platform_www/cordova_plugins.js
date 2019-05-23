@@ -253,11 +253,11 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     }
   ];
   module.exports.metadata = {
+    "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-compat": "1.2.0",
     "cordova-plugin-device-name": "1.3.5",
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-media-capture": "1.4.1",
-    "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-support-google-services": "1.3.1"

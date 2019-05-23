@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ddrobotec.dd" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>DD App</name>
+<widget id="com.ddrobotec.ddios" version="1.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>#ddrobotec</name>
     <description>
         A sample Apache Cordova application that responds to the deviceready event.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="mario@dynamicdevices.ch" href="https://ddrobotec.com">
+        Dynamic Devices AG
     </author>
     <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" />
     <content src="index.html" />
@@ -35,6 +35,9 @@
         <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png" />
     </platform>
     <platform name="ios">
+        <config-file target="*-Info.plist" parent="ITSAppUsesNonExemptEncryption" mode="add">
+            <false/>
+        </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <preference name="UseSwiftLanguageVersion" value="5" />
@@ -69,7 +72,11 @@
     <plugin name="cordova-plugin-whitelist" spec="1" />
     <plugin name="cordova-plugin-media-capture" spec="~1.4.1">
         <variable name="CAMERA_USAGE_DESCRIPTION" value="We are using a camera to enable you to login directly via your phone." />
+        <param name="PHOTOLIBRARY_USAGE_DESCRIPTION" value="We are using the Photo Library for something..." />
     </plugin>
+    <config-file platform="ios" parent="NSPhotoLibraryUsageDescription" mode="replace">
+        <string>App would like to access the camera.</string>
+    </config-file>
     <plugin name="cordova-plugin-qrscanner" spec="~3.0.1" />
 
 </widget>

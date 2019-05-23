@@ -27,13 +27,13 @@
     }
   },
   "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
+    },
     "cordova-plugin-compat": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     },
     "cordova-plugin-file": {
-      "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
-    },
-    "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "$(PRODUCT_BUNDLE_IDENTIFIER)"
     }
   }

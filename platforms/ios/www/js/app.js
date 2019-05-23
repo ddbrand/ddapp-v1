@@ -4,8 +4,8 @@ var $$ = Dom7;
 // Framework7 App main instance
 var app  = new Framework7({
   root: '#app', // App root element
-  id: 'com.ddrobotec.dd', // App bundle ID
-  name: 'DD App', // App name
+  id: 'com.ddrobotec.ddios', // App bundle ID
+  name: '#ddrobotec', // App name
   theme: 'auto', // Automatic theme detection
   // App routes
   routes: routes,
@@ -91,19 +91,6 @@ $$(document).on('page:init', function (e) {
   $$('.trainback').on('click', function() {
     statsView.router.back('/stats/', {reloadAll: true, animate: true});
 
-    var username = localStorage.getItem('username');
-    $.ajax({
-      url: "https://ddrobotec.com/grafana/pull_report.php?username=" + username,
-    }).done(function(result) {
-      $$('.pullreport').html('');
-      $$( '.pullreport' ).append( result );
-      $$('.detailreport').on('click', function(e) {
-        var clicktitle = $(this).attr('data-title');
-        var clickeditem = $(this).attr('data-id');
-        localStorage.setItem('traintitle', clicktitle);
-        e.preventDefault();
-      })
-    });
   });
 
   $('.search_bar').keyup(function() {
@@ -121,27 +108,7 @@ $$(document).on('page:init', function (e) {
 
 // Be sure to make any opaque HTML elements transparent here to avoid
 // covering the video.
-  QRScanner.prepare(onDone); // show the prompt
 
-  function onDone(err, status){
-    if (err) {
-      // here we can handle errors and clean up any loose ends.
-      console.error(err);
-      //alert(err);
-      //alert(status);
-    }
-    if (status.authorized) {
-
-    } else if (status.denied) {
-      // The video preview will remain black, and scanning is disabled. We can
-      // try to ask the user to change their mind, but we'll have to send them
-      // to their device settings with `QRScanner.openSettings()`.
-    } else {
-      // we didn't get permission, but we didn't get permanently denied. (On
-      // Android, a denial isn't permanent unless the user checks the "Don't
-      // ask again" box.) We can ask again at the next relevant opportunity.
-    }
-  }
   $$('.showstats').on('click', function(e) {
     app.tab.show("#view-stats", true);
     e.preventDefault();
@@ -159,24 +126,42 @@ $$(document).on('page:init', function (e) {
     app.toolbar.hide('.toolbar-bottom', true);
     app.tab.show("#view-scan");
 
+      QRScanner.prepare(onDone); // show the prompt
 
-    QRScanner.scan(displayContents);
+      function onDone(err, status){
+          if (err) {
+              // here we can handle errors and clean up any loose ends.
+              console.error(err);
+              //alert(err);
+              //alert(status);
+          }
+          if (status.authorized) {
+              QRScanner.scan(displayContents);
+              QRScanner.show();
+              $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").addClass('nobg');
+              $$(".scanback").on('click', function () {
+                  $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
+                  app.tab.show("#view-home", true);
+                  app.toolbar.show('.toolbar-bottom', true);
+                  QRScanner.cancelScan();
+                  QRScanner.hide();
+              });
+          } else if (status.denied) {
+              // The video preview will remain black, and scanning is disabled. We can
+              // try to ask the user to change their mind, but we'll have to send them
+              // to their device settings with `QRScanner.openSettings()`.
+          } else {
+              // we didn't get permission, but we didn't get permanently denied. (On
+              // Android, a denial isn't permanent unless the user checks the "Don't
+              // ask again" box.) We can ask again at the next relevant opportunity.
+          }
+      }
 
 
 
-    QRScanner.show();
-    $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").addClass('nobg');
 
-    $$(".scanback").on('click', function () {
-      QRScanner.cancelScan(function (status) {
-      this.QRScanner.destroy();
-      });
-      $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-      app.tab.show("#view-home", true);
-      app.toolbar.show('.toolbar-bottom', true);
-      this.QRScanner.hide();
-      this.QRScanner.cancelScan();
-    });
+
+    /**/
   });
 });
 $$(document).on('page:init', '.page[data-name="stats"]', function (e) {
@@ -186,14 +171,14 @@ var username = localStorage.getItem('username');
   }).done(function(result) {
     $$('.pullreport').html('');
     $$( '.pullreport' ).append( result );
-    $$('.detailreport').on('click', function(e) {
+    $$('.detailreport').on('click', function() {
       var clicktitle = $(this).attr('data-title');
       var clickeditem = $(this).attr('data-id');
       localStorage.setItem('traintitle', clicktitle);
       localStorage.setItem('detail_train_id', clickeditem);
       app.tab.show("#view-stats", false);
       statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
-      e.preventDefault();
+
     })
   });
 });

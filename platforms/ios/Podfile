@@ -2,7 +2,7 @@
 
 platform :ios, '9.0'
 
-target 'DD App' do
-	project 'DD App.xcodeproj'
+target '#ddrobotec' do
+	project '#ddrobotec.xcodeproj'
 
 end
