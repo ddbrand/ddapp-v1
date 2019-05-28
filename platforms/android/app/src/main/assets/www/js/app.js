@@ -23,9 +23,10 @@ var statsView = app.views.create('#view-stats', {
   url: '/stats/',
   domCache: false
 });
+/*
 var searchView = app.views.create('#view-search', {
   url: '/search/'
-});
+});*/
 var storiesView = app.views.create('#view-stories', {
   url: '/stories/'
 });
