@@ -81,7 +81,7 @@ $$(document).on('page:init', function (e) {
     })
   });
 
-    if(localStorage.getItem('theme') === 'theme-dark') {
+  if(localStorage.getItem('theme') === 'theme-dark') {
     $('body').addClass('theme-dark');
     $('.darkmode').attr('checked', 'checked');
   }
