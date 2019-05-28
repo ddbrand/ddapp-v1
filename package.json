@@ -45,8 +45,8 @@
       "cordova-support-google-services": {}
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

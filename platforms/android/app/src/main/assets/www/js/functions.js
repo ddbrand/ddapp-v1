@@ -103,10 +103,14 @@ function displayContents(err, text) {
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState == 4) {
                         //app.popup.open('#failed-scan-popup', true);
-                        QRScanner.destroy(function(status){
-                          $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                          app.tab.show("#view-home", true);
-                          app.toolbar.show('.toolbar-bottom', true);
+                        QRScanner.cancelScan(function(status){
+                            $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
+                            //app.tab.show("#view-home", true);
+                            homeView.router.navigate('/', {reloadAll: true, animate: true});
+                            $('.toolbar-bottom').show();
+                            QRScanner.destroy();
+                            QRScanner.cancelScan();
+                            QRScanner.hide();
                         });
                     }
                 });
@@ -125,9 +129,13 @@ function displayContents(err, text) {
                 toastCenter.open();
                 QRScanner.cancelScan(function (status) {
                     $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                    app.toolbar.show('.toolbar-bottom', true);
-                    this.QRScanner.hide();
-                    this.QRScanner.destroy();
+                    // app.tab.show("#view-home", true);
+                    homeView.router.navigate('/', {reloadAll: true, animate: true});
+
+                    $('.toolbar-bottom').show();
+                    QRScanner.destroy();
+                    QRScanner.cancelScan();
+                    QRScanner.hide();
                 });
                 app.tab.show("#view-stats", true);
                 statsView.router.navigate('/stats/', {reloadAll: true, animate: true});
@@ -135,10 +143,10 @@ function displayContents(err, text) {
             }
         } else {
             QRScanner.cancelScan(function (status) {
-                this.QRScanner.hide();
-                this.QRScanner.destroy();
-            });
 
+            });
+            QRScanner.hide();
+            QRScanner.destroy();
 
             app.popup.open('#failed-scan-popup', true);
 

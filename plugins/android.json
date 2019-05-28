@@ -8,24 +8,27 @@
   },
   "installed_plugins": {
     "cordova-plugin-device-name": {
-      "PACKAGE_NAME": "com.ddrobotec.dd"
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-media-capture": {
-      "PACKAGE_NAME": "com.ddrobotec.dd"
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-qrscanner": {
-      "PACKAGE_NAME": "com.ddrobotec.dd"
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "com.ddrobotec.dd"
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-support-google-services": {
-      "PACKAGE_NAME": "com.ddrobotec.dd"
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
   "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.ddrobotec.dd"
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   }
 }

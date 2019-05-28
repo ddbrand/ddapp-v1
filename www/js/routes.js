@@ -50,7 +50,39 @@ routes = [
   {
     path: '/scan/',
     url: './pages/scan.html',
-    componentUrl: './pages/scan.html',
+    on: {
+      pageInit: function (event, page) {
+        $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").addClass('nobg');
+        // $$('.toolbar-bottom').fadeOut();$
+        $('.toolbar-bottom').hide();
+        QRScanner.prepare(onDone);
+
+          function onDone(err, status) {
+            if (err) {
+              // here we can handle errors and clean up any loose ends.
+              console.error(err);
+              //alert(err);
+              //alert(status);
+            }
+            if (status.authorized) {
+              QRScanner.show();
+              QRScanner.scan(displayContents);
+
+            } else if (status.denied) {
+              QRScanner.openSettings();
+              alert('Please enable camera support in your settings for the DD App.');
+              // The video preview will remain black, and scanning is disabled. We can
+              // try to ask the user to change their mind, but we'll have to send them
+              // to their device settings with ``.
+            } else {
+              // we didn't get permission, but we didn't get permanently denied. (On
+              // Android, a denial isn't permanent unless the user checks the "Don't
+              // ask again" box.) We can ask again at the next relevant opportunity.
+            }
+
+          }
+      }
+    }
   },
   {
     path: '/stories/',

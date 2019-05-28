@@ -104,9 +104,10 @@ function displayContents(err, text) {
                     if (this.readyState == 4) {
                         //app.popup.open('#failed-scan-popup', true);
                         QRScanner.cancelScan(function(status){
-                            $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                            app.tab.show("#view-home", true);
-                            app.toolbar.show('.toolbar-bottom', true);
+                            $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
+                            //app.tab.show("#view-home", true);
+                            homeView.router.navigate('/', {reloadAll: true, animate: true});
+                            $('.toolbar-bottom').show();
                             QRScanner.destroy();
                             QRScanner.cancelScan();
                             QRScanner.hide();
@@ -128,8 +129,10 @@ function displayContents(err, text) {
                 toastCenter.open();
                 QRScanner.cancelScan(function (status) {
                     $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                    app.tab.show("#view-home", true);
-                    app.toolbar.show('.toolbar-bottom', true);
+                    // app.tab.show("#view-home", true);
+                    homeView.router.navigate('/', {reloadAll: true, animate: true});
+
+                    $('.toolbar-bottom').show();
                     QRScanner.destroy();
                     QRScanner.cancelScan();
                     QRScanner.hide();
@@ -140,10 +143,10 @@ function displayContents(err, text) {
             }
         } else {
             QRScanner.cancelScan(function (status) {
-                this.QRScanner.hide();
-                this.QRScanner.destroy();
-            });
 
+            });
+            QRScanner.hide();
+            QRScanner.destroy();
 
             app.popup.open('#failed-scan-popup', true);
 

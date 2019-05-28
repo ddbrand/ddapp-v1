@@ -19,7 +19,7 @@
     <meta name="theme-color" content="#82bec8">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <title>My App</title>
+    <title>ddrobotec</title>
 
     <link rel="stylesheet" href="framework7/css/framework7.bundle.min.css">
     <link rel="stylesheet" href="fonts/fonts.css">
@@ -63,6 +63,7 @@
     </div>
 
     <!-- Views/Tabs container -->
+
     <div class="views tabs safe-areas">
         <!-- Tabbar for switching views-tabs -->
         <div class="toolbar tabbar-labels toolbar-bottom">
@@ -100,6 +101,8 @@
                 </a>
             </div>
         </div>
+        <div class="tabs-animated-wrap">
+        <div class="tabs">
         <!-- Your main view/tab, should have "view-main" class. It also has "tab-active" class -->
         <div id="view-home" class="view view-main tab tab-active">
             <!-- Page, data-name contains page name which can be used in page callbacks -->
@@ -115,7 +118,7 @@
                         </div>
                         <div class="title sliding">#ddrobotec</div>
                         <div class="right">
-                            <a href="#" class="link cameramode">
+                            <a href="/scan/" class="tab-link cameramode">
                                 <i class="icon material-icons">camera_enhance</i>
                             </a>
                             <!--<a href="#" class="link icon-only panel-open" data-panel="right">
@@ -125,7 +128,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Scrollable page content-->
                 <div class="page-content startpage"
                      style="background-image: url('img/pictures/slide1-jumper.jpg'); background-size: cover;">
@@ -135,7 +137,7 @@
                         <div class="red"></div>
                     </div>
                     <div class="nav_button">
-                        <a class="cameramode" href="">
+                        <a class="cameramode" href="/scan/">
                             <i class="icon material-icons">camera_enhance</i>
                             <span class="linklabel">Connect with the robot</span>
                         </a>
@@ -188,7 +190,8 @@
             <!-- Settings page will be loaded here dynamically from /settings/ route -->
         </div>
     </div>
-
+    </div>
+        </div>
 
     <!-- Scan failed Popup -->
     <div class="popup" id="failed-scan-popup">

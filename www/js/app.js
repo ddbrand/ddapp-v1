@@ -29,9 +29,11 @@ var searchView = app.views.create('#view-search', {
 var storiesView = app.views.create('#view-stories', {
   url: '/stories/'
 });
-var scanView = app.views.create('#view-scan', {
-  url: '/scan/'
-});
+/*var scanView = app.views.create('#view-scan', {
+  url: '/scan/',
+  reloadPages: true,
+  domCache: false
+});*/
 var userView = app.views.create('#view-user', {
   url: '/user/'
 });
@@ -121,54 +123,28 @@ $$(document).on('page:init', function (e) {
     app.tab.show("#view-stories", true);
     e.preventDefault();
   });
-
-  $$('.cameramode').on('click', function () {
-    app.toolbar.hide('.toolbar-bottom', true);
-    app.tab.show("#view-scan");
-
-      QRScanner.prepare(onDone); // show the prompt
-
-      function onDone(err, status){
-          if (err) {
-              // here we can handle errors and clean up any loose ends.
-              console.error(err);
-              //alert(err);
-              //alert(status);
-          }
-          if (status.authorized) {
-              QRScanner.scan(displayContents);
-              QRScanner.show();
-              $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").addClass('nobg');
-
-          } else if (status.denied) {
-              // The video preview will remain black, and scanning is disabled. We can
-              // try to ask the user to change their mind, but we'll have to send them
-              // to their device settings with `QRScanner.openSettings()`.
-          } else {
-              // we didn't get permission, but we didn't get permanently denied. (On
-              // Android, a denial isn't permanent unless the user checks the "Don't
-              // ask again" box.) We can ask again at the next relevant opportunity.
-          }
-      }
-
-
-
-
-
-    /**/
-  });
 });
 $$(document).on('page:init', '.page[data-name="scan"]', function (e) {
+  $$('.cameramode').click(function(e) {
+    $('.toolbar-bottom').hide();
+
+     // show the prompt
+    homeView.router.navigate('/scan/', {reloadAll: true, animate: true});
+
+  });
 
   $$(".scanback").on('click', function (e) {
-    $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-    app.tab.show("#view-home", true);
+    $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
     app.toolbar.show('.toolbar-bottom', true);
-    QRScanner.destroy();
     QRScanner.cancelScan();
+    QRScanner.destroy();
     QRScanner.hide();
+    homeView.router.navigate('/', {reloadAll: true, animate: true});
+    $('.toolbar-bottom').show();
+
+    //app.tab.show("#view-home", true);
   });
-  e.preventDefault();
+
 });
 
 $$(document).on('page:init', '.page[data-name="stats"]', function (e) {
@@ -348,9 +324,10 @@ $$(document).on('page:init', '.page[data-name="changeuser"]', function (e) {
   });
 });
 
+// TODO: change the storypull url after going live with the new website
 $$(document).on('page:init', '.page[data-name="stories"]', function (e) {
   $.ajax({
-    url: "https://ddrobotec.com/app/stories.php",
+    url: "https://dev2.ddrobotec.com/wp-content/themes/ddrobotec/api/laststories.php",
   }).done(function(result) {
     $( '.story_container' ).html( result );
   });
