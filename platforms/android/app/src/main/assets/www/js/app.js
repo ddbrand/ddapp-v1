@@ -71,8 +71,6 @@ $$('#my-login-screen .login-button').on('click', function () {
 });
 
 
-
-
 $$(document).on('page:init', function (e) {
   $("#view-stats" ).on('tab:show', function( event, ui ) {
     // do whatever you want here, like alert a message!
@@ -101,16 +99,6 @@ $$(document).on('page:init', function (e) {
     $('.item-content[data-title*="'+ thato +'"]').hide();
   });
 
-  //var deviceName = cordova.plugins.deviceName;
-
-  // alert(deviceName.name);
-
-
-// Start a scan. Scanning will continue until something is detected or
-// `QRScanner.cancelScan()` is called.
-
-// Be sure to make any opaque HTML elements transparent here to avoid
-// covering the video.
 
   $$('.showstats').on('click', function(e) {
     app.tab.show("#view-stats", true);

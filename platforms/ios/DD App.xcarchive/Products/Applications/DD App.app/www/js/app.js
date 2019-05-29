@@ -23,9 +23,10 @@ var statsView = app.views.create('#view-stats', {
   url: '/stats/',
   domCache: false
 });
+/*
 var searchView = app.views.create('#view-search', {
   url: '/search/'
-});
+});*/
 var storiesView = app.views.create('#view-stories', {
   url: '/stories/'
 });
@@ -70,8 +71,6 @@ $$('#my-login-screen .login-button').on('click', function () {
 });
 
 
-
-
 $$(document).on('page:init', function (e) {
   $("#view-stats" ).on('tab:show', function( event, ui ) {
     // do whatever you want here, like alert a message!
@@ -81,7 +80,7 @@ $$(document).on('page:init', function (e) {
     })
   });
 
-    if(localStorage.getItem('theme') === 'theme-dark') {
+  if(localStorage.getItem('theme') === 'theme-dark') {
     $('body').addClass('theme-dark');
     $('.darkmode').attr('checked', 'checked');
   }

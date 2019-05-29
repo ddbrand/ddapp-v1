@@ -33,6 +33,7 @@ function autologin(callback) {
             localStorage.removeItem("username");
             localStorage.removeItem("pass");
             // localStorage.removeItem("email");
+            localStorage.setItem('theme', 'theme-dark');
             callback(false);
         }
 

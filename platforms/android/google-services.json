@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "557663148404",
+    "firebase_url": "https://dd-robotec.firebaseio.com",
+    "project_id": "dd-robotec",
+    "storage_bucket": "dd-robotec.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557663148404:android:2d2e5807846cddd1",
+        "android_client_info": {
+          "package_name": "com.ddrobotec.ddios"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557663148404-dlmthbndkh6qajgfsfpf91e6og4gm4ad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdh-2rFyTBusszDe3GKiwaIV1imjC5_yM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "557663148404-dlmthbndkh6qajgfsfpf91e6og4gm4ad.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "557663148404-5rc04m1204vsn07onsmvle1rgosjefbo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ddrobotec.dynamic"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

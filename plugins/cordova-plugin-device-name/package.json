@@ -22,7 +22,7 @@
   "_resolved": "https://registry.npmjs.org/cordova-plugin-device-name/-/cordova-plugin-device-name-1.3.5.tgz",
   "_shasum": "17c54a2f5dddd17af580e390de0547a2beeb8282",
   "_spec": "cordova-plugin-device-name",
-  "_where": "/Users/plural/Documents/CordovaDDApp/ddapp-v1",
+  "_where": "/Users/plural/Documents/Cordova/ddapp-v1",
   "author": {
     "name": "Sylvain Bréjeon",
     "url": "https://github.com/becvert"

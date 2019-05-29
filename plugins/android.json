@@ -7,9 +7,6 @@
     "files": {}
   },
   "installed_plugins": {
-    "cordova-plugin-device-name": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
     "cordova-plugin-media-capture": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
@@ -20,6 +17,18 @@
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-support-google-services": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-firebase": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-device-name": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },

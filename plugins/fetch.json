@@ -35,14 +35,6 @@
     "is_top_level": false,
     "variables": {}
   },
-  "cordova-plugin-compat": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-compat@^1.0.0"
-    },
-    "is_top_level": false,
-    "variables": {}
-  },
   "cordova-plugin-qrscanner": {
     "source": {
       "type": "registry",
@@ -51,18 +43,50 @@
     "is_top_level": true,
     "variables": {}
   },
-  "cordova-plugin-device-name": {
-    "source": {
-      "type": "registry",
-      "id": "cordova-plugin-device-name@^1.3.5"
-    },
-    "is_top_level": true,
-    "variables": {}
-  },
   "cordova-support-google-services": {
     "source": {
       "type": "registry",
       "id": "cordova-support-google-services@1.3.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-compat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-compat@1.2.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-firebase": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/dpa99c/cordova-plugin-firebase#GH-1057-April-05-android-build-issue"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-support-android-plugin": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-support-android-plugin"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-device-name": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device-name"
     },
     "is_top_level": true,
     "variables": {}
