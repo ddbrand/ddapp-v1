@@ -256,3 +256,19 @@ h2.pagetitle {
   margin: auto;
   text-align: center;
 }
+
+.downunder {
+  background-color: rgba(130, 190, 200, 0.7);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  z-index: 4;
+  display: none;
+}
+
+.downunder p {
+  color: white;
+  padding: 40px;
+}

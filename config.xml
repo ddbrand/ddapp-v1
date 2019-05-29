@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ddrobotec.ddios" version="1.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.ddrobotec.ddios" version="1.0.9" xmlns:android="http://schemas.android.com/apk/res/android" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>DD App</name>
     <description>
         This app shows your newest trainingresults and let you log in on the machine with a QR code scanner.
@@ -33,6 +33,16 @@
         <splash density="port-xhdpi" src="res/screen/android/splash-port-xhdpi.png" />
         <splash density="port-xxhdpi" src="res/screen/android/splash-port-xxhdpi.png" />
         <splash density="port-xxxhdpi" src="res/screen/android/splash-port-xxxhdpi.png" />
+        <resource-file src="res/icon/android/ic_silhouette.png" target="app/src/main/res/drawable-hdpi/ic_silhouette.png"/>
+        <resource-file src="res/icon/android/ic_silhouette.png" target="app/src/main/res/drawable-ldpi/ic_silhouette.png"/>
+        <resource-file src="res/icon/android/ic_silhouette.png" target="app/src/main/res/drawable-mdpi/ic_silhouette.png"/>
+        <resource-file src="res/icon/android/ic_silhouette.png" target="app/src/main/res/drawable-xhdpi/ic_silhouette.png"/>
+        <resource-file src="res/icon/android/ic_silhouette.png" target="app/src/main/res/drawable-xxhdpi/ic_silhouette.png"/>
+        <resource-file src="res/icon/android/ic_silhouette.png" target="app/src/main/res/drawable-xxxhdpi/ic_silhouette.png"/>
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_silhouette" />
+        </config-file>
+        <resource-file src="res/native/android/res/values/colors.xml" target="app/src/main/res/values/colors.xml"/>
     </platform>
     <platform name="ios">
         <config-file mode="add" parent="ITSAppUsesNonExemptEncryption" target="*-Info.plist">

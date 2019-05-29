@@ -114,6 +114,7 @@ $$(document).on('page:init', function (e) {
   });
 });
 $$(document).on('page:init', '.page[data-name="scan"]', function (e) {
+  $('.downunder').slideToggle();
   $$('.cameramode').click(function(e) {
     $('.toolbar-bottom').hide();
 
