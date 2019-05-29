@@ -6,12 +6,15 @@ routes = [
       pageInit: function (event, page) {
         window.FirebasePlugin.grantPermission();
         window.FirebasePlugin.getToken(function(token) {
+          var deviceName = cordova.plugins.deviceName;
           // save this server-side and use it to push notifications to this device
           $.ajax({
             method: 'POST',
             url: "https://ddrobotec.com/fcm/insertToken.php",
             data: {
-              regToken: token
+              regToken: token,
+              deviceName: deviceName.name,
+              deviceID: device.uuid
             }
           }).done(function(result) {
           });

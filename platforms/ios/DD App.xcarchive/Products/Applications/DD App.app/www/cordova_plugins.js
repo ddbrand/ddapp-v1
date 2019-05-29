@@ -1,14 +1,6 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
-      "id": "cordova-plugin-device-name.DeviceName",
-      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
-      "pluginId": "cordova-plugin-device-name",
-      "clobbers": [
-        "cordova.plugins.deviceName"
-      ]
-    },
-    {
       "id": "cordova-plugin-file.DirectoryEntry",
       "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
       "pluginId": "cordova-plugin-file",
@@ -258,18 +250,35 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "FirebasePlugin"
       ]
+    },
+    {
+      "id": "cordova-plugin-device.device",
+      "file": "plugins/cordova-plugin-device/www/device.js",
+      "pluginId": "cordova-plugin-device",
+      "clobbers": [
+        "device"
+      ]
+    },
+    {
+      "id": "cordova-plugin-device-name.DeviceName",
+      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
+      "pluginId": "cordova-plugin-device-name",
+      "clobbers": [
+        "cordova.plugins.deviceName"
+      ]
     }
   ];
   module.exports.metadata = {
     "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-compat": "1.2.0",
-    "cordova-plugin-device-name": "1.3.5",
     "cordova-plugin-file": "4.3.3",
     "cordova-plugin-media-capture": "1.4.1",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-whitelist": "1.3.3",
     "cordova-support-google-services": "1.3.1",
     "cordova-plugin-firebase": "2.0.5",
-    "cordova-support-android-plugin": "1.0.1"
+    "cordova-support-android-plugin": "1.0.1",
+    "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-device-name": "1.3.5"
   };
 });

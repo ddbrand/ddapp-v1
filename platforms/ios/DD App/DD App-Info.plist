@@ -17,11 +17,11 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.8</string>
+	<string>1.0.9</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.8</string>
+	<string>1.0.9</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
@@ -34,13 +34,13 @@
 	<key>NSCameraUsageDescription</key>
 	<string>The camera is used to scan QR codes.</string>
 	<key>NSMainNibFile</key>
-	<string></string>
+	<string/>
 	<key>NSMainNibFile~ipad</key>
-	<string></string>
+	<string/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>The camera is used to scan QR codes.</string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>CDVLaunchScreen</string>
 	<key>UIRequiresFullScreen</key>
