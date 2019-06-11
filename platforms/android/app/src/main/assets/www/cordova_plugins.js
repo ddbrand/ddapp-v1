@@ -1,6 +1,30 @@
 cordova.define('cordova/plugin_list', function(require, exports, module) {
   module.exports = [
     {
+      "id": "com.darktalker.cordova.screenshot.screenshot",
+      "file": "plugins/com.darktalker.cordova.screenshot/www/Screenshot.js",
+      "pluginId": "com.darktalker.cordova.screenshot",
+      "merges": [
+        "navigator.screenshot"
+      ]
+    },
+    {
+      "id": "cordova-plugin-device.device",
+      "file": "plugins/cordova-plugin-device/www/device.js",
+      "pluginId": "cordova-plugin-device",
+      "clobbers": [
+        "device"
+      ]
+    },
+    {
+      "id": "cordova-plugin-device-name.DeviceName",
+      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
+      "pluginId": "cordova-plugin-device-name",
+      "clobbers": [
+        "cordova.plugins.deviceName"
+      ]
+    },
+    {
       "id": "cordova-plugin-file.DirectoryEntry",
       "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
       "pluginId": "cordova-plugin-file",
@@ -174,6 +198,14 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "runs": true
     },
     {
+      "id": "cordova-plugin-firebase.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebase/www/firebase.js",
+      "pluginId": "cordova-plugin-firebase",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
+    },
+    {
       "id": "cordova-plugin-media-capture.CaptureAudioOptions",
       "file": "plugins/cordova-plugin-media-capture/www/CaptureAudioOptions.js",
       "pluginId": "cordova-plugin-media-capture",
@@ -250,40 +282,42 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       ]
     },
     {
-      "id": "cordova-plugin-firebase.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebase/www/firebase.js",
-      "pluginId": "cordova-plugin-firebase",
+      "id": "es6-promise-plugin.Promise",
+      "file": "plugins/es6-promise-plugin/www/promise.js",
+      "pluginId": "es6-promise-plugin",
+      "runs": true
+    },
+    {
+      "id": "cordova-plugin-x-socialsharing.SocialSharing",
+      "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+      "pluginId": "cordova-plugin-x-socialsharing",
       "clobbers": [
-        "FirebasePlugin"
+        "window.plugins.socialsharing"
       ]
     },
     {
-      "id": "cordova-plugin-device.device",
-      "file": "plugins/cordova-plugin-device/www/device.js",
-      "pluginId": "cordova-plugin-device",
+      "id": "cordova-plugin-file-opener2.FileOpener2",
+      "file": "plugins/cordova-plugin-file-opener2/www/plugins.FileOpener2.js",
+      "pluginId": "cordova-plugin-file-opener2",
       "clobbers": [
-        "device"
-      ]
-    },
-    {
-      "id": "cordova-plugin-device-name.DeviceName",
-      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
-      "pluginId": "cordova-plugin-device-name",
-      "clobbers": [
-        "cordova.plugins.deviceName"
+        "cordova.plugins.fileOpener2"
       ]
     }
   ];
   module.exports.metadata = {
+    "com.darktalker.cordova.screenshot": "0.1.5",
     "cordova-plugin-add-swift-support": "2.0.2",
+    "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-device-name": "1.3.5",
     "cordova-plugin-file": "4.3.3",
+    "cordova-plugin-firebase": "2.0.5",
     "cordova-plugin-media-capture": "1.4.1",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-support-google-services": "1.3.1",
-    "cordova-plugin-firebase": "2.0.5",
+    "es6-promise-plugin": "4.2.2",
+    "cordova-plugin-x-socialsharing": "5.4.5",
     "cordova-support-android-plugin": "1.0.1",
-    "cordova-plugin-device": "2.0.2",
-    "cordova-plugin-device-name": "1.3.5"
+    "cordova-support-google-services": "1.3.1",
+    "cordova-plugin-file-opener2": "2.2.0"
   };
 });

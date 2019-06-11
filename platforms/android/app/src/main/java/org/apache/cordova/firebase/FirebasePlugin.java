@@ -67,6 +67,8 @@ public class FirebasePlugin extends CordovaPlugin {
     private static CallbackContext notificationCallbackContext;
     private static CallbackContext tokenRefreshCallbackContext;
 
+
+
     @Override
     protected void pluginInitialize() {
         final Context context = this.cordova.getActivity().getApplicationContext();
@@ -189,10 +191,23 @@ public class FirebasePlugin extends CordovaPlugin {
         } else if (action.equals("clearAllNotifications")) {
             this.clearAllNotifications(callbackContext);
             return true;
-        }
+        } else if (action.equals("onNotification")) {
+                     this.onNotification(callbackContext);
+                     return true;
+                 }
 
         return false;
     }
+
+    private void onNotification(final CallbackContext callbackContext) {
+            FirebasePlugin.notificationCallbackContext = callbackContext;
+            if (FirebasePlugin.notificationStack != null) {
+                for (Bundle bundle : FirebasePlugin.notificationStack) {
+                    //FirebasePlugin.onMessageReceived(bundle);  //<- in FirebasePluginMessagingService.java
+                }
+                FirebasePlugin.notificationStack.clear();
+            }
+        }
 
     @Override
     public void onPause(boolean multitasking) {

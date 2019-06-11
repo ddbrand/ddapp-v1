@@ -20,7 +20,7 @@ function autologin(callback) {
             if (data.success === false) {
                 var toastCenter = app.toast.create({
                     text: 'Sie konnten nicht erfolgreich eingeloggt werden. Bitte versuchen Sie es erneut.',
-                    position: 'bottom',
+                    position: 'top',
                     closeTimeout: 12000,
                 });
                 toastCenter.open();
@@ -36,7 +36,6 @@ function autologin(callback) {
             localStorage.setItem('theme', 'theme-dark');
             callback(false);
         }
-
     });
 }
 
@@ -124,7 +123,7 @@ function displayContents(err, text) {
                 xhr.send(data);
                 var toastCenter = app.toast.create({
                     text: 'You are successfully logged in.',
-                    position: 'bottom',
+                    position: 'top',
                     closeTimeout: 4000,
                 });
                 toastCenter.open();
@@ -157,7 +156,7 @@ function displayContents(err, text) {
             });
             /*var toastCenter = app.toast.create({
               text: 'The code you scanned is invalid. Please try another.',
-              position: 'bottom',
+              position: 'top',
               closeTimeout: 6000,
             });
             toastCenter.open();*/
@@ -187,6 +186,12 @@ function login_add(callback) {
             if (data.success === false) {
                 callback(false);
             } else {
+                var toastCenter = app.toast.create({
+                    text: 'You have successfully added another account.',
+                    position: 'top',
+                    closeTimeout: 4000,
+                });
+                toastCenter.open();
                 localStorage.setItem("username_" + next_username_cookie, next_username_cookie);
                 localStorage.setItem("pass_" + next_username_cookie, next_password_cookie);
                 localStorage.setItem("email_" + next_username_cookie, next_email_cookie);
@@ -199,3 +204,81 @@ function login_add(callback) {
     });
 }
 
+function b64toBlob(b64Data, contentType, sliceSize) {
+    contentType = contentType || '';
+    sliceSize = sliceSize || 512;
+
+    var byteCharacters = atob(b64Data);
+    var byteArrays = [];
+
+    for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+
+        var byteArray = new Uint8Array(byteNumbers);
+
+        byteArrays.push(byteArray);
+    }
+
+    var blob = new Blob(byteArrays, {type: contentType});
+    return blob;
+}
+
+/**
+ * Create a Image file according to its database64 content only.
+ *
+ * @param folderpath {String} The folder where the file will be created
+ * @param filename {String} The name of the file that will be created
+ * @param content {Base64 String} Important : The content can't contain the following string (data:image/png[or any other format];base64,). Only the base64 string is expected.
+ */
+function savebase64AsImageFile(folderpath,filename,content,contentType){
+    // Convert the base64 string in a Blob
+    var DataBlob = b64toBlob(content,contentType);
+    window.resolveLocalFileSystemURL(folderpath, function(dir) {
+        console.log("Access to the directory granted succesfully");
+        dir.getFile(filename, {create:true}, function(file) {
+            console.log("File created succesfully.");
+            file.createWriter(function(fileWriter) {
+                console.log("Writing content to file");
+                fileWriter.write(DataBlob);
+            }, function(){
+                console.log('Unable to save file in path '+ folderpath);
+            });
+        });
+    });
+}
+
+function trainingplans() {
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response_obj = JSON.parse(this.responseText);
+            if(response_obj.success == false) {
+                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+            } else {
+                alert(response_obj.value[0]['category']);
+                $('.question').append(response_obj.value['questions']['question']);
+
+                var i;
+                for (i = 0; i < response_obj.value['questions'].length; i++) {
+                    $('.question').append("<label class='question-label'>" + response_obj.value['questions'][i]['question'] + "</label>");
+                    $('.question').append("<select id='" + i + "_options'></select>");
+                    var ia;
+                    for (ia = 0; ia < response_obj.value['questions'][i]['answers'].length; ia++) {
+                        $('#' + i + '_options').append('<option value="' + response_obj.value['questions'][i]['answers'][ia][0] + '">' + response_obj.value['questions'][i]['answers'][ia][1] + '</option>');
+                    }
+                }
+            }
+        }
+    });
+    // Set http request method and url
+    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.send();
+}

@@ -80,7 +80,7 @@ a {
 
 .logo-overlay {
   background-color: transparent;
-  width: 100vw;
+  width: 100%;
   height: 120px;
   padding: 0 25px 0 0;
   text-align: center;
@@ -89,6 +89,12 @@ a {
   top: calc(50% - 160px);
   z-index: 5;
   opacity: 0;
+}
+
+.logo-overlay .overlay-inner {
+  width: 75vw;
+  max-width: 520px;
+  margin: auto;
 }
 
 .logo-overlay img {
@@ -225,7 +231,8 @@ h2.pagetitle {
   -ms-animation:     blink 3s infinite;
   border: 4px solid;
   display: flex;
-  max-width: 75%;
+  max-width: 420px;
+  width: 75%;
   margin-top: 10vh;
   margin-left: auto;
   margin-right: auto;
@@ -269,6 +276,7 @@ h2.pagetitle {
 }
 
 .downunder p {
+  font-size: 18px;
   color: white;
   padding: 40px;
 }

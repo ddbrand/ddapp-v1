@@ -7,52 +7,11 @@
     "files": {
       "AndroidManifest.xml": {
         "parents": {
-          "/manifest": [
-            {
-              "xml": "<uses-permission android:maxSdkVersion=\"18\" android:name=\"android.permission.BLUETOOTH\" />",
-              "count": 1
-            }
-          ],
           "/*": [
             {
               "xml": "<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\" />",
-              "count": 2
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.RECORD_AUDIO\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.RECORD_VIDEO\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.READ_EXTERNAL_STORAGE\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.CAMERA\" android:required=\"false\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-feature android:name=\"android.hardware.camera\" android:required=\"false\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-feature android:name=\"android.hardware.camera.front\" android:required=\"false\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.INTERNET\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\" />",
-              "count": 1
-            },
-            {
-              "xml": "<uses-permission android:name=\"android.permission.WAKE_LOCK\" />",
-              "count": 1
+              "count": 1,
+              "id": "config.xml"
             }
           ],
           "/manifest/application": [
@@ -61,6 +20,18 @@
               "count": 1,
               "id": "config.xml"
             }
+          ],
+          "/manifest": [
+            {
+              "xml": "<uses-permission android:maxSdkVersion=\"18\" android:name=\"android.permission.BLUETOOTH\" />",
+              "count": 1
+            }
+          ],
+          "/*/application": [
+            {
+              "xml": "<receiver android:enabled=\"true\" android:name=\"nl.xservices.plugins.ShareChooserPendingIntent\"><intent-filter><action android:name=\"android.intent.action.SEND\" /></intent-filter></receiver>",
+              "count": 1
+            }
           ]
         }
       },
@@ -68,11 +39,27 @@
         "parents": {
           "/*": [
             {
+              "xml": "<feature name=\"Screenshot\"><param name=\"android-package\" value=\"com.darktalker.cordova.screenshot.Screenshot\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"DeviceName\"><param name=\"android-package\" value=\"net.becvert.cordova.DeviceName\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
               "xml": "<allow-navigation href=\"cdvfile:*\" />",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"FirebasePlugin\"><param name=\"android-package\" value=\"org.apache.cordova.firebase.FirebasePlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -88,15 +75,7 @@
               "count": 1
             },
             {
-              "xml": "<feature name=\"FirebasePlugin\"><param name=\"android-package\" value=\"org.apache.cordova.firebase.FirebasePlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"Device\"><param name=\"android-package\" value=\"org.apache.cordova.device.Device\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"DeviceName\"><param name=\"android-package\" value=\"net.becvert.cordova.DeviceName\" /></feature>",
+              "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
               "count": 1
             }
           ]
@@ -105,10 +84,22 @@
     }
   },
   "installed_plugins": {
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-add-swift-support": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-device-name": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-firebase": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-media-capture": {
@@ -120,24 +111,46 @@
     "cordova-plugin-whitelist": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
-    "cordova-support-google-services": {
+    "es6-promise-plugin": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
-    "cordova-plugin-firebase": {
+    "cordova-plugin-x-socialsharing": {
+      "ANDROID_SUPPORT_V4_VERSION": "24.1.1+",
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-support-android-plugin": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-device-name": {
+    "cordova-support-google-services": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
   "dependent_plugins": {},
   "modules": [
+    {
+      "id": "com.darktalker.cordova.screenshot.screenshot",
+      "file": "plugins/com.darktalker.cordova.screenshot/www/Screenshot.js",
+      "pluginId": "com.darktalker.cordova.screenshot",
+      "merges": [
+        "navigator.screenshot"
+      ]
+    },
+    {
+      "id": "cordova-plugin-device.device",
+      "file": "plugins/cordova-plugin-device/www/device.js",
+      "pluginId": "cordova-plugin-device",
+      "clobbers": [
+        "device"
+      ]
+    },
+    {
+      "id": "cordova-plugin-device-name.DeviceName",
+      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
+      "pluginId": "cordova-plugin-device-name",
+      "clobbers": [
+        "cordova.plugins.deviceName"
+      ]
+    },
     {
       "id": "cordova-plugin-file.DirectoryEntry",
       "file": "plugins/cordova-plugin-file/www/DirectoryEntry.js",
@@ -312,6 +325,14 @@
       "runs": true
     },
     {
+      "id": "cordova-plugin-firebase.FirebasePlugin",
+      "file": "plugins/cordova-plugin-firebase/www/firebase.js",
+      "pluginId": "cordova-plugin-firebase",
+      "clobbers": [
+        "FirebasePlugin"
+      ]
+    },
+    {
       "id": "cordova-plugin-media-capture.CaptureAudioOptions",
       "file": "plugins/cordova-plugin-media-capture/www/CaptureAudioOptions.js",
       "pluginId": "cordova-plugin-media-capture",
@@ -388,40 +409,33 @@
       ]
     },
     {
-      "id": "cordova-plugin-firebase.FirebasePlugin",
-      "file": "plugins/cordova-plugin-firebase/www/firebase.js",
-      "pluginId": "cordova-plugin-firebase",
-      "clobbers": [
-        "FirebasePlugin"
-      ]
+      "id": "es6-promise-plugin.Promise",
+      "file": "plugins/es6-promise-plugin/www/promise.js",
+      "pluginId": "es6-promise-plugin",
+      "runs": true
     },
     {
-      "id": "cordova-plugin-device.device",
-      "file": "plugins/cordova-plugin-device/www/device.js",
-      "pluginId": "cordova-plugin-device",
+      "id": "cordova-plugin-x-socialsharing.SocialSharing",
+      "file": "plugins/cordova-plugin-x-socialsharing/www/SocialSharing.js",
+      "pluginId": "cordova-plugin-x-socialsharing",
       "clobbers": [
-        "device"
-      ]
-    },
-    {
-      "id": "cordova-plugin-device-name.DeviceName",
-      "file": "plugins/cordova-plugin-device-name/www/device-name.js",
-      "pluginId": "cordova-plugin-device-name",
-      "clobbers": [
-        "cordova.plugins.deviceName"
+        "window.plugins.socialsharing"
       ]
     }
   ],
   "plugin_metadata": {
+    "com.darktalker.cordova.screenshot": "0.1.5",
     "cordova-plugin-add-swift-support": "2.0.2",
+    "cordova-plugin-device": "2.0.2",
+    "cordova-plugin-device-name": "1.3.5",
     "cordova-plugin-file": "4.3.3",
+    "cordova-plugin-firebase": "2.0.5",
     "cordova-plugin-media-capture": "1.4.1",
     "cordova-plugin-qrscanner": "3.0.1",
     "cordova-plugin-whitelist": "1.3.3",
-    "cordova-support-google-services": "1.3.1",
-    "cordova-plugin-firebase": "2.0.5",
+    "es6-promise-plugin": "4.2.2",
+    "cordova-plugin-x-socialsharing": "5.4.5",
     "cordova-support-android-plugin": "1.0.1",
-    "cordova-plugin-device": "2.0.2",
-    "cordova-plugin-device-name": "1.3.5"
+    "cordova-support-google-services": "1.3.1"
   }
 }
