@@ -4,6 +4,12 @@ function autologin(callback) {
     // var email_cookie = localStorage.getItem("email");
     $.ajax({
         type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        },
         url: "https://data-manager-1.dd-brain.com/api/login",
         // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({
@@ -46,7 +52,14 @@ function login(callback) {
     // var email_cookie = $$('#my-login-screen [name="email"]').val();
     $.ajax({
         type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username_cookie + ':' + password_cookie));
+        },
         url: "https://data-manager-1.dd-brain.com/api/login",
+
         // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({
             "CompId": "",
@@ -71,6 +84,103 @@ function login(callback) {
         error: function (errMsg) {
             localStorage.removeItem("username");
             localStorage.removeItem("pass");
+            // localStorage.removeItem("email");
+            callback(false);
+        }
+    });
+}
+
+
+function dev_autologin(callback) {
+    var username_cookie = localStorage.getItem("dev_username");
+    var password_cookie = localStorage.getItem("dev_pass");
+    // var email_cookie = localStorage.getItem("email");
+    $.ajax({
+        type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        },
+        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify({
+            "CompId": "",
+            "Username": username_cookie,
+            // "Email": email_cookie,
+            "Pass": password_cookie,
+            "CacheName": ""
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            if (data.success === false) {
+                var toastCenter = app.toast.create({
+                    text: 'You could not be successfully logged in as a developer. Please try again or disable the developer mode.',
+                    position: 'top',
+                    closeTimeout: 12000,
+                    closeButton: true
+                });
+                toastCenter.open();
+                callback(false);
+            } else {
+                callback(true);
+            }
+        },
+        error: function (errMsg) {
+            localStorage.removeItem("dev_username");
+            localStorage.removeItem("dev_pass");
+            // localStorage.removeItem("email");
+            callback(false);
+        }
+    });
+}
+
+function dev_login(callback) {
+    var username_cookie = $$('#my-dev-login-screen [name="username"]').val();
+    var password_cookie = $$('#my-dev-login-screen [name="password"]').val();
+    // var email_cookie = $$('#my-login-screen [name="email"]').val();
+    $.ajax({
+        type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username_cookie + ':' + password_cookie));
+        },
+        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify({
+            "CompId": "",
+            "Username": username_cookie,
+            // "Email": email_cookie,
+            "Pass": password_cookie,
+            "CacheName": ""
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            if (data.success === false) {
+                callback(false);
+            } else {
+                localStorage.setItem("dev_username", username_cookie);
+                localStorage.setItem("dev_pass", password_cookie);
+                localStorage.setItem("dev_login", 'ok');
+                $$('li.devsettings .item-after span.badge').html('On');
+                $$('li.devsettings .item-after span.badge').removeClass('color-red');
+                $$('li.devsettings .item-after span.badge').addClass('color-green');
+
+                // localStorage.setItem("email", email_cookie);
+                callback(true);
+            }
+        },
+        error: function (errMsg) {
+            localStorage.removeItem("dev_username");
+            localStorage.removeItem("dev_pass");
             // localStorage.removeItem("email");
             callback(false);
         }
@@ -117,6 +227,7 @@ function displayContents(err, text) {
                 // Set http request method and url
                 xhr.open("POST", urlParts[0] + "/api/login/");
                 // Set headers
+                xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
                 xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
                 xhr.setRequestHeader("Cache-Control", "no-cache");
                 // Send payload
@@ -164,6 +275,23 @@ function displayContents(err, text) {
     }
 }
 
+function devcheck() {
+    $('*[data-dev=true]').each(function () {
+        if (localStorage.getItem('dev_login') === 'ok') {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+    $('*[data-dev=false]').each(function () {
+        if (localStorage.getItem('dev_login') === 'ok') {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+}
+
 function login_add(callback) {
     var next_username_cookie = $$('#my-login-add-screen [name="username"]').val();
     var next_password_cookie = $$('#my-login-add-screen [name="password"]').val();
@@ -189,6 +317,7 @@ function login_add(callback) {
                 var toastCenter = app.toast.create({
                     text: 'You have successfully added another account.',
                     position: 'top',
+                    closeButton: true,
                     closeTimeout: 4000,
                 });
                 toastCenter.open();
@@ -252,6 +381,89 @@ function savebase64AsImageFile(folderpath,filename,content,contentType){
     });
 }
 
+function pullalltrainings() {
+    var xhr = new XMLHttpRequest();
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response_obj = JSON.parse(this.responseText);
+            if(response_obj.success == false) {
+                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+            } else {
+                var checkedcategories = [];
+                var valuearray = {};
+                var checkedsubcategories = [];
+                var checkedplans = [];
+                var checkedplantitles = [];
+                var i;
+                for (i = 0; i < response_obj.value.length; i++) {
+                        var thiscategory = response_obj.value[i]['category'];
+                        var thissubcategory = response_obj.value[i]['subcategory'];
+                        var thisplan = response_obj.value[i]['id'];
+                        var thisplanname = response_obj.value[i]['name'];
+                        var thisplanauthor = response_obj.value[i]['author'];
+                        var thisplanunits = response_obj.value[i]['numunits'];
+                        var thisplandescription = response_obj.value[i]['description'];
+                        if ($.inArray(thisplan, checkedplans) !== -1) {
+
+                        } else {
+
+                            $$('div.iwu ul').append('<li><a href="#" class="item-link item-content setplan" data-id="' + thisplan + '">\n' +
+                                '                                <div class="item-inner">\n' +
+                                '                                <div class="item-title-row">\n' +
+                                '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
+                                '                                <div class="item-after">' + thisplanunits + ' units</div>\n' +
+                                '                            </div>\n' +
+                                '                            <div class="item-subtitle">' +  thisplanauthor + '</div>\n' +
+                                '                            <div class="item-text">' + thisplandescription + '</div>\n' +
+                                '                            </div>\n' +
+                                '                            </a></li>');
+                            checkedplans.push(thisplan);
+
+                        }
+
+
+
+                }
+
+                $$('div.iwu ul a').on('click', function() {
+                    var planid = $(this).attr('data-id');
+                    var currentplans = JSON.parse(localStorage.getItem("myplans"));
+                    var myplans = [];
+
+                    //var myplans = JSON.parse(localStorage.getItem("myplans"));
+
+                    var finalplans = myplans.concat(currentplans);
+                    if ($.inArray(planid, finalplans) !== -1) {
+                        var toastCenter = app.toast.create({
+                            text: 'You have already selected this plan.',
+                            position: 'top',
+                            closeButton: true,
+                            closeTimeout: 3000,
+                        });
+                        toastCenter.open();
+                        var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                        $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                    } else {
+                        finalplans.push(planid);
+                        localStorage.setItem("myplans", JSON.stringify(finalplans));
+                        var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                        $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                        sendplans();
+                    }
+
+                });
+            }
+        }
+    });
+    // Set http request method and url
+    xhr.withCredentials = true;
+    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.send();
+}
+
 function trainingplans() {
     var xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -261,24 +473,298 @@ function trainingplans() {
             if(response_obj.success == false) {
                 $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
             } else {
-                alert(response_obj.value[0]['category']);
-                $('.question').append(response_obj.value['questions']['question']);
+                var checkedcategories = [];
+                var valuearray = {};
+                var checkedsubcategories = [];
 
                 var i;
-                for (i = 0; i < response_obj.value['questions'].length; i++) {
-                    $('.question').append("<label class='question-label'>" + response_obj.value['questions'][i]['question'] + "</label>");
-                    $('.question').append("<select id='" + i + "_options'></select>");
-                    var ia;
-                    for (ia = 0; ia < response_obj.value['questions'][i]['answers'].length; ia++) {
-                        $('#' + i + '_options').append('<option value="' + response_obj.value['questions'][i]['answers'][ia][0] + '">' + response_obj.value['questions'][i]['answers'][ia][1] + '</option>');
+                for (i = 0; i < response_obj.value.length; i++) {
+
+                    var thiscategory = response_obj.value[i]['category'];
+                    var thissubcategory = response_obj.value[i]['subcategory'];
+                    var thisplan = response_obj.value[i]['id'];
+                    if ($.inArray(thiscategory, checkedcategories) !== -1) {
+
+                    } else {
+                        $$('ul.trainingplans').append('<li>\n' +
+                            '      <div class="item-title" data-category="' + thiscategory + '"><a href="/plan_subcat/">' + thiscategory + '</a></div>\n' +
+                            '    </li>');
+                        checkedcategories.push(thiscategory);
+
                     }
+
+
+                    checkedsubcategories.push(thissubcategory);
+
+
+                }
+                $$('.item-title[data-category]').on('click', function() {
+                    var thisid = $$(this).attr('data-category');
+                    localStorage.setItem('category', thisid);
+                    $$('.subplansbreadcrumb').html(localStorage.getItem('category'));
+                });
+
+            }
+        }
+    });
+    // Set http request method and url
+    xhr.withCredentials = true;
+    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.send();
+}
+
+function subcat() {
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response_obj = JSON.parse(this.responseText);
+            if(response_obj.success == false) {
+                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+            } else {
+                var checkedcategories = [];
+                var valuearray = {};
+                var checkedsubcategories = [];
+                var checkedplans = [];
+                var checkedplantitles = [];
+                var i;
+                for (i = 0; i < response_obj.value.length; i++) {
+                    if(response_obj.value[i]['category'] === localStorage.getItem('category')) {
+                    var thiscategory = response_obj.value[i]['category'];
+                    var thissubcategory = response_obj.value[i]['subcategory'];
+                    var thisplan = response_obj.value[i]['id'];
+                    if ($.inArray(thissubcategory, checkedsubcategories) !== -1) {
+
+                    } else {
+                        $$('ul.subcat').append('<li>\n' +
+                            '      <div class="item-title" data-subcategory="' + thissubcategory + '"><a href="/plan_choice/">' + thissubcategory + '</a></div>\n' +
+                            '    </li>');
+                        checkedsubcategories.push(thissubcategory);
+
+                    }
+
+                }
+                $$('.item-title[data-subcategory]').on('click', function() {
+                    var thisid = $$(this).attr('data-subcategory');
+                    localStorage.setItem('subcategory', thisid);
+                    $$('.plansbreadcrumb').html(localStorage.getItem('category') + ' > ' + localStorage.getItem('subcategory'));
+                });
                 }
             }
         }
     });
     // Set http request method and url
+    xhr.withCredentials = true;
     xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.send();
+
+}
+function sendplans() {
+    var localplans = JSON.parse(localStorage.getItem("myplans"));
+    var filtered = localplans.filter(function (el) {
+        return el != null;
+    });
+    
+    
+    $.ajax({
+        type: "POST",
+        url: "https://data-manager-1-dev.dd-brain.com/api/workouts/selected",
+        // The key needs to match your method's input parameter (case-sensitive).
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        },
+        data: JSON.stringify({
+            "ids": filtered,
+            "username": localStorage.getItem('username'),
+            "password": localStorage.getItem('pass'),
+            "cachename": ""
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            if (data.success === false) {
+                var toastCenter = app.toast.create({
+                    text: JSON.stringify(data),
+                    position: 'top',
+                    closeTimeout: 12000,
+                });
+                toastCenter.open();
+                callback(false);
+            } else {
+                /*var toastCenter = app.toast.create({
+                    text: 'Erfolg :)',
+                    position: 'top',
+                    closeTimeout: 12000,
+                });
+                toastCenter.open();
+                callback(true);*/
+            }
+        },
+        error: function (errMsg) {
+            alert(JSON.stringify(errMsg));
+        }
+    });
+}
+function planchoice() {
+
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response_obj = JSON.parse(this.responseText);
+            if(response_obj.success == false) {
+                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+            } else {
+                var checkedcategories = [];
+                var valuearray = {};
+                var checkedsubcategories = [];
+                var checkedplans = [];
+                var checkedplantitles = [];
+                var i;
+                for (i = 0; i < response_obj.value.length; i++) {
+                    if(response_obj.value[i]['subcategory'] === localStorage.getItem('subcategory')) {
+                        var thiscategory = response_obj.value[i]['category'];
+                        var thissubcategory = response_obj.value[i]['subcategory'];
+                        var thisplan = response_obj.value[i]['id'];
+                        var thisplanname = response_obj.value[i]['name'];
+                        var thisplanauthor = response_obj.value[i]['author'];
+                        var thisplanunits = response_obj.value[i]['numunits'];
+                        var thisplandescription = response_obj.value[i]['description'];
+                        if ($.inArray(thisplan, checkedplans) !== -1) {
+
+                        } else {
+
+                            $$('ul.planchoice').append('<li><a href="#" class="item-link item-content setplan" data-id="' + thisplan + '">\n' +
+                                '                                <div class="item-inner">\n' +
+                                '                                <div class="item-title-row">\n' +
+                                '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
+                                '                                <div class="item-after">' + thisplanunits + ' units</div>\n' +
+                                '                            </div>\n' +
+                                '                            <div class="item-subtitle">' +  thisplanauthor + '</div>\n' +
+                                '                            <div class="item-text">' + thisplandescription + '</div>\n' +
+                                '                            </div>\n' +
+                                '                            </a></li>');
+                            checkedplans.push(thisplan);
+                        }
+                    }
+                }
+
+                $$('ul.planchoice a').on('click', function() {
+                    $$('subplansbreadcrumb').html(localStorage.getItem('category'));
+                    var planid = $(this).attr('data-id');
+                    var currentplans = JSON.parse(localStorage.getItem("myplans"));
+                    var myplans = [];
+
+                    //var myplans = JSON.parse(localStorage.getItem("myplans"));
+
+                    var finalplans = myplans.concat(currentplans);
+                    if ($.inArray(planid, finalplans) !== -1) {
+                        var toastCenter = app.toast.create({
+                            text: 'You have already selected this plan.',
+                            position: 'top',
+                            closeButton: true,
+                            closeTimeout: 3000,
+                        });
+                        toastCenter.open();
+                        var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                        $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                    } else {
+                        finalplans.push(planid);
+                        localStorage.setItem("myplans", JSON.stringify(finalplans));
+                        var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                        $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                        sendplans();
+                    }
+
+                });
+            }
+        }
+    });
+    // Set http request method and url
+    xhr.withCredentials = true;
+    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+    xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+    xhr.setRequestHeader("Cache-Control", "no-cache");
+    xhr.send();
+
+}
+
+function showmyplans() {
+    var xhr = new XMLHttpRequest();
+    xhr.withCredentials = true;
+    xhr.addEventListener("readystatechange", function () {
+        if (this.readyState === 4) {
+            var response_obj = JSON.parse(this.responseText);
+            if(response_obj.success == false) {
+                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+            } else {
+                var checkedcategories = [];
+                var valuearray = {};
+                var checkedsubcategories = [];
+                var checkedplans = [];
+                var checkedplantitles = [];
+                var i;
+                for (i = 0; i < response_obj.value.length; i++) {
+                    if($.inArray(response_obj.value[i]['id'], JSON.parse(localStorage.getItem("myplans"))) !== -1) {
+
+                        var thiscategory = response_obj.value[i]['category'];
+                        var thissubcategory = response_obj.value[i]['subcategory'];
+                        var thisplan = response_obj.value[i]['id'];
+                        var thisplanname = response_obj.value[i]['name'];
+                        var thisplanauthor = response_obj.value[i]['author'];
+                        var thisplanunits = response_obj.value[i]['numunits'];
+                        var thisplandescription = response_obj.value[i]['description'];
+                        $$('ul.myplanslist').append('<li class="swipeout"><a href="#" class="item-link item-content setplan swipeout-content" data-id="' + thisplan + '">\n' +
+                            '                                <div class="item-inner">\n' +
+                            '                                <div class="item-title-row">\n' +
+                            '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
+                            '                                <div class="item-after">' + thisplanunits + ' units</div>\n' +
+                            '                            </div>\n' +
+                            '                            <div class="item-subtitle">' +  thisplanauthor + '</div>\n' +
+                            '                            <div class="item-text">' + thisplandescription + '</div>\n' +
+                            '                            </div>\n' +
+                            '                            </a><div class="swipeout-actions-right">\n' +
+                            '                        <a href="#" class="swipeout-delete" data-id="' + thisplan + '">Delete</a>\n' +
+                            '                    </div></li>');
+
+                    }
+                }
+                $$('.swipeout-delete').on('click', function() {
+                    var dataid = $$(this).attr('data-id');
+                    var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+
+                    removedIndx = myplansindicator.indexOf(dataid);
+                    while(removedIndx > -1) {
+                        myplansindicator.splice(removedIndx, 1);
+                        removedIndx = myplansindicator.indexOf(dataid);
+                    }
+                    sendplans();
+                    localStorage.setItem("myplans", JSON.stringify(myplansindicator));
+
+                    $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                });
+            }
+        }
+    });
+    // Set http request method and url
+    xhr.withCredentials = true;
+    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
 }
+
+
+/* funktion für subcat */

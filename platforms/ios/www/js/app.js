@@ -8,7 +8,10 @@ var app  = new Framework7({
   name: 'DD App', // App name
   theme: 'auto', // Automatic theme detection
   // App routes
-  routes: routes
+  routes: routes,
+  touch: {
+    tapHold: true //enable tap hold events
+  },
 });
 
 // Init/Create views
@@ -19,7 +22,7 @@ var homeView = app.views.create('#view-home', {
   reloadPages: true
 });
 var statsView = app.views.create('#view-stats', {
-  reloadPages: true,
+  //reloadPages: true,
   url: '/stats/',
   domCache: false
 });
@@ -27,9 +30,16 @@ var statsView = app.views.create('#view-stats', {
 var searchView = app.views.create('#view-search', {
   url: '/search/'
 });*/
-var storiesView = app.views.create('#view-stories', {
-  url: '/stories/'
-});
+// TODO: devmode für 1.2.0a beenden
+if(localStorage.getItem('dev_login') === 'ok') {
+  var plansView = app.views.create('#view-plans', {
+    url: '/plans/',
+  });
+} else {
+  var plansView = app.views.create('#view-plans', {
+    url: '/stories/',
+  });
+}
 /*var scanView = app.views.create('#view-scan', {
   url: '/scan/',
   reloadPages: true,
@@ -71,22 +81,68 @@ $$('#my-login-screen .login-button').on('click', function () {
 });
 
 
-$$(document).on('page:init', function (e) {
+$$('#my-dev-login-screen .login-button').on('click', function () {
+  dev_login(function(callback){
 
-
-  /*window.FirebasePlugin.onNotificationOpen(function(notification) {
-  }, function(error) {
-    alert(error);
-  });*/
-  $("#view-stats" ).on('tab:show', function( event, ui ) {
-    // do whatever you want here, like alert a message!
-    statsView.router.navigate('/stats/', {
-      ignoreCache:true,
-      reloadCurrent:true,
-    })
+    if(callback === true) {
+      var toastCenter = app.toast.create({
+        text: 'You have been successfully logged in as a developer.',
+        position: 'top',
+        closeTimeout: 5000,
+      });
+      toastCenter.open();
+      $$('.devsettings .badge').html('On');
+      $$('.devsettings .badge').removeClass('color-red');
+      $$('.devsettings .badge').addClass('color-green');
+      app.toolbar.show('.toolbar-bottom', true);
+      userView.router.navigate('/user/', {reloadCurrent: true,
+        ignoreCache: true});
+    } else {
+      var toastCenter = app.toast.create({
+        text: 'They could not be successfully logged in. Please try again.',
+        position: 'top',
+        closeTimeout: 4000,
+      });
+      toastCenter.open();
+    }
   });
 
+  // Close login screen
+  app.loginScreen.close('#my-dev-login-screen');
+});
 
+
+$$(document).on('page:init', function (e) {
+  devcheck();
+
+
+      /*window.FirebasePlugin.onNotificationOpen(function(notification) {
+      }, function(error) {
+        alert(error);
+      });*/
+      $("#view-stats").on('tab:show', function( event, ui ) {
+        // do whatever you want here, like alert a message!
+        statsView.router.navigate('/stats/', {
+          ignoreCache:true,
+          reloadCurrent:true,
+        })
+      });
+
+
+
+
+  $$('.resettrainingplans').on('click', function() {
+    localStorage.removeItem("myplans");
+    var toastCenter = app.toast.create({
+      text: 'Trainingplans were successfully reseted',
+      position: 'top',
+      closeButton: true,
+      closeTimeout: 3000,
+    });
+    toastCenter.open();
+    $$('.myplansind i .badge').html(0);
+    sendplans();
+  });
 
   var current_username = localStorage.getItem("username");
   $$('.insert-username').html(current_username);
@@ -112,11 +168,14 @@ $$(document).on('page:init', function (e) {
     e.preventDefault();
   });
   $$('.showstories').on('click', function(e) {
-    app.tab.show("#view-stories", true);
+    app.tab.show("#view-plans", true);
+    e.preventDefault();
+  });
+  $$('.showplans').on('click', function(e) {
+    app.tab.show("#view-plans", true);
     e.preventDefault();
   });
 });
-
 
 $$(document).on('page:init', '.page[data-name="authbox"]', function (e) {
 
@@ -154,17 +213,6 @@ $$(document).on('page:init', '.page[data-name="user"]', function (e) {
       $('body').removeClass('theme-dark');
     }
 
-  });
-  $$('.logout').on('click', function() {
-    localStorage.clear();
-    var toastCenter = app.toast.create({
-      text: 'Logout was successfull. See you later!',
-      position: 'top',
-      closeTimeout: 4000,
-    });
-    toastCenter.open();
-    app.tab.show("#view-home", false);
-    homeView.router.navigate('/authbox/', {reloadAll: true, animate: true});
   });
 });
 

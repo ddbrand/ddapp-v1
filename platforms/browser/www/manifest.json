@@ -1,0 +1,12 @@
+{
+  "background_color": "#FFF",
+  "display": "standalone",
+  "name": "DD App",
+  "short_name": "DD App",
+  "version": "com.ddrobotec.ddios",
+  "description": "This app shows your newest trainingresults and let you log in on the machine with a QR code scanner.",
+  "author": "Dynamic Devices AG",
+  "icons": [],
+  "start_url": "index.html",
+  "theme_color": "#82bec8"
+}

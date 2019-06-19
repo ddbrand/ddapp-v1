@@ -5,6 +5,19 @@ a {
   color: #58595b;
 }
 /* Your app styles here */
+.subplansbreadcrumb, .plansbreadcrumb {
+  display: block;
+  text-align: center;
+  opacity: 0.5;
+}
+.devmode {
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.iwu {
+  display: none;
+}
 .ios .tabbar-labels .tab-link:not(.tab-link-active) .icon-ios-fill {
   display: none;
 }
