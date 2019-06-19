@@ -156,7 +156,7 @@ routes = [
                             valueText: clickedscore,
                             valueFontSize: 41,
                             valueTextColor: '#fbfbb9',
-                            labelText: 'Points from ' + topscore + ' topscore',
+                            labelText: 'out of ' + topscore + ' points topscore',
                         });
                         var trainingid = localStorage.getItem('traintitle');
 
