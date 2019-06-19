@@ -15,6 +15,14 @@ a {
   -webkit-user-select: none;
   user-select: none;
 }
+.trainsubtitle {
+  text-align: center;
+  display: block;
+  opacity: 0.5;
+  font-size: 22px;
+  font-weight: normal;
+  margin-top: 0px;
+}
 .iwu {
   display: none;
 }

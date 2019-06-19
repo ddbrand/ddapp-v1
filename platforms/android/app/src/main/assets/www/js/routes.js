@@ -130,7 +130,13 @@ routes = [
                 $.ajax({
                     url: "https://ddrobotec.com/grafana/detail_pull_report.php?username=" + username + "&title=" + traintitle + "&dataid=" + clickedid,
                 }).done(function (result) {
-                    $('.traintitle').html(localStorage.getItem('traintitle'));
+                    var traintitle = localStorage.getItem('traintitle');
+                    var maintitle = traintitle.split('[')[0];
+                    var subtitle = traintitle.split('[').pop().split(']')[0]; // returns 'two'
+                    $('.traintitle').html(maintitle);
+                    if(traintitle !== subtitle) {
+                        $('.trainsubtitle').html(subtitle);
+                    }
                     $('.detailoverview').html(result);
                     $.ajax({
                         url: "https://ddrobotec.com/grafana/detail_topscore.php?title=" + traintitle,
