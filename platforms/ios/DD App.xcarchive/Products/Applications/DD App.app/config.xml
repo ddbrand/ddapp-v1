@@ -42,6 +42,9 @@
     <feature name="Screenshot">
         <param name="ios-package" value="Screenshot" />
     </feature>
+    <feature name="Globalization">
+        <param name="ios-package" value="CDVGlobalization" />
+    </feature>
     <name>DD App</name>
     <description>
         This app shows your newest trainingresults and let you log in on the machine with a QR code scanner.

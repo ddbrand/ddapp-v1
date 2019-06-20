@@ -4,6 +4,11 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
+                navigator.globalization.getPreferredLanguage(
+                    function (language) {/*alert(language.value);*/ localStorage.setItem('language', language.value);},
+                    function () { localStorage.setItem('language', 'en-US'); }
+                );
+                translate_strings();
                 // Firebase plugin after fatal error deinstalled
                 /*window.FirebasePlugin.grantPermission();
                 window.FirebasePlugin.getToken(function (token) {
@@ -81,6 +86,7 @@ routes = [
         url: './pages/stats.html',
         on: {
             pageAfterIn: function (event, page) {
+                translate_strings();
                 var username = localStorage.getItem('username');
                 $.ajax({
                     url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
@@ -123,6 +129,8 @@ routes = [
         url: './pages/training_detail.html',
         on: {
             pageInit: function (event, page) {
+
+                translate_strings();
                 var username = localStorage.getItem('username');
                 var traintitle = localStorage.getItem('traintitle');
                 var clickedid = localStorage.getItem('detail_train_id');
@@ -152,6 +160,8 @@ routes = [
                             var bigbordercolor = '#58595b';
                             var bigbgbordercolor = 'rgba(88, 89, 91, 0.3)';
                         }
+
+                        var labelvalue = translate_strings('biggaugelabel', topscore);
                         var demoGauge = app.gauge.create({
                             el: '.score',
                             type: 'circle',
@@ -163,7 +173,7 @@ routes = [
                             valueText: clickedscore,
                             valueFontSize: 41,
                             valueTextColor: bigbordercolor,
-                            labelText: 'out of ' + topscore + ' points topscore',
+                            labelText: labelvalue,
                         });
                         var trainingid = localStorage.getItem('traintitle');
 
@@ -177,6 +187,7 @@ routes = [
                             var circleprevalue = 1 / places;
                             var betvar = myrank - 1;
                             var circlevalue = (places - betvar) * circleprevalue;
+                            var leftgaugelabel = translate_strings('leftgaugelabel');
                             var leftGauge = app.gauge.create({
                                 el: '.leftgauge',
                                 type: 'semicircle',
@@ -187,10 +198,11 @@ routes = [
                                 valueText: circletext,
                                 valueFontSize: 28,
                                 valueTextColor: '#97d3cc',
-                                labelText: 'your rank',
+                                labelText: leftgaugelabel,
                             });
                             var mybestscore = $$('.rank').attr('data-bestscore');
                             var scorevalue = 1 / topscore * mybestscore;
+                            var rightgaugelabel = translate_strings('rightgaugelabel');
                             var rightGauge = app.gauge.create({
                                 el: '.rightgauge',
                                 type: 'semicircle',
@@ -201,7 +213,7 @@ routes = [
                                 valueText: mybestscore,
                                 valueFontSize: 28,
                                 valueTextColor: '#ef763e',
-                                labelText: 'your personal best',
+                                labelText: rightgaugelabel,
                             });
 
                             $$('.nativeshare').on('click', function () {
@@ -219,7 +231,7 @@ routes = [
 
                                         savebase64AsImageFile(folderpath, filename, realData, dataType);
                                         var options = {
-                                            message: 'My rank in ' + traintitle + ' is ' + circletext + '! Can you beat me?', // not supported on some apps (Facebook, Instagram)
+                                            message: translate_strings('sharetext', traintitle, circletext),  // not supported on some apps (Facebook, Instagram)
                                             subject: '#ddrobotec', // fi. for email
                                             files: [folderpath + filename], // an array of filenames either locally or remotely
                                         };
@@ -252,6 +264,7 @@ routes = [
         url: './pages/leaderboard.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 var username = localStorage.getItem('username');
                 var traintitle = localStorage.getItem('traintitle');
                 var maintitle = traintitle.split('[')[0];
@@ -281,6 +294,7 @@ routes = [
         url: './pages/scan.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 $('.downunder').delay(800).slideToggle();
                 $$('.cameramode').click(function () {
                     $('.toolbar-bottom').hide();
@@ -347,6 +361,7 @@ routes = [
         url: './pages/user.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 $$('.logout').on('click', function () {
                     localStorage.clear();
                     var toastCenter = app.toast.create({
@@ -375,7 +390,7 @@ routes = [
                         $$('.toplist ul').prepend('<li class="swipeout devsettings">\n' +
                             '<div class="swipeout-content">' +
                             '<a href="#" class="dev_login_screen_open item-content item-link" data-login-screen=".dev-login-screen">' +
-                            '          <div class="item-title">Developer Mode</div>\n' +
+                            '          <div class="item-title">' + translate_strings('developermode') + '</div>\n' +
                             '          <div class="item-after"> <span class="badge color-red">Off</span></div>\n' +
                             '</a>' +
                             '</div>' +
@@ -404,7 +419,7 @@ routes = [
                     $$('.toplist ul').prepend('<li class="swipeout devsettings">\n' +
                         '<div class="swipeout-content">' +
                         '<a href="#" class="dev_login_screen_open item-content item-link" data-login-screen=".dev-login-screen">' +
-                        '          <div class="item-title">Developer Mode</div>\n' +
+                        '          <div class="item-title">' + translate_strings('developermode') + '</div>\n' +
                         '          <div class="item-after">' + badger + '</div>\n' +
                         '</a>' +
                         '</div>' +
@@ -549,6 +564,7 @@ routes = [
         url: './pages/changeuser.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).startsWith("username_")) {
                         let userkey = localStorage.key(i).split("_");

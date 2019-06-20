@@ -26,6 +26,7 @@
 		D5152F9F8E5E46D887876AE9 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F23ADF2732804436A97DA347 /* Social.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		20067966A5C64E2DBFFC91BF /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 875394F5A1A4480A945D3F37 /* MessageUI.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2D391F0233C64E71B40D2600 /* Screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 54798BB09AD34CE598217070 /* Screenshot.m */; };
+		DCEBDB32AACC4E0889BC6D4B /* CDVGlobalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B915AE5017A437CA3BED0C6 /* CDVGlobalization.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +96,8 @@
 		875394F5A1A4480A945D3F37 /* MessageUI.framework */ = {isa = PBXFileReference; name = "MessageUI.framework"; path = "System/Library/Frameworks/MessageUI.framework"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = wrapper.framework; explicitFileType = undefined; includeInIndex = 0; };
 		54798BB09AD34CE598217070 /* Screenshot.m */ = {isa = PBXFileReference; name = "Screenshot.m"; path = "com.darktalker.cordova.screenshot/Screenshot.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
 		00DF049FBA224E36A4AA0661 /* Screenshot.h */ = {isa = PBXFileReference; name = "Screenshot.h"; path = "com.darktalker.cordova.screenshot/Screenshot.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		2B915AE5017A437CA3BED0C6 /* CDVGlobalization.m */ = {isa = PBXFileReference; name = "CDVGlobalization.m"; path = "cordova-plugin-globalization/CDVGlobalization.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		4FEDB886A0C8428AB3B97AE4 /* CDVGlobalization.h */ = {isa = PBXFileReference; name = "CDVGlobalization.h"; path = "cordova-plugin-globalization/CDVGlobalization.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +226,8 @@
 				C59CF7A97E1442B6B0C1B291 /* SocialSharing.h */,
 				54798BB09AD34CE598217070 /* Screenshot.m */,
 				00DF049FBA224E36A4AA0661 /* Screenshot.h */,
+				2B915AE5017A437CA3BED0C6 /* CDVGlobalization.m */,
+				4FEDB886A0C8428AB3B97AE4 /* CDVGlobalization.h */,
 			);
 			name = Plugins;
 			path = "DD App/Plugins";
@@ -371,6 +376,7 @@
 				B8635422CBEB460DB0FC6B23 /* NSString+SSURLEncoding.m in Sources */,
 				D2E72C684D984D3AA62C40BD /* SocialSharing.m in Sources */,
 				2D391F0233C64E71B40D2600 /* Screenshot.m in Sources */,
+				DCEBDB32AACC4E0889BC6D4B /* CDVGlobalization.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

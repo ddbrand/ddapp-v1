@@ -90,6 +90,103 @@ function login(callback) {
     });
 }
 
+
+function dev_autologin(callback) {
+    var username_cookie = localStorage.getItem("dev_username");
+    var password_cookie = localStorage.getItem("dev_pass");
+    // var email_cookie = localStorage.getItem("email");
+    $.ajax({
+        type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        },
+        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify({
+            "CompId": "",
+            "Username": username_cookie,
+            // "Email": email_cookie,
+            "Pass": password_cookie,
+            "CacheName": ""
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            if (data.success === false) {
+                var toastCenter = app.toast.create({
+                    text: 'You could not be successfully logged in as a developer. Please try again or disable the developer mode.',
+                    position: 'top',
+                    closeTimeout: 12000,
+                    closeButton: true
+                });
+                toastCenter.open();
+                callback(false);
+            } else {
+                callback(true);
+            }
+        },
+        error: function (errMsg) {
+            localStorage.removeItem("dev_username");
+            localStorage.removeItem("dev_pass");
+            // localStorage.removeItem("email");
+            callback(false);
+        }
+    });
+}
+
+function dev_login(callback) {
+    var username_cookie = $$('#my-dev-login-screen [name="username"]').val();
+    var password_cookie = $$('#my-dev-login-screen [name="password"]').val();
+    // var email_cookie = $$('#my-login-screen [name="email"]').val();
+    $.ajax({
+        type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username_cookie + ':' + password_cookie));
+        },
+        url: "https://data-manager-1-dev.dd-brain.com/api/login",
+
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify({
+            "CompId": "",
+            "Username": username_cookie,
+            // "Email": email_cookie,
+            "Pass": password_cookie,
+            "CacheName": ""
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            if (data.success === false) {
+                callback(false);
+            } else {
+                localStorage.setItem("dev_username", username_cookie);
+                localStorage.setItem("dev_pass", password_cookie);
+                localStorage.setItem("dev_login", 'ok');
+                $$('li.devsettings .item-after span.badge').html('On');
+                $$('li.devsettings .item-after span.badge').removeClass('color-red');
+                $$('li.devsettings .item-after span.badge').addClass('color-green');
+
+                // localStorage.setItem("email", email_cookie);
+                callback(true);
+            }
+        },
+        error: function (errMsg) {
+            localStorage.removeItem("dev_username");
+            localStorage.removeItem("dev_pass");
+            // localStorage.removeItem("email");
+            callback(false);
+        }
+    });
+}
+
 function displayContents(err, text) {
     if (err) {
         //alert(err);
@@ -121,6 +218,7 @@ function displayContents(err, text) {
                             //app.tab.show("#view-home", true);
                             homeView.router.navigate('/', {reloadAll: true, animate: true});
                             $('.toolbar-bottom').show();
+                            app.toolbar.show('.toolbar-bottom', true);
                             QRScanner.destroy();
                             QRScanner.cancelScan();
                             QRScanner.hide();
@@ -176,6 +274,23 @@ function displayContents(err, text) {
             toastCenter.open();*/
         }
     }
+}
+
+function devcheck() {
+    $('*[data-dev=true]').each(function () {
+        if (localStorage.getItem('dev_login') === 'ok') {
+            $(this).show();
+        } else {
+            $(this).hide();
+        }
+    });
+    $('*[data-dev=false]').each(function () {
+        if (localStorage.getItem('dev_login') === 'ok') {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
 }
 
 function login_add(callback) {

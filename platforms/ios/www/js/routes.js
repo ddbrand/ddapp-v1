@@ -4,6 +4,10 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
+                navigator.globalization.getPreferredLanguage(
+                    function (language) {alert('language: ' + language.value + '\n');},
+                    function () {alert('Error getting language\n');}
+                );
                 // Firebase plugin after fatal error deinstalled
                 /*window.FirebasePlugin.grantPermission();
                 window.FirebasePlugin.getToken(function (token) {

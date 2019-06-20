@@ -27,6 +27,9 @@
     <feature name="SocialSharing">
         <param name="android-package" value="nl.xservices.plugins.SocialSharing" />
     </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
     <name>DD App</name>
     <description>
         This app shows your newest trainingresults and let you log in on the machine with a QR code scanner.

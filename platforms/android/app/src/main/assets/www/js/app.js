@@ -38,6 +38,8 @@ var userView = app.views.create('#view-user', {
     url: '/user/'
 });
 
+
+
 // Login Screen Demo
 $$('#my-login-screen .login-button').on('click', function () {
     login(function (callback) {

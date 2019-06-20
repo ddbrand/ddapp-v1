@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="page-content">
-        <h2 class="pagetitle">Your profile, <span class="insert-username"></span></h2>
+        <h2 data-string="yourprofile" class="pagetitle translate">Your profile, <span class="insert-username"></span></h2>
         <div class="seperator">
             <div class="blue"></div>
             <div class="red"></div>
@@ -13,24 +13,24 @@
         <div class="list links-list toplist">
             <ul>
                 <!--<li><a href="/timeline/">My Timeline</a></li>-->
-                <li><a href="/changeuser/">Change User</a></li>
+                <li><a data-string="changeuser" href="/changeuser/" class="translate">Change User</a></li>
                 <!-- // TODO: devmode für 1.2.0a beenden -->
-                <li data-dev="true"><a class="resettrainingplans" href="#">Reset Selected Workouts</a></li>
-                <li><a href="#" class="logout">Logout</a></li>
+                <li data-dev="true"><a data-string="resetplans" class="resettrainingplans translate" href="#">Reset Selected Workouts</a></li>
+                <li><a data-string="logout" href="#" class="logout translate">Logout</a></li>
             </ul>
         </div>
-        <div class="block-title">Settings</div>
+        <div data-string="settings" class="block-title translate">Settings</div>
         <div class="list simple-list settingslist">
             <ul>
                 <li>
-                    <span>Enable Push Notifications</span>
+                    <span data-string="enablepush" class="translate">Enable Push Notifications</span>
                     <label class="toggle toggle-init color-red">
                         <input type="checkbox" class="pushy">
                         <span class="toggle-icon"></span>
                     </label>
                 </li>
                 <li>
-                    <span>Enable Dark Mode</span>
+                    <span data-string="enabledark" class="translate">Enable Dark Mode</span>
                     <label class="toggle toggle-init color-red">
                         <input type="checkbox" class="darkmode">
                         <span class="toggle-icon"></span>
@@ -40,7 +40,7 @@
             <p style="text-align: center;opacity: 0.5;font-size: 12px;">
                 <!-- // TODO: devmode für 1.2.0a beenden -->
                 <i data-dev="true" class="devmode">DD App version 1.2.0a</i>
-                <i data-dev="false" class="devmode">DD App version 1.1.5</i>
+                <i data-dev="false" class="devmode">DD App version 1.1.6</i>
                 <br /><br /><br /><br />
             </p>
             <div class="row">
