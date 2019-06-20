@@ -148,6 +148,14 @@ $$(document).on('page:init', function (e) {
     });
 
     $$('.leaderboardback').on('click', function () {
+        var traintitle = localStorage.getItem('traintitle');
+        var maintitle = traintitle.split('[')[0];
+        var subtitle = traintitle.split('[').pop().split(']')[0]; // returns 'two'
+
+        $('.traintitle').html(maintitle);
+        if(traintitle !== subtitle) {
+            $('.trainsubtitle').html(subtitle);
+        }
         statsView.router.back('/training_detail/', {force: true, ignoreCache: true, animate: true})
     });
 
@@ -168,10 +176,6 @@ $$(document).on('page:init', function (e) {
         app.tab.show("#view-plans", true);
         e.preventDefault();
     });
-});
-
-$$(document).on('page:init', '.page[data-name="authbox"]', function (e) {
-
 });
 
 $$(document).on('page:init', '.page[data-name="user"]', function (e) {

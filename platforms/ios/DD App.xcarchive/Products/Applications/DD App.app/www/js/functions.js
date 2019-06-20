@@ -218,6 +218,7 @@ function displayContents(err, text) {
                             //app.tab.show("#view-home", true);
                             homeView.router.navigate('/', {reloadAll: true, animate: true});
                             $('.toolbar-bottom').show();
+                            app.toolbar.show('.toolbar-bottom', true);
                             QRScanner.destroy();
                             QRScanner.cancelScan();
                             QRScanner.hide();

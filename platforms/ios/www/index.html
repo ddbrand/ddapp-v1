@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/app.css">
 
 </head>
-<body>
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
 <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
@@ -91,7 +91,7 @@
                 <!--<a data-dev="true" href="#view-plans" class="tab-link">
                     <i class="icon f7-icons material-icons">list</i>
                     <i class="icon f7-icons ios-only icon-ios-fill">list</i>
-                    <span class="tabbar-label">Trainingplans</span>
+                    <span class="tabbar-label">Workouts</span>
                 </a>-->
                 <!-- // TODO: devmode für 1.2.0a beenden -->
                 <a href="#view-plans" class="tab-link">
@@ -142,14 +142,14 @@
                     <div class="nav_button">
                         <a class="cameramode link" href="/scan/">
                             <i class="icon material-icons">camera_enhance</i>
-                            <span class="linklabel">Connect with the robot</span>
+                            <span class="linklabel">QR-Code Login</span>
                         </a>
                     </div>
                     <div class="nav_button">
                         <a href="/stats/" class="showstats" data-view="#view-stats">
                             <i class="icon f7-icons ios-only">bars_chart</i>
                             <i class="icon material-icons md-only">bar_chart</i>
-                            <span class="linklabel">View training activity</span>
+                            <span class="linklabel">View Your Activity</span>
                         </a>
                     </div>
                     <!--<div class="nav_button">
@@ -166,7 +166,7 @@
                         <a href="/stories/" class="showplans" data-view="#view-plans">
                             <i class="icon f7-icons ios-only">star</i>
                             <i class="icon material-icons md-only">star</i>
-                            <span class="linklabel">Browse spotlights</span>
+                            <span class="linklabel">Check Out Spotlights</span>
                         </a>
                     </div>
                     <div data-dev="true" class="nav_button">
@@ -174,7 +174,7 @@
                         <a href="/plans/" class="showplans" data-view="#view-plans">
                             <i class="icon f7-icons ios-only">list</i>
                             <i class="icon material-icons md-only">list</i>
-                            <span class="linklabel">Set trainingplans</span>
+                            <span class="linklabel">Browse Workouts</span>
                         </a>
                     </div>
 
@@ -351,7 +351,7 @@
     <div class="view">
         <div class="page">
             <div class="page-content login-screen-content">
-                <div class="login-screen-title">Add new login</div>
+                <div class="login-screen-title">Add User</div>
                 <div class="right">
                     <a href="#" class="link login-close login-add-close"><i class="icon material-icons">close</i></a>
                 </div>
@@ -427,6 +427,18 @@
 
 <!-- Your custom app scripts -->
 <script src="js/app.js"></script>
+<script>
 
+                var self = this;
+                if (self.loading) ;
+                self.$setState({
+                    effect: effect,
+                    loading: true,
+                });
+                setTimeout(function() {
+                    self.$setState({ loading: false });
+                }, 3000);
+
+</script>
 </body>
 </html>

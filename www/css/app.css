@@ -4,6 +4,9 @@
 a {
   color: #58595b;
 }
+html {
+  -webkit-user-select: none;
+}
 /* Your app styles here */
 .subplansbreadcrumb, .plansbreadcrumb {
   display: block;
@@ -227,6 +230,9 @@ h2.pagetitle {
   display: inline-block;
   margin-top: -8px;
   margin-right: 15px;
+}
+.nav_button .cameramode i {
+  margin-top: 0;
 }
 .nav_button span {
   font-size: 18px;

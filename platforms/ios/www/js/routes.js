@@ -130,7 +130,13 @@ routes = [
                 $.ajax({
                     url: "https://ddrobotec.com/grafana/detail_pull_report.php?username=" + username + "&title=" + traintitle + "&dataid=" + clickedid,
                 }).done(function (result) {
-                    $('.traintitle').html(localStorage.getItem('traintitle'));
+                    var traintitle = localStorage.getItem('traintitle');
+                    var maintitle = traintitle.split('[')[0];
+                    var subtitle = traintitle.split('[').pop().split(']')[0]; // returns 'two'
+                    $('.traintitle').html(maintitle);
+                    if(traintitle !== subtitle) {
+                        $('.trainsubtitle').html(subtitle);
+                    }
                     $('.detailoverview').html(result);
                     $.ajax({
                         url: "https://ddrobotec.com/grafana/detail_topscore.php?title=" + traintitle,
@@ -139,18 +145,25 @@ routes = [
                         var score = $('.myscore').attr('data-score');
                         var topscore = $('.topscore').attr('data-topscore');
                         var realdez = clickedscore / topscore;
+                        if (localStorage.getItem('theme') === 'theme-dark') {
+                            var bigbordercolor = '#d7d760';
+                            var bigbgbordercolor = 'rgba(215, 215, 96, 0.3)';
+                        } else {
+                            var bigbordercolor = '#58595b';
+                            var bigbgbordercolor = 'rgba(88, 89, 91, 0.3)';
+                        }
                         var demoGauge = app.gauge.create({
                             el: '.score',
                             type: 'circle',
                             value: realdez,
                             size: 250,
-                            borderColor: '#fbfbb9',
-                            borderBgColor: 'rgba(251,251,185, 0.3)',
+                            borderColor: bigbordercolor,
+                            borderBgColor: bigbgbordercolor,
                             borderWidth: 10,
                             valueText: clickedscore,
                             valueFontSize: 41,
-                            valueTextColor: '#fbfbb9',
-                            labelText: 'Points from ' + topscore + ' topscore',
+                            valueTextColor: bigbordercolor,
+                            labelText: 'out of ' + topscore + ' points topscore',
                         });
                         var trainingid = localStorage.getItem('traintitle');
 
@@ -168,11 +181,11 @@ routes = [
                                 el: '.leftgauge',
                                 type: 'semicircle',
                                 value: circlevalue,
-                                borderWidth: 7,
+                                borderWidth: 10,
                                 borderColor: '#97d3cc',
                                 borderBgColor: 'rgba(151,211,204,0.3)',
                                 valueText: circletext,
-                                valueFontSize: 22,
+                                valueFontSize: 28,
                                 valueTextColor: '#97d3cc',
                                 labelText: 'your rank',
                             });
@@ -182,11 +195,11 @@ routes = [
                                 el: '.rightgauge',
                                 type: 'semicircle',
                                 value: scorevalue,
-                                borderWidth: 7,
+                                borderWidth: 10,
                                 borderColor: '#ef763e',
                                 borderBgColor: 'rgba(239,118,62,0.3)',
                                 valueText: mybestscore,
-                                valueFontSize: 22,
+                                valueFontSize: 28,
                                 valueTextColor: '#ef763e',
                                 labelText: 'your personal best',
                             });
@@ -219,19 +232,13 @@ routes = [
                                         var onError = function (msg) {
                                             alert("Sharing failed with message: " + msg);
                                         };
-
                                         window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
-
                                     }
                                 }, 'png', 60);
-
-
                             });
                         });
                     });
-
                 });
-
                 $$('.leaderboardlink').on('click', function () {
                     var fetcher = $(this).attr('data-fetch');
                     localStorage.setItem('leaderboardfetch', fetcher);
@@ -245,11 +252,19 @@ routes = [
         url: './pages/leaderboard.html',
         on: {
             pageInit: function (event, page) {
+                var username = localStorage.getItem('username');
                 var traintitle = localStorage.getItem('traintitle');
+                var maintitle = traintitle.split('[')[0];
+                var subtitle = traintitle.split('[').pop().split(']')[0]; // returns 'two'
                 var leaderboardfetch = localStorage.getItem('leaderboardfetch');
-                $$('h2.traintitle').html(traintitle + ' ' + leaderboardfetch);
+
+                $('.traintitle').html(maintitle + ' ' + leaderboardfetch);
+                if(traintitle !== subtitle) {
+                    $('.trainsubtitle').html(subtitle);
+                }
+
                 $.ajax({
-                    url: "https://ddrobotec.com/grafana/testy.php?trainingid=" + traintitle + "&fetch=" + leaderboardfetch + "&page=4",
+                    url: "https://ddrobotec.com/grafana/testy.php?trainingid=" + traintitle + "&username=" + username + "&fetch=" + leaderboardfetch + "&page=4",
                 }).done(function (result) {
                     $$('.leaderboard').html(result);
                 });
