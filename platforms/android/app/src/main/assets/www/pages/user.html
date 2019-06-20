@@ -20,23 +20,45 @@
             </ul>
         </div>
         <div data-string="settings" class="block-title translate">Settings</div>
-        <div class="list simple-list settingslist">
+        <div class="list links-list">
             <ul>
                 <li>
-                    <span data-string="enablepush" class="translate">Enable Push Notifications</span>
-                    <label class="toggle toggle-init color-red">
-                        <input type="checkbox" class="pushy">
-                        <span class="toggle-icon"></span>
-                    </label>
+                    <a class="item-link smart-select smart-select-init">
+                        <select name="languages">
+                            <option data-strings="english" value="en" class="translate">Englisch</option>
+                            <option data-strings="german" value="de" class="translate">Deutsch</option>
+                        </select>
+                        <div class="item-content no-chevron">
+                            <div class="item-inner">
+                                <div data-strings="language" class="item-title setleft translate">Sprache</div>
+                            </div>
+                        </div>
+                    </a>
                 </li>
                 <li>
-                    <span data-string="enabledark" class="translate">Enable Dark Mode</span>
-                    <label class="toggle toggle-init color-red">
-                        <input type="checkbox" class="darkmode">
-                        <span class="toggle-icon"></span>
-                    </label>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <span data-string="enablepush" class="item-title translate">Enable Push Notifications</span>
+                            <label class="toggle toggle-init color-red">
+                                <input type="checkbox" class="pushy">
+                                <span class="toggle-icon"></span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                            <span data-string="enabledark" class="translate">Enable Dark Mode</span>
+                            <label class="toggle toggle-init color-red">
+                                <input type="checkbox" class="darkmode">
+                                <span class="toggle-icon"></span>
+                            </label>
+                        </div>
+                    </div>
                 </li>
             </ul>
+        </div>
             <p style="text-align: center;opacity: 0.5;font-size: 12px;">
                 <!-- // TODO: devmode für 1.2.0a beenden -->
                 <i data-dev="true" class="devmode">DD App version 1.2.0a</i>

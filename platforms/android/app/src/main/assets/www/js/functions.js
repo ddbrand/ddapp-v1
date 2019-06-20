@@ -25,7 +25,7 @@ function autologin(callback) {
         success: function (data) {
             if (data.success === false) {
                 var toastCenter = app.toast.create({
-                    text: 'Sie konnten nicht erfolgreich eingeloggt werden. Bitte versuchen Sie es erneut.',
+                    text: translate_strings('failedlogin'),
                     position: 'top',
                     closeTimeout: 12000,
                 });
@@ -118,7 +118,7 @@ function dev_autologin(callback) {
         success: function (data) {
             if (data.success === false) {
                 var toastCenter = app.toast.create({
-                    text: 'You could not be successfully logged in as a developer. Please try again or disable the developer mode.',
+                    text: translate_strings('faileddevlogin'),
                     position: 'top',
                     closeTimeout: 12000,
                     closeButton: true
@@ -234,7 +234,7 @@ function displayContents(err, text) {
                 // Send payload
                 xhr.send(data);
                 var toastCenter = app.toast.create({
-                    text: 'You are successfully logged in.',
+                    text: translate_strings('successlogin'),
                     position: 'top',
                     closeTimeout: 4000,
                 });
@@ -316,7 +316,7 @@ function login_add(callback) {
                 callback(false);
             } else {
                 var toastCenter = app.toast.create({
-                    text: 'You have successfully added another account.',
+                    text: translate_strings('successaddeduser'),
                     position: 'top',
                     closeButton: true,
                     closeTimeout: 4000,
@@ -388,7 +388,7 @@ function pullalltrainings() {
         if (this.readyState === 4) {
             var response_obj = JSON.parse(this.responseText);
             if(response_obj.success == false) {
-                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+                //$('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
             } else {
                 var checkedcategories = [];
                 var valuearray = {};
@@ -458,7 +458,11 @@ function pullalltrainings() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    if(localStorage.getItem('language') == 'de_CH') {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+    } else {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -472,7 +476,7 @@ function trainingplans() {
         if (this.readyState === 4) {
             var response_obj = JSON.parse(this.responseText);
             if(response_obj.success == false) {
-                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+               // $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
             } else {
                 var checkedcategories = [];
                 var valuearray = {};
@@ -510,7 +514,11 @@ function trainingplans() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    if(localStorage.getItem('language') == 'de_CH') {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+    } else {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -524,7 +532,7 @@ function subcat() {
         if (this.readyState === 4) {
             var response_obj = JSON.parse(this.responseText);
             if(response_obj.success == false) {
-                $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
+               // $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
             } else {
                 var checkedcategories = [];
                 var valuearray = {};
@@ -559,7 +567,11 @@ function subcat() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    if(localStorage.getItem('language') == 'de_CH') {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+    } else {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -671,7 +683,7 @@ function planchoice() {
                     var finalplans = myplans.concat(currentplans);
                     if ($.inArray(planid, finalplans) !== -1) {
                         var toastCenter = app.toast.create({
-                            text: 'You have already selected this plan.',
+                            text: translate_strings('selectedplan'),
                             position: 'top',
                             closeButton: true,
                             closeTimeout: 3000,
@@ -693,7 +705,11 @@ function planchoice() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    if(localStorage.getItem('language') == 'de_CH') {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+    } else {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
@@ -760,7 +776,11 @@ function showmyplans() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    if(localStorage.getItem('language') == 'de_CH') {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+    } else {
+        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+    }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");

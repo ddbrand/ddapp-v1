@@ -1,16 +1,28 @@
 function translate_strings(key, value, value2) {
-    if(localStorage.getItem('language') === 'de-CH') {
+    if(localStorage.getItem('language') === 'de') {
         var Messages = {
             home: "Home",
             activity: "Aktivität",
             spotlights: "Spotlights",
             profile: "Profil",
+            login: "Einloggen",
+            register: "Registrieren",
+            username: "Benutzername",
+            yourusername: "Dein Benutzername",
+            password: "Passwort",
+            yourpassword: "Dein Passwort",
+            signin: "Einloggen",
+            qrcodescanfailed: "QR-Code Login ist fehlgeschlagen",
+            qrcodescanfailedcopy: "Der gescannte QR-Code scheint ungültig zu sein. Versuche es erneut.",
+            close: "Schliessen",
+            developerlogin: "Entwickler Login",
+            authboxtitle: "Brain-Muscle Training",
             starttitle: "Bereit für dein Training, <span class=\"insert-username\"></span>?",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "Aktivitätsübersicht",
             checkoutspotlights: "Spotlights",
             browseworkouts: "Workouts",
-            qrcodehint: "Scannen Sie den QR-Code, der auf dem Anmeldebildschirm des DD-Systems angezeigt wird, um sich mit dem Robotic Personal Trainer zu verbinden.",
+            qrcodehint: "Scanne den QR-Code, der auf dem Anmeldebildschirm des DD-Systems angezeigt wird, um dich mit dem Robotic Personal Trainer zu verbinden.",
             youractivity: "Deine Aktivitäten",
             activityintro: "Übersicht über Ihre Trainingsaktivitäten der letzten 30 Tage:",
             biggaugelabel: "von " + value + ' Punkte des Topscores',
@@ -23,18 +35,37 @@ function translate_strings(key, value, value2) {
             leaderboardall: 'Leaderboard Alle',
             yourprofile: "Dein Profil, <span class=\"insert-username\"></span>",
             developermode: 'Entwickler Modus',
-            changeuser: 'User wechseln',
+            changeuser: 'Benutzer wechseln',
             resetplans: "Meine Trainingspläne zurücksetzen",
             logout: "Ausloggen",
             settings: "Einstellungen",
             enablepush: "Push Benachrichtigungen zulassen",
             enabledark: "Dark Mode aktivieren",
-            useroverview: "User Übersicht",
-            useroverviewintro: "Klicken Sie auf einen anderen Benutzernamen, um Ihr aktuelles Konto zu wechseln oder andere Konten hinzuzufügen.",
+            useroverview: "Benutzer Übersicht",
+            useroverviewintro: "Klick auf einen anderen Benutzernamen, um dein aktuelles Konto zu wechseln oder füge andere Konten hinzu.",
             currentuser: "Aktiver User: <span class=\"insert-username\"></span>",
-            adduser: "User hinzufügen",
+            adduser: "Benutzer hinzufügen",
             passwordforget: "Passwort vergessen?",
             registernewaccount: "Neues Konto erstellen",
+            notrainingactivity: "Du hast in den letzten 30 Tagen kein Training abgeschlossen.",
+            enablecamerasupport: "Bitte aktiviere die Kameraberechtigung in den Einstellungen für die DD App.",
+            successlogout: "Du wurdest erfolgreich ausgeloggt.",
+            enableddevmode: "Der Entwickler Modus wurde aktiviert. Sie können nun unveröffentlichte Funktionen in Ihrer App testen. Sie benötigen ein Entwickleraccount auf dem DD data-manager Dev Server.",
+            disableddevmode: "Entwicker Modus wurde deaktiviert.",
+            disable: "Deaktivieren",
+            remove: "Entfernen",
+            successremoveuser: "Benutzer wurde erfolgreich vom Gerät entfernt.",
+            failedlogin: "Du konntest leider nicht erfolgreich eingeloggt werden. Versuche es erneut.",
+            faileddevlogin: "Du konntest nicht erfolgreich als Entwickler angemeldet sein. Bitte versuchen Sie es erneut oder deaktivieren Sie den Entwicklermodus.",
+            userchanged: "Benutzer wurde erfolgreich gewechselt.",
+            successlogin: "Du wurdest erfolgreich eingeloggt.",
+            successdevlogin: "Du wurdest erfolgreich als Entwickler eingeloggt.",
+            successaddeduser: "Neuer Benutzer wurde erfolgreich deinem Gerät hinzugefügt.",
+            selectedplan: "Dieses Workout wurde bereits hinzugefügt.",
+            resetedworkouts: "Deine Workouts wurden erfolgreich zurückgesetzt.",
+            language: "Sprache",
+            english: "Englisch",
+            german: "Deutsch"
         };
     } else {
         var Messages = {
@@ -42,6 +73,18 @@ function translate_strings(key, value, value2) {
             activity: "Activity",
             spotlights: "Spotlights",
             profile: "Profile",
+            login: "Login",
+            register: "Register",
+            username: "Username",
+            yourusername: "Your username",
+            password: "Password",
+            yourpassword: "Your password",
+            signin: "Sign in",
+            qrcodescanfailed: "QR Code login failed",
+            qrcodescanfailedcopy: "The QR code you have scanned seems to be invalid. Close this popup and try it again.",
+            close: "Close",
+            developerlogin: "Developer Login",
+            authboxtitle: "Brain-Muscle Training",
             starttitle: "Ready for your training, <span class=\"insert-username\"></span>?",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "View Your Activity",
@@ -72,12 +115,36 @@ function translate_strings(key, value, value2) {
             adduser: "Add User",
             passwordforget: "Password forget?",
             registernewaccount: "Register new account",
+            notrainingactivity: "No training has been completed in the last 30 days.",
+            enablecamerasupport: "Please enable camera support in your settings for the DD App.",
+            successlogout: "Logout was successful. See you later!",
+            enableddevmode: "Dev mode has been enabled. You can now test unpublished functions in your app with the dev mode. You need a developer account on the DD data-manager dev server.",
+            disableddevmode: "Developer mode is disabled.",
+            disable: "Disable",
+            remove: "Remove",
+            successremoveuser: "User was successfully removed from your device.",
+            failedlogin: "You could not be successfully logged in. Please try again.",
+            faileddevlogin: "You could not be successfully logged in as a developer. Please try again or disable the developer mode.",
+            userchanged: "Login was changed successfully.",
+            successlogin: "You are successfully logged in.",
+            successaddeduser: "You have successfully added another account.",
+            selectedplan: "You have already selected this plan.",
+            successdevlogin: "You are successfully logged in as a developer.",
+            resetedworkouts: "Workouts were successfully reseted",
+            language: "Language",
+            english: "English",
+            german: "German"
         };
     }
 
     $('.translate').each(function () {
         var stringtitle = $$(this).attr('data-string');
-        $$(this).html(Messages[stringtitle]);
+
+        if($(this).is('[placeholder]')) {
+            $$(this).attr('placeholder', Messages[stringtitle]);
+        } else {
+            $$(this).html(Messages[stringtitle]);
+        }
     });
 
     if(key) {

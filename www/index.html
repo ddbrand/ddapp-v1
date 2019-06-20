@@ -32,37 +32,7 @@
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
     <!-- Left panel with cover effect-->
-    <div class="panel panel-left panel-cover theme-dark">
-        <div class="view">
-            <div class="page" data-name="index">
-                <div class="navbar">
-                    <div class="navbar-inner">
-                        <div class="title">Left Panel</div>
-                    </div>
-                </div>
-                <div class="page-content">
-                    <div class="block">Left panel content goes here</div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Right panel with reveal effect-->
-    <div class="panel panel-right panel-reveal theme-dark">
-        <div class="view">
-            <div class="page">
-                <div class="navbar">
-                    <div class="navbar-inner">
-                        <div class="title">Right Panel</div>
-                    </div>
-                </div>
-                <div class="page-content">
-                    <div class="block">Right panel content goes here</div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Views/Tabs container -->
 
     <div class="views tabs tabs-routable safe-areas">
         <!-- Tabbar for switching views-tabs -->
@@ -177,7 +147,6 @@
                             <span data-string="browseworkouts" class="linklabel translate"></span>
                         </a>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -203,29 +172,20 @@
     </div>
         </div>
 
-    <!-- Scan failed Popup -->
-    <div class="popup popup-plans">
-        <div class="block">
-            <p>Plan added</p>
-            <!-- Close Popup -->
-            <p><a class="link popup-close" href="#">Close popup</a></p>
-            <p>Lorem ipsum dolor sit amet...</p>
-        </div>
-    </div>
     <div class="popup" id="failed-scan-popup">
         <div class="view">
             <div class="page">
                 <div class="navbar">
                     <div class="navbar-inner">
-                        <div class="title">QR Code login failed</div>
+                        <div data-string="qrcodescanfailed" class="title translate">QR Code login failed</div>
                         <div class="right">
-                            <a href="#" class="link popup-close">Close</a>
+                            <a href="#" data-string="close" class="link popup-close translate">Close</a>
                         </div>
                     </div>
                 </div>
                 <div class="page-content">
                     <div class="block">
-                        <p>The QR code you have scanned seems to be invalid. Close this popup and try it again.</p>
+                        <p data-string="qrcodescanfailedcopy" class="translate">The QR code you have scanned seems to be invalid. Close this popup and try it again.</p>
                     </div>
                 </div>
             </div>
@@ -237,7 +197,7 @@
         <div class="view">
             <div class="page">
                 <div class="page-content login-screen-content">
-                    <div class="login-screen-title">Login</div>
+                    <div data-string="login" class="login-screen-title translate">Login</div>
                     <div class="right">
                         <a href="#" class="link login-close"><i class="icon material-icons">close</i></a>
                     </div>
@@ -249,9 +209,9 @@
                         <ul>
                             <li class="item-content item-input">
                                 <div class="item-inner">
-                                    <div class="item-title item-label">Username</div>
+                                    <div data-string="username" class="item-title item-label translate">Username</div>
                                     <div class="item-input-wrap">
-                                        <input type="text" name="username" placeholder="Your username">
+                                        <input data-string="yourusername" class="translate" type="text" name="username" placeholder="Your username">
                                     </div>
                                 </div>
                             </li>
@@ -265,9 +225,9 @@
                             </li>-->
                             <li class="item-content item-input">
                                 <div class="item-inner">
-                                    <div class="item-title item-label">Password</div>
+                                    <div data-string="password" class="item-title item-label translate">Password</div>
                                     <div class="item-input-wrap">
-                                        <input type="password" name="password" placeholder="Your password">
+                                        <input data-string="yourpassword" class="translate" type="password" name="password" placeholder="Your password">
                                     </div>
                                 </div>
                             </li>
@@ -276,13 +236,13 @@
                     <div class="list">
                         <ul>
                             <li>
-                                <a href="#" class="item-link list-button login-button">Sign In</a>
+                                <a href="#" data-string="signin"  class="item-link list-button login-button translate">Sign In</a>
                             </li>
                         </ul>
-                        <div class="block-footer"><a href="#"
+                        <div class="block-footer"><a href="#" data-string="registernewaccount" class="translate"
                                                      onclick="window.open('https://ddrobotec.com/register', '_system'); return false;">Register
                             free DD Account</a><br/>
-                            <a href="#"
+                            <a href="#" data-string="passwordforget" class="translate"
                                onclick="window.open('https://ddrobotec.com/password-forget', '_system'); return false;">Password
                                 forget?</a><br/>
                         </div>
@@ -300,7 +260,7 @@
     <div class="view">
         <div class="page">
             <div class="page-content login-screen-content">
-                <div class="login-screen-title">Developer Login</div>
+                <div data-string="developerlogin" class="login-screen-title translate">Developer Login</div>
                 <div class="right">
                     <a href="#" class="link login-close dev-login-close"><i class="icon material-icons">close</i></a>
                 </div>
@@ -312,9 +272,9 @@
                     <ul>
                         <li class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Username</div>
+                                <div data-string="username" class="item-title item-label translate">Username</div>
                                 <div class="item-input-wrap">
-                                    <input type="text" name="username" placeholder="Your username">
+                                    <input data-string="yourusername" class="translate" type="text" name="username" placeholder="Your username">
                                 </div>
                             </div>
                         </li>
@@ -328,9 +288,9 @@
                         </li>-->
                         <li class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Password</div>
+                                <div data-string="password" class="item-title item-label translate">Password</div>
                                 <div class="item-input-wrap">
-                                    <input type="password" name="password" placeholder="Your password">
+                                    <input data-string="yourpassword" class="translate" type="password" name="password" placeholder="Your password">
                                 </div>
                             </div>
                         </li>
@@ -339,7 +299,7 @@
                 <div class="list">
                     <ul>
                         <li>
-                            <a href="#" class="item-link list-button login-button">Sign In</a>
+                            <a href="#" data-string="signin" class="item-link list-button login-button translate">Sign In</a>
                         </li>
                     </ul>
                 </div>
@@ -351,7 +311,7 @@
     <div class="view">
         <div class="page">
             <div class="page-content login-screen-content">
-                <div class="login-screen-title">Add User</div>
+                <div data-string="adduser" class="login-screen-title translate">Add User</div>
                 <div class="right">
                     <a href="#" class="link login-close login-add-close"><i class="icon material-icons">close</i></a>
                 </div>
@@ -363,9 +323,9 @@
                     <ul>
                         <li class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Username</div>
+                                <div data-string="username" class="item-title item-label translate">Username</div>
                                 <div class="item-input-wrap">
-                                    <input type="text" name="username" placeholder="Your username">
+                                    <input data-string="yourusername" class="translate" type="text" name="username" placeholder="Your username">
                                 </div>
                             </div>
                         </li>
@@ -379,9 +339,9 @@
                         </li>-->
                         <li class="item-content item-input">
                             <div class="item-inner">
-                                <div class="item-title item-label">Password</div>
+                                <div data-string="password" class="item-title item-label translate">Password</div>
                                 <div class="item-input-wrap">
-                                    <input type="password" name="password" placeholder="Your password">
+                                    <input data-string="yourpassword" class="translate" type="password" name="password" placeholder="Your password">
                                 </div>
                             </div>
                         </li>
@@ -390,26 +350,21 @@
                 <div class="list">
                     <ul>
                         <li>
-                            <a href="#" class="item-link list-button login-add-button">Sign In</a>
+                            <a href="#" data-string="signin" class="item-link list-button login-add-button translate">Sign In</a>
                         </li>
                     </ul>
-                    <div class="block-footer"><a href="#"
+                    <div class="block-footer"><a href="#" data-string="registernewaccount" class="translate"
                                                  onclick="window.open('https://ddrobotec.com/register', '_system'); return false;">Register
                         free DD Account</a><br/>
-                        <a href="#"
+                        <a href="#" data-string="passwordforget" class="translate"
                            onclick="window.open('https://ddrobotec.com/password-forget', '_system'); return false;">Password
-                            forget?</a><br/></div>
-                </div>
+                            forget?</a><br/>
+                    </div>
             </div>
         </div>
     </div>
 </div>
 </div>
-<!-- Cordova -->
-<!--
-<script src="cordova.js"></script>
--->
-
 <!-- Cordova core -->
 <script src="cordova.js"></script>
 
@@ -422,7 +377,7 @@
 <!-- Functions library -->
 <script src="js/functions.js"></script>
 
-
+<!-- Language packages with translate function -->
 <script src="js/i18n.js"></script>
 
 <!-- App routes -->

@@ -5,8 +5,15 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 navigator.globalization.getPreferredLanguage(
-                    function (language) {/*alert(language.value);*/ localStorage.setItem('language', language.value);},
-                    function () { localStorage.setItem('language', 'en-US'); }
+                    function (language) {/*alert(language.value);*/
+                        var lang = language.value;
+                        if(localStorage.getItem('languages_i') === null){
+                            localStorage.setItem('language', lang.slice(0, 2));
+                        } else {
+                            localStorage.setItem('language', localStorage.getItem('languages_i'));
+                        }
+                        },
+                    function () { localStorage.setItem('language', 'en'); }
                 );
                 translate_strings();
                 // Firebase plugin after fatal error deinstalled
@@ -63,6 +70,7 @@ routes = [
         url: './pages/authbox.html',
         on: {
             pageAfterIn: function (event, page) {
+                translate_strings();
                 $$('.login-close').on('click', function () {
                     app.loginScreen.close('#my-login-screen');
                 });
@@ -92,7 +100,7 @@ routes = [
                     url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
                 }).done(function (result) {
                     if (result === '') {
-                        $$('.pullreport').html('<p style="padding: 25px;">No training has been completed in the last 30 days.</p>')
+                        $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
                     } else {
                         $$('.pullreport').html('');
                         $$('.pullreport').html(result);
@@ -318,7 +326,7 @@ routes = [
 
                     } else if (status.denied) {
                         QRScanner.openSettings();
-                        alert('Please enable camera support in your settings for the DD App.');
+                        alert(translate_strings('enablecamerasupport'));
                         // The video preview will remain black, and scanning is disabled. We can
                         // try to ask the user to change their mind, but we'll have to send them
                         // to their device settings with ``.
@@ -362,10 +370,22 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+                $$('select[name=languages]').on('change', function() {
+                    localStorage.setItem('languages_i', this.value);
+                    translate_strings();
+                    var initialHref = window.location.href;
+                    function restartApplication() {
+                        // Show splash screen (useful if your app takes time to load)
+                        // Reload original app url (ie your index.html file)
+                        window.location = initialHref;
+                    }
+                    restartApplication();
+                });
+                $$('select[name=languages]').val(localStorage.getItem('language'));
                 $$('.logout').on('click', function () {
                     localStorage.clear();
                     var toastCenter = app.toast.create({
-                        text: 'Logout was successfull. See you later!',
+                        text: translate_strings('successlogout'),
                         position: 'top',
                         closeTimeout: 4000,
                     });
@@ -380,9 +400,7 @@ routes = [
                     } else {
                         // when devmode is disabled, fire this toast and the function
                         var toastCenter = app.toast.create({
-                            text: 'Dev mode has been enabled. You can now test unpublished ' +
-                                'functions in your app with the dev mode. You need a developer ' +
-                                'account on the DD data-manager dev server.',
+                            text: translate_strings('enableddevmode'),
                             closeTimeout: 12000,
                             closeButton: true
                         });
@@ -395,7 +413,7 @@ routes = [
                             '</a>' +
                             '</div>' +
                             '<div class="swipeout-actions-right">\n' +
-                            '    <a href="#" class="swipeout-delete no-chevron disabledev">Disable</a>\n' +
+                            '    <a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
                             '  </div>' +
                             '    </li>');
                         localStorage.setItem('devmode', 'true');
@@ -424,7 +442,7 @@ routes = [
                         '</a>' +
                         '</div>' +
                         '<div class="swipeout-actions-right">\n' +
-                        '    <a href="#" class="swipeout-delete no-chevron disabledev">Disable</a>\n' +
+                        '    <a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
                         '  </div>' +
                         '    </li>');
                 }
@@ -452,7 +470,7 @@ routes = [
                     localStorage.removeItem('dev_pass');
                     $$('.toplist ul .devsettings').remove();
                     var toastCenter = app.toast.create({
-                        text: 'Developer mode is disabled. :)',
+                        text: translate_strings('disableddevmode'),
                         closeTimeout: 6000,
                         closeButton: true
                     });
@@ -578,7 +596,7 @@ routes = [
                             '                            </div>\n' +
                             '                        </div>\n' +
                             '                    </a><div class="swipeout-actions-right">\n' +
-                            '        <a href="#" data-storageattr="' + userkey[1] + '" class="userremove swipeout-delete">Remove</a>\n' +
+                            '        <a href="#" data-storageattr="' + userkey[1] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
                             '      </div>\n' +
                             '                </li>');
                     }
@@ -589,7 +607,7 @@ routes = [
                     localStorage.removeItem('email_' + storageattr);
                     localStorage.removeItem('pass_' + storageattr);
                     var toastCenter = app.toast.create({
-                        text: 'User was successfully removed from your device.',
+                        text: translate_strings('successremoveuser'),
                         position: 'top',
                         closeTimeout: 4000,
                     });
@@ -613,9 +631,10 @@ routes = [
                     localStorage.setItem('pass_' + datakey, oldpass);
                     localStorage.setItem('email_' + datakey, oldemail);
                     var toastCenter = app.toast.create({
-                        text: 'Login was changed successfully.',
+                        text: translate_strings('userchanged'),
                         position: 'top',
                         closeTimeout: 4000,
+                        closeButton: true
                     });
                     toastCenter.open();
                     //
@@ -636,7 +655,7 @@ routes = [
 
                         } else {
                             var toastCenter = app.toast.create({
-                                text: 'You could not be successfully logged in. Please try again.',
+                                text: translate_strings('failedlogin'),
                                 position: 'top',
                                 closeTimeout: 4000,
                             });

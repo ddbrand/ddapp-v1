@@ -45,7 +45,7 @@ $$('#my-login-screen .login-button').on('click', function () {
     login(function (callback) {
         if (callback === true) {
             var toastCenter = app.toast.create({
-                text: 'You have been successfully logged in.',
+                text: translate_strings('successlogin'),
                 position: 'top',
                 closeTimeout: 4000,
             });
@@ -60,7 +60,7 @@ $$('#my-login-screen .login-button').on('click', function () {
             });
         } else {
             var toastCenter = app.toast.create({
-                text: 'They could not be successfully logged in. Please try again.',
+                text: translate_strings('failedlogin'),
                 position: 'top',
                 closeTimeout: 4000,
             });
@@ -76,7 +76,7 @@ $$('#my-dev-login-screen .login-button').on('click', function () {
     dev_login(function (callback) {
         if (callback === true) {
             var toastCenter = app.toast.create({
-                text: 'You have been successfully logged in as a developer.',
+                text: translate_strings('successdevlogin'),
                 position: 'top',
                 closeTimeout: 5000,
             });
@@ -91,7 +91,7 @@ $$('#my-dev-login-screen .login-button').on('click', function () {
             });
         } else {
             var toastCenter = app.toast.create({
-                text: 'They could not be successfully logged in. Please try again.',
+                text: translate_strings('failedlogin'),
                 position: 'top',
                 closeTimeout: 4000,
             });
@@ -130,7 +130,7 @@ $$(document).on('page:init', function (e) {
     $$('.resettrainingplans').on('click', function () {
         localStorage.removeItem("myplans");
         var toastCenter = app.toast.create({
-            text: 'Trainingplans were successfully reseted',
+            text: translate_strings('resetedworkouts'),
             position: 'top',
             closeButton: true,
             closeTimeout: 3000,
@@ -183,24 +183,10 @@ $$(document).on('page:init', function (e) {
 $$(document).on('page:init', '.page[data-name="user"]', function (e) {
     $$('.pushy').on('change', function () {
         if ($(this).prop('checked')) {
-            var notificationFull = app.notification.create({
-                icon: '<img src="img/ic_silhouette.png" style="max-width: 20px;" />',
-                title: 'DD App',
-                titleRightText: 'now',
-                subtitle: 'Push notification enabled',
-                text: 'You have push notifications enabled.',
-                closeTimeout: 5000,
-            });
             notificationFull.open();
             localStorage.setItem('pushy', 'true');
         } else {
             localStorage.removeItem('pushy');
-            var toastCenter = app.toast.create({
-                text: 'Push notifications were successfully disabled.',
-                position: 'top',
-                closeTimeout: 4000,
-            });
-            toastCenter.open();
         }
     });
     $$('.darkmode').on('change', function () {
@@ -211,11 +197,5 @@ $$(document).on('page:init', '.page[data-name="user"]', function (e) {
             localStorage.removeItem('theme');
             $('body').removeClass('theme-dark');
         }
-
     });
-});
-
-// TODO: change the storypull url after going live with the new website
-$$(document).on('page:init', '.page[data-name="stories"]', function (e) {
-
 });
