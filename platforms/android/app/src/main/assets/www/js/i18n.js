@@ -65,7 +65,9 @@ function translate_strings(key, value, value2) {
             resetedworkouts: "Deine Workouts wurden erfolgreich zurückgesetzt.",
             language: "Sprache",
             english: "Englisch",
-            german: "Deutsch"
+            german: "Deutsch",
+            searchworkoutplans: "Durchsuche alle Workouts...",
+            workouts: "Workouts",
         };
     } else {
         var Messages = {
@@ -133,7 +135,9 @@ function translate_strings(key, value, value2) {
             resetedworkouts: "Workouts were successfully reseted",
             language: "Language",
             english: "English",
-            german: "German"
+            german: "German",
+            searchworkoutplans: "Search training plans...",
+            workouts: "Workouts",
         };
     }
 

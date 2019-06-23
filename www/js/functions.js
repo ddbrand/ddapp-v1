@@ -458,7 +458,7 @@ function pullalltrainings() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de_CH') {
+    if(localStorage.getItem('language') == 'de') {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
@@ -514,7 +514,7 @@ function trainingplans() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de_CH') {
+    if(localStorage.getItem('language') == 'de') {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
@@ -567,7 +567,7 @@ function subcat() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de_CH') {
+    if(localStorage.getItem('language') == 'de') {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
@@ -705,7 +705,7 @@ function planchoice() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de_CH') {
+    if(localStorage.getItem('language') == 'de') {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
@@ -776,7 +776,7 @@ function showmyplans() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de_CH') {
+    if(localStorage.getItem('language') == 'de') {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
         xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");

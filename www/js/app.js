@@ -24,16 +24,9 @@ var homeView = app.views.create('#view-home', {
 var statsView = app.views.create('#view-stats', {
     url: '/stats/',
 });
-// TODO: devmode für 1.2.0a beenden
-if (localStorage.getItem('dev_login') === 'ok') {
-    var plansView = app.views.create('#view-plans', {
-        url: '/plans/',
-    });
-} else {
-    var plansView = app.views.create('#view-plans', {
-        url: '/stories/',
-    });
-}
+var plansView = app.views.create('#view-plans', {
+    url: '/plans/',
+});
 var userView = app.views.create('#view-user', {
     url: '/user/'
 });
