@@ -37,6 +37,12 @@
     },
     "cordova-plugin-globalization": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-navigationbar-color": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
   "dependent_plugins": {

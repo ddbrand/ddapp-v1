@@ -412,9 +412,9 @@ function pullalltrainings() {
                                 '                                <div class="item-inner">\n' +
                                 '                                <div class="item-title-row">\n' +
                                 '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
-                                '                                <div class="item-after">' + thisplanunits + ' units</div>\n' +
+                                '                                <div class="item-after">' + thisplanunits + ' ' + translate_strings('units') + '</div>\n' +
                                 '                            </div>\n' +
-                                '                            <div class="item-subtitle">' +  thisplanauthor + '</div>\n' +
+                                '                            <div class="item-subtitle">by ' +  thisplanauthor + '</div>\n' +
                                 '                            <div class="item-text">' + thisplandescription + '</div>\n' +
                                 '                            </div>\n' +
                                 '                            </a></li>');
@@ -459,9 +459,9 @@ function pullalltrainings() {
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
     }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -515,9 +515,9 @@ function trainingplans() {
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
     }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -568,9 +568,9 @@ function subcat() {
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
     }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -587,7 +587,7 @@ function sendplans() {
     
     $.ajax({
         type: "POST",
-        url: "https://data-manager-1-dev.dd-brain.com/api/workouts/selected",
+        url: "https://data-manager-1.dd-brain.com/api/workouts/selected",
         // The key needs to match your method's input parameter (case-sensitive).
         xhrFields: {
             withCredentials: true
@@ -661,9 +661,9 @@ function planchoice() {
                                 '                                <div class="item-inner">\n' +
                                 '                                <div class="item-title-row">\n' +
                                 '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
-                                '                                <div class="item-after">' + thisplanunits + ' units</div>\n' +
+                                '                                <div class="item-after">' + thisplanunits + ' ' + translate_strings('units') + '</div>\n' +
                                 '                            </div>\n' +
-                                '                            <div class="item-subtitle">' +  thisplanauthor + '</div>\n' +
+                                '                            <div class="item-subtitle">by ' +  thisplanauthor + '</div>\n' +
                                 '                            <div class="item-text">' + thisplandescription + '</div>\n' +
                                 '                            </div>\n' +
                                 '                            </a></li>');
@@ -696,19 +696,19 @@ function planchoice() {
                         localStorage.setItem("myplans", JSON.stringify(finalplans));
                         var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
                         $$('.myplansind i .badge').html(myplansindicator.length - 1);
-                        sendplans();
                     }
 
                 });
+                sendplans();
             }
         }
     });
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
     }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -748,7 +748,7 @@ function showmyplans() {
                             '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
                             '                                <div class="item-after">' + thisplanunits + ' units</div>\n' +
                             '                            </div>\n' +
-                            '                            <div class="item-subtitle">' +  thisplanauthor + '</div>\n' +
+                            '                            <div class="item-subtitle">by ' +  thisplanauthor + '</div>\n' +
                             '                            <div class="item-text">' + thisplandescription + '</div>\n' +
                             '                            </div>\n' +
                             '                            </a><div class="swipeout-actions-right">\n' +
@@ -771,15 +771,16 @@ function showmyplans() {
 
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
                 });
+                sendplans();
             }
         }
     });
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
     } else {
-        xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
     }
     xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");

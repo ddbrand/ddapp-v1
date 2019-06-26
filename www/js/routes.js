@@ -16,6 +16,7 @@ routes = [
                     function () { localStorage.setItem('language', 'en'); }
                 );
                 translate_strings();
+
                 // Firebase plugin after fatal error deinstalled
                 /*window.FirebasePlugin.grantPermission();
                 window.FirebasePlugin.getToken(function (token) {
@@ -372,14 +373,20 @@ routes = [
                 translate_strings();
                 $$('select[name=languages]').on('change', function() {
                     localStorage.setItem('languages_i', this.value);
-                    translate_strings();
-                    var initialHref = window.location.href;
-                    function restartApplication() {
+
                         // Show splash screen (useful if your app takes time to load)
                         // Reload original app url (ie your index.html file)
-                        window.location = initialHref;
-                    }
-                    restartApplication();
+
+                        app.tab.show("#view-home", true);
+                        translate_strings();
+                        homeView.router.navigate('/', {reloadAll: true, animate: true});
+                        homeView.router.refreshPage();
+                        var toastCenter = app.toast.create({
+                            text: translate_strings('restartyourapp'),
+                            position: 'top',
+                            closeTimeout: 4000,
+                        });
+                        toastCenter.open();
                 });
                 $$('select[name=languages]').val(localStorage.getItem('language'));
                 $$('.logout').on('click', function () {

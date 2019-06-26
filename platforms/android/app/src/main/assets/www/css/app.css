@@ -15,6 +15,7 @@ div.setleft {
   display: block;
   text-align: center;
   opacity: 0.5;
+  font-size: 16px;
 }
 .devmode {
   -moz-user-select: none;

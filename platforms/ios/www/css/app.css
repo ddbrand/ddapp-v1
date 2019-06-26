@@ -7,11 +7,15 @@ a {
 html {
   -webkit-user-select: none;
 }
+div.setleft {
+  margin-left: -15px;
+}
 /* Your app styles here */
 .subplansbreadcrumb, .plansbreadcrumb {
   display: block;
   text-align: center;
   opacity: 0.5;
+  font-size: 16px;
 }
 .devmode {
   -moz-user-select: none;

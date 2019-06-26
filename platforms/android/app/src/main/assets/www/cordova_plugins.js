@@ -302,6 +302,22 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
       "clobbers": [
         "navigator.globalization"
       ]
+    },
+    {
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
+    },
+    {
+      "id": "cordova-plugin-navigationbar-color.navigationbar",
+      "file": "plugins/cordova-plugin-navigationbar-color/www/navigationbar.js",
+      "pluginId": "cordova-plugin-navigationbar-color",
+      "clobbers": [
+        "window.NavigationBar"
+      ]
     }
   ];
   module.exports.metadata = {
@@ -317,6 +333,8 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-x-socialsharing": "5.4.5",
     "cordova-support-android-plugin": "1.0.1",
     "cordova-support-google-services": "1.3.1",
-    "cordova-plugin-globalization": "1.11.0"
+    "cordova-plugin-globalization": "1.11.0",
+    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-navigationbar-color": "0.0.8"
   };
 });

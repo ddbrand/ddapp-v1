@@ -97,6 +97,7 @@ $$('#my-dev-login-screen .login-button').on('click', function () {
 
 
 $$(document).on('page:init', function (e) {
+
     devcheck();
     $("#view-stats").on('tab:show', function (event, ui) {
         // do whatever you want here, like alert a message!
@@ -134,7 +135,9 @@ $$(document).on('page:init', function (e) {
     });
 
     var current_username = localStorage.getItem("username");
-    $$('.insert-username').html(current_username);
+    $('.insert-username').each(function () {
+        $$(this).html(current_username);
+    });
     var current_email = localStorage.getItem("email");
     $$('.insert-email').html(current_email);
 
@@ -172,6 +175,8 @@ $$(document).on('page:init', function (e) {
         e.preventDefault();
     });
 });
+
+
 
 $$(document).on('page:init', '.page[data-name="user"]', function (e) {
     $$('.pushy').on('change', function () {

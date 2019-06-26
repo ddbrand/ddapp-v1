@@ -324,6 +324,34 @@ module.exports = [
         "id": "cordova-plugin-globalization.GlobalizationProxy",
         "pluginId": "cordova-plugin-globalization",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+        "id": "cordova-plugin-splashscreen.SplashScreen",
+        "pluginId": "cordova-plugin-splashscreen",
+        "clobbers": [
+            "navigator.splashscreen"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-splashscreen/src/browser/SplashScreenProxy.js",
+        "id": "cordova-plugin-splashscreen.SplashScreenProxy",
+        "pluginId": "cordova-plugin-splashscreen",
+        "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-navigationbar-color/www/navigationbar.js",
+        "id": "cordova-plugin-navigationbar-color.navigationbar",
+        "pluginId": "cordova-plugin-navigationbar-color",
+        "clobbers": [
+            "window.NavigationBar"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-navigationbar-color/src/browser/NavigationBarProxy.js",
+        "id": "cordova-plugin-navigationbar-color.NavigationBarProxy",
+        "pluginId": "cordova-plugin-navigationbar-color",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -342,7 +370,9 @@ module.exports.metadata =
     "cordova-plugin-x-socialsharing": "5.4.5",
     "cordova-support-android-plugin": "1.0.1",
     "cordova-support-google-services": "1.3.1",
-    "cordova-plugin-globalization": "1.11.0"
+    "cordova-plugin-globalization": "1.11.0",
+    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-navigationbar-color": "0.0.8"
 }
 // BOTTOM OF METADATA
 });

@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/app.css">
 
 </head>
-<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false" class="color-theme-gray">
 <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
@@ -96,19 +96,19 @@
                 <!-- Scrollable page content-->
                 <div class="page-content startpage"
                      style="background-image: url('img/pictures/slide1-jumper.jpg'); background-size: cover;">
-                    <h2 data-string="starttitle" class="pagetitle translate"></h2>
+                    <h2 class="pagetitle"><span data-string="starttitle" class="translate"></span><span class="insert-username"></span>?</h2>
                     <div class="seperator">
                         <div class="blue"></div>
                         <div class="red"></div>
                     </div>
                     <div class="nav_button">
-                        <a class="cameramode link" href="/scan/">
+                        <a class="cameramode link" href="/scan/" style="display: block;">
                             <i class="icon material-icons">camera_enhance</i>
                             <span data-string="qrcodelogin" class="linklabel translate"></span>
                         </a>
                     </div>
                     <div class="nav_button">
-                        <a href="/stats/" class="showstats" data-view="#view-stats">
+                        <a href="/stats/" class="showstats" data-view="#view-stats" style="display: block;">
                             <i class="icon f7-icons ios-only">bars_chart</i>
                             <i class="icon material-icons md-only">bar_chart</i>
                             <span data-string="viewyouractivity" class="linklabel translate"></span>
@@ -122,14 +122,14 @@
                       </a>
                     </div>-->
                     <div class="nav_button">
-                        <a href="/stories/">
+                        <a href="/stories/" style="display: block;">
                             <i class="icon f7-icons ios-only">star</i>
                             <i class="icon material-icons md-only">star</i>
                             <span data-string="checkoutspotlights" class="linklabel translate"></span>
                         </a>
                     </div>
                     <div class="nav_button">
-                        <a href="/plans/" class="showplans" data-view="#view-plans">
+                        <a href="/plans/" class="showplans" data-view="#view-plans" style="display: block;">
                             <i class="icon f7-icons ios-only">list</i>
                             <i class="icon material-icons md-only">list</i>
                             <span data-string="browseworkouts" class="linklabel translate"></span>

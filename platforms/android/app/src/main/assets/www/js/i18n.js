@@ -17,7 +17,7 @@ function translate_strings(key, value, value2) {
             close: "Schliessen",
             developerlogin: "Entwickler Login",
             authboxtitle: "Brain-Muscle Training",
-            starttitle: "Bereit für dein Training, <span class=\"insert-username\"></span>?",
+            starttitle: "Bereit für dein Training, ",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "Aktivitätsübersicht",
             checkoutspotlights: "Spotlights",
@@ -33,7 +33,7 @@ function translate_strings(key, value, value2) {
             leaderboardwomen: 'Leaderboard Frauen',
             leaderboardmen: 'Leaderboard Männer',
             leaderboardall: 'Leaderboard Alle',
-            yourprofile: "Dein Profil, <span class=\"insert-username\"></span>",
+            yourprofile: "Dein Profil, ",
             developermode: 'Entwickler Modus',
             changeuser: 'Benutzer wechseln',
             resetplans: "Meine Trainingspläne zurücksetzen",
@@ -43,7 +43,7 @@ function translate_strings(key, value, value2) {
             enabledark: "Dark Mode aktivieren",
             useroverview: "Benutzer Übersicht",
             useroverviewintro: "Klick auf einen anderen Benutzernamen, um dein aktuelles Konto zu wechseln oder füge andere Konten hinzu.",
-            currentuser: "Aktiver User: <span class=\"insert-username\"></span>",
+            currentuser: "Aktiver User: ",
             adduser: "Benutzer hinzufügen",
             passwordforget: "Passwort vergessen?",
             registernewaccount: "Neues Konto erstellen",
@@ -68,6 +68,8 @@ function translate_strings(key, value, value2) {
             german: "Deutsch",
             searchworkoutplans: "Durchsuche alle Workouts...",
             workouts: "Workouts",
+            restartyourapp: "Bitte starte deine App neu, damit die Änderungen wirksam werden.",
+            units: "Einheiten",
         };
     } else {
         var Messages = {
@@ -87,7 +89,7 @@ function translate_strings(key, value, value2) {
             close: "Close",
             developerlogin: "Developer Login",
             authboxtitle: "Brain-Muscle Training",
-            starttitle: "Ready for your training, <span class=\"insert-username\"></span>?",
+            starttitle: "Ready for your training, ",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "View Your Activity",
             checkoutspotlights: "Check Out Spotlights",
@@ -103,7 +105,7 @@ function translate_strings(key, value, value2) {
             leaderboardwomen: 'Leaderboard Women',
             leaderboardmen: 'Leaderboard Men',
             leaderboardall: 'Leaderboard all',
-            yourprofile: "Your profile, <span class=\"insert-username\"></span>",
+            yourprofile: "Your profile, ",
             developermode: 'Developer Mode',
             changeuser: "Change User",
             resetplans: "Reset Selected Workouts",
@@ -113,7 +115,7 @@ function translate_strings(key, value, value2) {
             enabledark: "Enable Dark Mode",
             useroverview: "User Overview",
             useroverviewintro: "Click on another username to change your current account or add some accounts.",
-            currentuser: "Current user: <span class=\"insert-username\"></span>",
+            currentuser: "Current user: ",
             adduser: "Add User",
             passwordforget: "Password forget?",
             registernewaccount: "Register new account",
@@ -138,9 +140,10 @@ function translate_strings(key, value, value2) {
             german: "German",
             searchworkoutplans: "Search training plans...",
             workouts: "Workouts",
+            restartyourapp: "Please restart your app to see the changes.",
+            units: "units"
         };
     }
-
     $('.translate').each(function () {
         var stringtitle = $$(this).attr('data-string');
 
@@ -154,4 +157,8 @@ function translate_strings(key, value, value2) {
     if(key) {
         return Messages[key];
     }
+    var current_username = localStorage.getItem("username");
+    $('.insert-username').each(function () {
+        $$(this).html(current_username);
+    });
 }

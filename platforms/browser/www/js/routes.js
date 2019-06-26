@@ -4,6 +4,22 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
+                window.setTimeout(function () {
+                    navigator.splashscreen.hide();
+                }, 4000 - 3000);
+                navigator.globalization.getPreferredLanguage(
+                    function (language) {/*alert(language.value);*/
+                        var lang = language.value;
+                        if(localStorage.getItem('languages_i') === null){
+                            localStorage.setItem('language', lang.slice(0, 2));
+                        } else {
+                            localStorage.setItem('language', localStorage.getItem('languages_i'));
+                        }
+                        },
+                    function () { localStorage.setItem('language', 'en'); }
+                );
+                translate_strings();
+
                 // Firebase plugin after fatal error deinstalled
                 /*window.FirebasePlugin.grantPermission();
                 window.FirebasePlugin.getToken(function (token) {
@@ -58,6 +74,7 @@ routes = [
         url: './pages/authbox.html',
         on: {
             pageAfterIn: function (event, page) {
+                translate_strings();
                 $$('.login-close').on('click', function () {
                     app.loginScreen.close('#my-login-screen');
                 });
@@ -81,12 +98,13 @@ routes = [
         url: './pages/stats.html',
         on: {
             pageAfterIn: function (event, page) {
+                translate_strings();
                 var username = localStorage.getItem('username');
                 $.ajax({
                     url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
                 }).done(function (result) {
                     if (result === '') {
-                        $$('.pullreport').html('<p style="padding: 25px;">No training has been completed in the last 30 days.</p>')
+                        $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
                     } else {
                         $$('.pullreport').html('');
                         $$('.pullreport').html(result);
@@ -123,6 +141,8 @@ routes = [
         url: './pages/training_detail.html',
         on: {
             pageInit: function (event, page) {
+
+                translate_strings();
                 var username = localStorage.getItem('username');
                 var traintitle = localStorage.getItem('traintitle');
                 var clickedid = localStorage.getItem('detail_train_id');
@@ -152,6 +172,8 @@ routes = [
                             var bigbordercolor = '#58595b';
                             var bigbgbordercolor = 'rgba(88, 89, 91, 0.3)';
                         }
+
+                        var labelvalue = translate_strings('biggaugelabel', topscore);
                         var demoGauge = app.gauge.create({
                             el: '.score',
                             type: 'circle',
@@ -163,7 +185,7 @@ routes = [
                             valueText: clickedscore,
                             valueFontSize: 41,
                             valueTextColor: bigbordercolor,
-                            labelText: 'out of ' + topscore + ' points topscore',
+                            labelText: labelvalue,
                         });
                         var trainingid = localStorage.getItem('traintitle');
 
@@ -177,6 +199,7 @@ routes = [
                             var circleprevalue = 1 / places;
                             var betvar = myrank - 1;
                             var circlevalue = (places - betvar) * circleprevalue;
+                            var leftgaugelabel = translate_strings('leftgaugelabel');
                             var leftGauge = app.gauge.create({
                                 el: '.leftgauge',
                                 type: 'semicircle',
@@ -187,10 +210,11 @@ routes = [
                                 valueText: circletext,
                                 valueFontSize: 28,
                                 valueTextColor: '#97d3cc',
-                                labelText: 'your rank',
+                                labelText: leftgaugelabel,
                             });
                             var mybestscore = $$('.rank').attr('data-bestscore');
                             var scorevalue = 1 / topscore * mybestscore;
+                            var rightgaugelabel = translate_strings('rightgaugelabel');
                             var rightGauge = app.gauge.create({
                                 el: '.rightgauge',
                                 type: 'semicircle',
@@ -201,7 +225,7 @@ routes = [
                                 valueText: mybestscore,
                                 valueFontSize: 28,
                                 valueTextColor: '#ef763e',
-                                labelText: 'your personal best',
+                                labelText: rightgaugelabel,
                             });
 
                             $$('.nativeshare').on('click', function () {
@@ -219,7 +243,7 @@ routes = [
 
                                         savebase64AsImageFile(folderpath, filename, realData, dataType);
                                         var options = {
-                                            message: 'My rank in ' + traintitle + ' is ' + circletext + '! Can you beat me?', // not supported on some apps (Facebook, Instagram)
+                                            message: translate_strings('sharetext', traintitle, circletext),  // not supported on some apps (Facebook, Instagram)
                                             subject: '#ddrobotec', // fi. for email
                                             files: [folderpath + filename], // an array of filenames either locally or remotely
                                         };
@@ -252,6 +276,7 @@ routes = [
         url: './pages/leaderboard.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 var username = localStorage.getItem('username');
                 var traintitle = localStorage.getItem('traintitle');
                 var maintitle = traintitle.split('[')[0];
@@ -281,6 +306,7 @@ routes = [
         url: './pages/scan.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 $('.downunder').delay(800).slideToggle();
                 $$('.cameramode').click(function () {
                     $('.toolbar-bottom').hide();
@@ -304,7 +330,7 @@ routes = [
 
                     } else if (status.denied) {
                         QRScanner.openSettings();
-                        alert('Please enable camera support in your settings for the DD App.');
+                        alert(translate_strings('enablecamerasupport'));
                         // The video preview will remain black, and scanning is disabled. We can
                         // try to ask the user to change their mind, but we'll have to send them
                         // to their device settings with ``.
@@ -347,10 +373,29 @@ routes = [
         url: './pages/user.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
+                $$('select[name=languages]').on('change', function() {
+                    localStorage.setItem('languages_i', this.value);
+
+                        // Show splash screen (useful if your app takes time to load)
+                        // Reload original app url (ie your index.html file)
+
+                        app.tab.show("#view-home", true);
+                        translate_strings();
+                        homeView.router.navigate('/', {reloadAll: true, animate: true});
+                        homeView.router.refreshPage();
+                        var toastCenter = app.toast.create({
+                            text: translate_strings('restartyourapp'),
+                            position: 'top',
+                            closeTimeout: 4000,
+                        });
+                        toastCenter.open();
+                });
+                $$('select[name=languages]').val(localStorage.getItem('language'));
                 $$('.logout').on('click', function () {
                     localStorage.clear();
                     var toastCenter = app.toast.create({
-                        text: 'Logout was successfull. See you later!',
+                        text: translate_strings('successlogout'),
                         position: 'top',
                         closeTimeout: 4000,
                     });
@@ -365,9 +410,7 @@ routes = [
                     } else {
                         // when devmode is disabled, fire this toast and the function
                         var toastCenter = app.toast.create({
-                            text: 'Dev mode has been enabled. You can now test unpublished ' +
-                                'functions in your app with the dev mode. You need a developer ' +
-                                'account on the DD data-manager dev server.',
+                            text: translate_strings('enableddevmode'),
                             closeTimeout: 12000,
                             closeButton: true
                         });
@@ -375,12 +418,12 @@ routes = [
                         $$('.toplist ul').prepend('<li class="swipeout devsettings">\n' +
                             '<div class="swipeout-content">' +
                             '<a href="#" class="dev_login_screen_open item-content item-link" data-login-screen=".dev-login-screen">' +
-                            '          <div class="item-title">Developer Mode</div>\n' +
+                            '          <div class="item-title">' + translate_strings('developermode') + '</div>\n' +
                             '          <div class="item-after"> <span class="badge color-red">Off</span></div>\n' +
                             '</a>' +
                             '</div>' +
                             '<div class="swipeout-actions-right">\n' +
-                            '    <a href="#" class="swipeout-delete no-chevron disabledev">Disable</a>\n' +
+                            '    <a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
                             '  </div>' +
                             '    </li>');
                         localStorage.setItem('devmode', 'true');
@@ -404,12 +447,12 @@ routes = [
                     $$('.toplist ul').prepend('<li class="swipeout devsettings">\n' +
                         '<div class="swipeout-content">' +
                         '<a href="#" class="dev_login_screen_open item-content item-link" data-login-screen=".dev-login-screen">' +
-                        '          <div class="item-title">Developer Mode</div>\n' +
+                        '          <div class="item-title">' + translate_strings('developermode') + '</div>\n' +
                         '          <div class="item-after">' + badger + '</div>\n' +
                         '</a>' +
                         '</div>' +
                         '<div class="swipeout-actions-right">\n' +
-                        '    <a href="#" class="swipeout-delete no-chevron disabledev">Disable</a>\n' +
+                        '    <a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
                         '  </div>' +
                         '    </li>');
                 }
@@ -437,7 +480,7 @@ routes = [
                     localStorage.removeItem('dev_pass');
                     $$('.toplist ul .devsettings').remove();
                     var toastCenter = app.toast.create({
-                        text: 'Developer mode is disabled. :)',
+                        text: translate_strings('disableddevmode'),
                         closeTimeout: 6000,
                         closeButton: true
                     });
@@ -549,6 +592,7 @@ routes = [
         url: './pages/changeuser.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).startsWith("username_")) {
                         let userkey = localStorage.key(i).split("_");
@@ -562,7 +606,7 @@ routes = [
                             '                            </div>\n' +
                             '                        </div>\n' +
                             '                    </a><div class="swipeout-actions-right">\n' +
-                            '        <a href="#" data-storageattr="' + userkey[1] + '" class="userremove swipeout-delete">Remove</a>\n' +
+                            '        <a href="#" data-storageattr="' + userkey[1] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
                             '      </div>\n' +
                             '                </li>');
                     }
@@ -573,7 +617,7 @@ routes = [
                     localStorage.removeItem('email_' + storageattr);
                     localStorage.removeItem('pass_' + storageattr);
                     var toastCenter = app.toast.create({
-                        text: 'User was successfully removed from your device.',
+                        text: translate_strings('successremoveuser'),
                         position: 'top',
                         closeTimeout: 4000,
                     });
@@ -597,9 +641,10 @@ routes = [
                     localStorage.setItem('pass_' + datakey, oldpass);
                     localStorage.setItem('email_' + datakey, oldemail);
                     var toastCenter = app.toast.create({
-                        text: 'Login was changed successfully.',
+                        text: translate_strings('userchanged'),
                         position: 'top',
                         closeTimeout: 4000,
+                        closeButton: true
                     });
                     toastCenter.open();
                     //
@@ -620,7 +665,7 @@ routes = [
 
                         } else {
                             var toastCenter = app.toast.create({
-                                text: 'You could not be successfully logged in. Please try again.',
+                                text: translate_strings('failedlogin'),
                                 position: 'top',
                                 closeTimeout: 4000,
                             });
