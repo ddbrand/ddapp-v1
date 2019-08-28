@@ -160,25 +160,3 @@ $$(document).on('page:init', function (e) {
         e.preventDefault();
     });
 });
-
-
-
-$$(document).on('page:init', '.page[data-name="user"]', function (e) {
-    $$('.pushy').on('change', function () {
-        if ($(this).prop('checked')) {
-            notificationFull.open();
-            localStorage.setItem('pushy', 'true');
-        } else {
-            localStorage.removeItem('pushy');
-        }
-    });
-    $$('.darkmode').on('change', function () {
-        if ($(this).prop('checked')) {
-            localStorage.setItem('theme', 'theme-dark');
-            $('body').addClass('theme-dark');
-        } else {
-            localStorage.removeItem('theme');
-            $('body').removeClass('theme-dark');
-        }
-    });
-});
