@@ -5,7 +5,7 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 navigator.globalization.getPreferredLanguage(
-                    function (language) {/*alert(language.value);*/
+                    function (language) {
                         var lang = language.value;
                         if(localStorage.getItem('languages_i') === null){
                             localStorage.setItem('language', lang.slice(0, 2));
@@ -17,9 +17,10 @@ routes = [
                 );
                 translate_strings();
 
+
                 // Firebase plugin after fatal error deinstalled
-                /*window.FirebasePlugin.grantPermission();
-                window.FirebasePlugin.getToken(function (token) {
+                FCMPlugin.getToken(function(token){
+
                     var deviceName = cordova.plugins.deviceName;
                     // save this server-side and use it to push notifications to this device
                     $.ajax({
@@ -34,9 +35,10 @@ routes = [
                     });
                 }, function (error) {
                     console.error(error);
-                });*/
+                });
                 autologin(function (callback) {
                     if (callback === false) {
+                        localStorage.setItem('theme', 'theme-dark');
                         homeView.router.navigate('/authbox/', {
                             reloadCurrent: true,
                             ignoreCache: true
@@ -72,11 +74,160 @@ routes = [
         on: {
             pageAfterIn: function (event, page) {
                 translate_strings();
+                var weightrange = app.range.create({
+                    el: '.weightslider',
+                    label: true,
+                    on: {
+                        change: function () {
+                        }
+                    }
+                });
+                var heightrange = app.range.create({
+                    el: '.heightslider',
+                    label: true,
+                    on: {
+                        change: function () {
+                        }
+                    }
+                });
+
+                $$('#registerusername').blur(function() {
+                    var username = $('#registerusername').val();
+                    $.ajax({
+                        method: "GET",
+                        url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=exist&getname=" + username,
+                        cache: false
+                    }).done(function (msg) {
+                        if (JSON.parse(msg).success === true) {
+                            $('#registerusername').next('.item-input-error-message').html('Please choose a different username.');
+                            $('#registerusername').parents('.item-input').addClass('item-input-with-error-message').addClass('item-input-invalid');
+                            $('#registerusername').addClass('input-invalid');
+                        } else {
+                        }
+                    });
+                });
+
+                $('input[name="registerrepassword"]').blur(function() {
+                    var password = $('input[name="registerpassword"]').val();
+                    var repassword = $('input[name="registerrepassword"]').val();
+                    if(password !== repassword) {
+                        $('input[name="registerrepassword"]').next('.item-input-error-message').html('Your passwords don\'t match.');
+                        $('input[name="registerrepassword"]').parents('.item-input').addClass('item-input-with-error-message').addClass('item-input-invalid');
+                        $('input[name="registerrepassword"]').addClass('input-invalid');
+                    }
+                });
+
+                $(".register-form").submit(function(e) {
+                    var username = $('#registerusername').val();
+                    var email = $('input[name="registeremail"]').val();
+                    var pass = $('input[name="registerpassword"]').val();
+                    var repass = $('input[name="registerrepassword"]').val();
+                    var gender = $('select[name="gender"]').val();
+                    var weight = $('.weightslider .weight').val();
+                    var height = $('.heightslider .height').val();
+                    var birthdate = $('input[name="birthdate"]').val() + "z";
+                    if (username != null && pass != null) {
+                        $.ajax({
+                            method: "POST",
+                            url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=register",
+                            data: {
+                                "UserName": username, "Email": email, "Pass": pass, "Weight": weight, "Height": height, "BirthDate": birthdate, "Gender": gender, "CacheName": ""
+                            }
+                        }).done(function( msg ) {
+                            var response_obj = JSON.parse(msg);
+
+                            if(response_obj.success == false || pass !== repass) {
+                                var toastCenter = app.toast.create({
+                                    text: 'Please correct the register form errors.',
+                                    position: 'top',
+                                    closeButton: true,
+                                    closeTimeout: 8000,
+                                });
+                                toastCenter.open();
+                            } else {
+                                var toastCenter = app.toast.create({
+                                    text: 'Thank you for your registration. Please check your inbox to activate your account. Follow the instructions in the email.',
+                                    position: 'top',
+                                    closeButton: true,
+                                    closeTimeout: 3000,
+                                });
+                                toastCenter.open();
+                                app.loginScreen.close('#my-register-screen');
+                            }
+                            console.log(msg);
+                        });
+                    }
+                    e.preventDefault();
+                });
+
+                $(".forget-form").submit(function(e) {
+                    var Username = $('input[name="forgetusername"]').val();
+                    var Email = $('input[name="forgetemail"]').val();
+                    if (Username != null && Email != null) {
+                        $.ajax({
+                            method: "POST",
+                            url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=password_forget",
+                            data: {
+                                "Username": Username, "Email": Email
+                            }
+                        }).done(function( msg ) {
+                            var response_obj = JSON.parse(msg);
+                            if(response_obj.success == false) {
+                                var toastCenter = app.toast.create({
+                                    text: 'Your user could not be reset. Please check your details and try again.',
+                                    position: 'top',
+                                    closeButton: true,
+                                    closeTimeout: 6000,
+                                });
+                                toastCenter.open();
+                            } else {
+                                var toastCenter = app.toast.create({
+                                    text: 'We have sent you an e-mail with all informations. Activate the link to set a new password for your account.',
+                                    position: 'top',
+                                    closeButton: true,
+                                    closeTimeout: 6000,
+                                });
+                                toastCenter.open();
+                                app.loginScreen.close('#my-forget-screen');
+                            }
+                            console.log(msg);
+                        });
+                    }
+                    e.preventDefault();
+                });
+
+                $$('.weightslider').on('range:change', function (e, range) {
+                    $$('.user-weight').text((range.value) + ' kg');
+                });
+                $$('.heightslider').on('range:change', function (e, range) {
+                    $$('.user-height').text((range.value) + ' cm');
+                });
                 $$('.login-close').on('click', function () {
                     app.loginScreen.close('#my-login-screen');
                 });
+                $$('.register-close').on('click', function () {
+                    app.loginScreen.close('#my-register-screen');
+                });
+                $$('.forget-close').on('click', function () {
+                    app.loginScreen.close('#my-forget-screen');
+                });
                 $$('.login_screen_open').on('click', function () {
+                    app.loginScreen.close('#my-forget-screen');
+                    app.loginScreen.close('#my-register-screen');
+                    app.loginScreen.close('#my-login-add-screen');
                     app.loginScreen.open('#my-login-screen');
+                });
+                $$('.register_screen_open').on('click', function () {
+                    app.loginScreen.close('#my-forget-screen');
+                    app.loginScreen.close('#my-login-screen');
+                    app.loginScreen.close('#my-login-add-screen');
+                    app.loginScreen.open('#my-register-screen');
+                });
+                $$('.forget_screen_open').on('click', function () {
+                    app.loginScreen.close('#my-register-screen');
+                    app.loginScreen.close('#my-login-screen');
+                    app.loginScreen.close('#my-login-add-screen');
+                    app.loginScreen.open('#my-forget-screen');
                 });
                 setTimeout(function () {
                     var swiper = app.swiper.get('.swiper-container');
@@ -129,7 +280,44 @@ routes = [
                         });
                     }
                 });
-
+                var $ptrContent = $$('.ptr-content');
+// Add 'refresh' listener on it
+                $ptrContent.on('ptr:refresh', function (e) {
+                    var username = localStorage.getItem('username');
+                    $.ajax({
+                        url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
+                    }).done(function (result) {
+                        if (result === '') {
+                            $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
+                        } else {
+                            $$('.pullreport').html('');
+                            $$('.pullreport').html(result);
+                            $('.detailreport').each(function () {
+                                var trainingid = $(this).attr('data-title');
+                                var rowid = $(this).attr('data-id');
+                                var score = $(this).attr('data-score');
+                                $$(this).on('click', function () {
+                                    var clicktitle = $(this).attr('data-title');
+                                    var clickeditem = $(this).attr('data-id');
+                                    var clickedscore = $(this).attr('data-score');
+                                    localStorage.setItem('traintitle', clicktitle);
+                                    localStorage.setItem('detail_train_id', clickeditem);
+                                    localStorage.setItem('detail_train_score', clickedscore);
+                                    statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
+                                });
+                                $.ajax({
+                                    url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=2",
+                                }).done(function (result) {
+                                    if (result == 'true') {
+                                        $$('.highscore_' + rowid).html('<i class="icon f7-icons icon-ios-fill material-icons">graph_round_fill</i>&nbsp;&nbsp;');
+                                    }
+                                });
+                            });
+                        }
+                        app.ptr.done();
+                        e.detail();
+                    });
+                });
             }
         }
     },
@@ -374,31 +562,65 @@ routes = [
                 $$('select[name=languages]').on('change', function() {
                     localStorage.setItem('languages_i', this.value);
 
-                        // Show splash screen (useful if your app takes time to load)
-                        // Reload original app url (ie your index.html file)
+                        app.dialog.preloader();
+                        setTimeout(function () {
+                            app.tab.show("#view-home", true);
+                            translate_strings();
 
-                        app.tab.show("#view-home", true);
-                        translate_strings();
+                            var toastCenter = app.toast.create({
+                                text: translate_strings('languageswitched'),
+                                position: 'top',
+                                closeTimeout: 4000,
+                            });
+                            toastCenter.open();
+                            app.dialog.close();
+                        }, 1200);
                         homeView.router.navigate('/', {reloadAll: true, animate: true});
                         homeView.router.refreshPage();
+                        userView.router.navigate('/user/', {reloadCurrent: true, ignoreCache: true});
+
+                });
+                $$('select[name=languages]').val(localStorage.getItem('language'));
+                $$('.open-confirm-logout').on('click', function () {
+                    app.dialog.confirm(translate_strings('confirmlogout'), function () {
+                        app.dialog.close();
+                        localStorage.clear();
                         var toastCenter = app.toast.create({
-                            text: translate_strings('restartyourapp'),
+                            text: translate_strings('successlogout'),
                             position: 'top',
                             closeTimeout: 4000,
                         });
                         toastCenter.open();
-                });
-                $$('select[name=languages]').val(localStorage.getItem('language'));
-                $$('.logout').on('click', function () {
-                    localStorage.clear();
-                    var toastCenter = app.toast.create({
-                        text: translate_strings('successlogout'),
-                        position: 'top',
-                        closeTimeout: 4000,
+                        app.tab.show("#view-home", false);
+                        homeView.router.navigate('/authbox/', {reloadAll: true, animate: true});
                     });
-                    toastCenter.open();
-                    app.tab.show("#view-home", false);
-                    homeView.router.navigate('/authbox/', {reloadAll: true, animate: true});
+
+                    if(localStorage.getItem('theme') === 'theme-dark') {
+                        $('.dialog').addClass('bg-color-black');
+                        $('.dialog-title').addClass('text-color-gray');
+                    }
+                });
+
+                $$('.open-confirm-resetplans').on('click', function () {
+                    app.dialog.confirm(translate_strings('confirmresetplans'), function () {
+                        app.dialog.close();
+                        localStorage.removeItem("myplans");
+                        var toastCenter = app.toast.create({
+                            text: translate_strings('resetedworkouts'),
+                            position: 'top',
+                            closeButton: true,
+                            closeTimeout: 3000,
+                        });
+                        toastCenter.open();
+                        $$('.myplansind i .badge').html(0);
+                        sendplans();
+                    });
+
+                    if(localStorage.getItem('theme') === 'theme-dark') {
+                        $('.dialog').addClass('bg-color-black');
+                        $('.dialog-title').addClass('text-color-gray');
+                    }
+                    sendplans();
                 });
 
                 $$('.devmode').on('taphold', function () {
@@ -454,9 +676,35 @@ routes = [
                         '    </li>');
                 }
 
+                $$('.pushy').on('change', function () {
+                    if ($(this).prop('checked')) {
+                        var toastCenter = app.toast.create({
+                            text: translate_strings('pushenabled'),
+                            position: 'top',
+                            closeButton: true,
+                            closeTimeout: 5000,
+                        });
+                        toastCenter.open();
+                        localStorage.setItem('pushy', 'true');
+                    } else {
+                        localStorage.removeItem('pushy');
+                    }
+                });
+
+                $$('.darkmode').on('change', function () {
+                    if ($(this).prop('checked')) {
+                        localStorage.setItem('theme', 'theme-dark');
+                        $('body').addClass('theme-dark');
+                    } else {
+                        localStorage.removeItem('theme');
+                        $('body').removeClass('theme-dark');
+                    }
+                });
+
                 $$('.dev-login-close').on('click', function () {
                     app.loginScreen.close('#my-dev-login-screen');
                 });
+
                 $$('.dev_login_screen_open').on('click', function () {
                     app.loginScreen.open('#my-dev-login-screen');
                 });
@@ -484,8 +732,6 @@ routes = [
                     toastCenter.open();
                     devcheck();
                 });
-
-
             }
         }
     },
@@ -498,10 +744,15 @@ routes = [
         url: './pages/timeline.html',
     },
     {
+        path: '/register/',
+        url: './pages/register.html',
+    },
+    {
         path: '/plans/',
         url: './pages/plan.html',
         on: {
             pageInit: function (event, page) {
+                trainingplans();
                 var searchbar = app.searchbar.create({
                     el: '.searchbar',
                     searchContainer: '.iwu',
@@ -512,7 +763,18 @@ routes = [
                         }
                     }
                 });
+                $('.searchbar input').on('change', function() {
+                    if ($$('.searchbar input').val() === '') {
+                        $$('.iwu ul').html('');
+                        $('.iwu').hide();
+                    } else {
+                        $$('.iwu ul').html('');
+                        pullalltrainings();
+                        $('.iwu').show();
+                    }
+                });
                 $$('.searchbar input').focus(function () {
+                    $$('.iwu ul').html('');
                     pullalltrainings();
                     $('.iwu').show();
                 });
@@ -530,7 +792,6 @@ routes = [
                     var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
                 }
-                trainingplans();
             }
         }
     },
@@ -590,6 +851,167 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+                var weightrange = app.range.create({
+                    el: '.weightslider',
+                    label: true,
+                    on: {
+                        change: function () {
+                        }
+                    }
+                });
+                var heightrange = app.range.create({
+                    el: '.heightslider',
+                    label: true,
+                    on: {
+                        change: function () {
+                        }
+                    }
+                });
+
+                $$('#registerusername').blur(function() {
+                    var username = $('#registerusername').val();
+                    $.ajax({
+                        method: "GET",
+                        url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=exist&getname=" + username,
+                        cache: false
+                    }).done(function (msg) {
+                        if (JSON.parse(msg).success === true) {
+                            $('#registerusername').next('.item-input-error-message').html('Please choose a different username.');
+                            $('#registerusername').parents('.item-input').addClass('item-input-with-error-message').addClass('item-input-invalid');
+                            $('#registerusername').addClass('input-invalid');
+                        } else {
+                        }
+                    });
+                });
+
+                $('input[name="registerrepassword"]').blur(function() {
+                    var password = $('input[name="registerpassword"]').val();
+                    var repassword = $('input[name="registerrepassword"]').val();
+                    if(password !== repassword) {
+                        $('input[name="registerrepassword"]').next('.item-input-error-message').html('Your passwords don\'t match.');
+                        $('input[name="registerrepassword"]').parents('.item-input').addClass('item-input-with-error-message').addClass('item-input-invalid');
+                        $('input[name="registerrepassword"]').addClass('input-invalid');
+                    }
+                });
+
+                $(".register-form").submit(function(e) {
+                    if($('.item-input-error-message').is(':visible')) {
+                        alert('hihi');
+                    } else {
+                        var username = $('#registerusername').val();
+                        var email = $('input[name="registeremail"]').val();
+                        var pass = $('input[name="registerpassword"]').val();
+                        var repass = $('input[name="registerrepassword"]').val();
+                        var gender = $('select[name="gender"]').val();
+                        var weight = $('.weightslider .weight').val();
+                        var height = $('.heightslider .height').val();
+                        var birthdate = $('input[name="birthdate"]').val() + "z";
+                        if (username != null && pass != null) {
+                            $.ajax({
+                                method: "POST",
+                                url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=register",
+                                data: {
+                                    "UserName": username, "Email": email, "Pass": pass, "Weight": weight, "Height": height, "BirthDate": birthdate, "Gender": gender, "CacheName": ""
+                                }
+                            }).done(function( msg ) {
+                                var response_obj = JSON.parse(msg);
+
+                                if(response_obj.success == false || pass !== repass) {
+                                    var toastCenter = app.toast.create({
+                                        text: 'Please correct the register form errors.',
+                                        position: 'top',
+                                        closeButton: true,
+                                        closeTimeout: 8000,
+                                    });
+                                    toastCenter.open();
+                                } else {
+                                    var toastCenter = app.toast.create({
+                                        text: 'Thank you for your registration. Please check your inbox to activate your account. Follow the instructions in the email.',
+                                        position: 'top',
+                                        closeButton: true,
+                                        closeTimeout: 3000,
+                                    });
+                                    toastCenter.open();
+                                    app.loginScreen.close('#my-register-screen');
+                                }
+                                console.log(msg);
+                            });
+                        } else if(/ /.test(username)) {
+                            alert('Space detected');
+                        }
+                    }
+                    e.preventDefault();
+                });
+
+                $(".forget-form").submit(function(e) {
+                    var Username = $('input[name="forgetusername"]').val();
+                    var Email = $('input[name="forgetemail"]').val();
+                    if (Username != null && Email != null) {
+                        $.ajax({
+                            method: "POST",
+                            url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=password_forget",
+                            data: {
+                                "Username": Username, "Email": Email
+                            }
+                        }).done(function( msg ) {
+                            var response_obj = JSON.parse(msg);
+                            if(response_obj.success == false) {
+                                var toastCenter = app.toast.create({
+                                    text: 'Your user could not be reset. Please check your details and try again.',
+                                    position: 'top',
+                                    closeButton: true,
+                                    closeTimeout: 6000,
+                                });
+                                toastCenter.open();
+                            } else {
+                                var toastCenter = app.toast.create({
+                                    text: 'We have sent you an e-mail with all informations. Activate the link to set a new password for your account.',
+                                    position: 'top',
+                                    closeButton: true,
+                                    closeTimeout: 6000,
+                                });
+                                toastCenter.open();
+                                app.loginScreen.close('#my-forget-screen');
+                            }
+                            console.log(msg);
+                        });
+                    }
+                    e.preventDefault();
+                });
+
+                $$('.weightslider').on('range:change', function (e, range) {
+                    $$('.user-weight').text((range.value) + ' kg');
+                });
+                $$('.heightslider').on('range:change', function (e, range) {
+                    $$('.user-height').text((range.value) + ' cm');
+                });
+                $$('.login-close').on('click', function () {
+                    app.loginScreen.close('#my-login-screen');
+                });
+                $$('.register-close').on('click', function () {
+                    app.loginScreen.close('#my-register-screen');
+                });
+                $$('.forget-close').on('click', function () {
+                    app.loginScreen.close('#my-forget-screen');
+                });
+                $$('.login_screen_open').on('click', function () {
+                    app.loginScreen.close('#my-forget-screen');
+                    app.loginScreen.close('#my-register-screen');
+                    app.loginScreen.close('#my-login-add-screen');
+                    app.loginScreen.open('#my-login-screen');
+                });
+                $$('.register_screen_open').on('click', function () {
+                    app.loginScreen.close('#my-forget-screen');
+                    app.loginScreen.close('#my-login-screen');
+                    app.loginScreen.close('#my-login-add-screen');
+                    app.loginScreen.open('#my-register-screen');
+                });
+                $$('.forget_screen_open').on('click', function () {
+                    app.loginScreen.close('#my-register-screen');
+                    app.loginScreen.close('#my-login-screen');
+                    app.loginScreen.close('#my-login-add-screen');
+                    app.loginScreen.open('#my-forget-screen');
+                });
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).startsWith("username_")) {
                         let userkey = localStorage.key(i).split("_");

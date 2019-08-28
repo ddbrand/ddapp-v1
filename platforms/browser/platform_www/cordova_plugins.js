@@ -352,6 +352,28 @@ module.exports = [
         "id": "cordova-plugin-navigationbar-color.NavigationBarProxy",
         "pluginId": "cordova-plugin-navigationbar-color",
         "runs": true
+    },
+    {
+        "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
+        "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
+        "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
+        "clobbers": [
+            "FCMPlugin"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+        "id": "cordova-plugin-statusbar.statusbar",
+        "pluginId": "cordova-plugin-statusbar",
+        "clobbers": [
+            "window.StatusBar"
+        ]
+    },
+    {
+        "file": "plugins/cordova-plugin-statusbar/src/browser/StatusBarProxy.js",
+        "id": "cordova-plugin-statusbar.StatusBarProxy",
+        "pluginId": "cordova-plugin-statusbar",
+        "runs": true
     }
 ];
 module.exports.metadata = 
@@ -372,7 +394,9 @@ module.exports.metadata =
     "cordova-support-google-services": "1.3.1",
     "cordova-plugin-globalization": "1.11.0",
     "cordova-plugin-splashscreen": "5.0.2",
-    "cordova-plugin-navigationbar-color": "0.0.8"
+    "cordova-plugin-navigationbar-color": "0.0.8",
+    "cordova-plugin-fcm-with-dependecy-updated": "2.4.0",
+    "cordova-plugin-statusbar": "2.4.3"
 }
 // BOTTOM OF METADATA
 });

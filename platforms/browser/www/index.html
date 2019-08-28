@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="css/app.css">
 
 </head>
-<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false">
+<body oncontextmenu="return false" ondragstart="return false" onselectstart="return false" class="color-theme-gray">
 <div id="app">
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar"></div>
@@ -38,16 +38,16 @@
         <!-- Tabbar for switching views-tabs -->
         <div class="toolbar tabbar-labels toolbar-bottom">
             <div class="toolbar-inner">
-                <a href="#view-home" class="tab-link tab-link-active">
+                <a href="#view-home" class="tab-link tab-link-active showhome">
                     <i class="icon f7-icons ios-only">home</i>
                     <i class="icon f7-icons ios-only icon-ios-fill">home_fill</i>
                     <i class="icon material-icons md-only">home</i>
                     <span data-string="home" class="tabbar-label translate"></span>
                 </a>
                 <a href="#view-stats" class="tab-link">
-                    <i class="icon f7-icons ios-only">bars_chart</i>
-                    <i class="icon f7-icons ios-only icon-ios-fill">bars_chart</i>
-                    <i class="icon material-icons md-only">bar_chart</i>
+                    <i class="icon f7-icons ios-only">bars_chart_round</i>
+                    <i class="icon f7-icons ios-only icon-ios-fill">bars_chart_round_fill</i>
+                    <i class="icon f7-icons material-icons md-only">bars_chart</i>
                     <span data-string="activity" class="tabbar-label translate"></span>
                 </a>
                 <!---
@@ -58,13 +58,14 @@
                   <span class="tabbar-label">Search</span>
                 </a>-->
                 <a href="#view-plans" class="tab-link">
-                    <i class="icon f7-icons material-icons">list</i>
-                    <i class="icon f7-icons ios-only icon-ios-fill">list</i>
+                    <i class="icon f7-icons ios-only">list</i>
+                    <i class="icon f7-icons ios-only icon-ios-fill">list_filled</i>
+                    <i class="icon f7-icons material-icons md-only">list</i>
                     <span data-string="workouts" class="tabbar-label translate">Workouts</span>
                 </a>
                 <a href="#view-user" class="tab-link">
                     <i class="icon f7-icons ios-only">person_round</i>
-                    <i class="icon f7-icons ios-only icon-ios-fill">person_round</i>
+                    <i class="icon f7-icons ios-only icon-ios-fill">person_round_fill</i>
                     <i class="icon material-icons md-only">face</i>
                     <span data-string="profile" class="tabbar-label translate"></span>
                 </a>
@@ -96,19 +97,19 @@
                 <!-- Scrollable page content-->
                 <div class="page-content startpage"
                      style="background-image: url('img/pictures/slide1-jumper.jpg'); background-size: cover;">
-                    <h2 class="pagetitle"><span data-string="starttitle" class="translate"></span><span class="insert-username"></span>?</h2>
+                    <h2 class="pagetitle"><span class="insert-username"></span><span data-string="starttitle" class="translate"></span>?</h2>
                     <div class="seperator">
                         <div class="blue"></div>
                         <div class="red"></div>
                     </div>
-                    <div class="nav_button">
-                        <a class="cameramode link" href="/scan/">
+                    <div class="button nav_button button-outline button-raised">
+                        <a class="cameramode link" href="/scan/" style="display: block;">
                             <i class="icon material-icons">camera_enhance</i>
                             <span data-string="qrcodelogin" class="linklabel translate"></span>
                         </a>
                     </div>
-                    <div class="nav_button">
-                        <a href="/stats/" class="showstats" data-view="#view-stats">
+                    <div class="button nav_button button-outline button-raised">
+                        <a href="/stats/" class="showstats" data-view="#view-stats" style="display: block;">
                             <i class="icon f7-icons ios-only">bars_chart</i>
                             <i class="icon material-icons md-only">bar_chart</i>
                             <span data-string="viewyouractivity" class="linklabel translate"></span>
@@ -121,15 +122,15 @@
                         <span class="linklabel">Search Training Plans</span>
                       </a>
                     </div>-->
-                    <div class="nav_button">
-                        <a href="/stories/">
+                    <div class="button nav_button button-outline button-raised">
+                        <a href="/stories/" style="display: block;">
                             <i class="icon f7-icons ios-only">star</i>
                             <i class="icon material-icons md-only">star</i>
                             <span data-string="checkoutspotlights" class="linklabel translate"></span>
                         </a>
                     </div>
-                    <div class="nav_button">
-                        <a href="/plans/" class="showplans" data-view="#view-plans">
+                    <div class="button nav_button button-outline button-raised">
+                        <a href="/plans/" class="showplans" data-view="#view-plans" style="display: block;">
                             <i class="icon f7-icons ios-only">list</i>
                             <i class="icon material-icons md-only">list</i>
                             <span data-string="browseworkouts" class="linklabel translate"></span>
@@ -185,7 +186,7 @@
         <div class="view">
             <div class="page">
                 <div class="page-content login-screen-content">
-                    <div data-string="login" class="login-screen-title translate">Login</div>
+                    <h2 class="pagetitle"><span data-string="login" class="translate">Login</span></h2>
                     <div class="right">
                         <a href="#" class="link login-close"><i class="icon material-icons">close</i></a>
                     </div>
@@ -227,14 +228,211 @@
                                 <a href="#" data-string="signin"  class="item-link list-button login-button translate">Sign In</a>
                             </li>
                         </ul>
-                        <div class="block-footer"><a href="#" data-string="registernewaccount" class="translate"
-                                                     onclick="window.open('https://ddrobotec.com/register', '_system'); return false;">Register
+                        <div class="block-footer"><a href="#" data-string="registernewaccount" class="register_screen_open translate">Register
                             free DD Account</a><br/>
-                            <a href="#" data-string="passwordforget" class="translate"
-                               onclick="window.open('https://ddrobotec.com/password-forget', '_system'); return false;">Password
+                            <a href="#" data-string="passwordforget" class="forget_screen_open translate"
+                            >Password
                                 forget?</a><br/>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password forget screen -->
+    <div class="login-screen" id="my-forget-screen">
+        <div class="view">
+            <div class="page">
+                <div class="page-content login-screen-content">
+                    <h2 class="pagetitle"><span data-string="passwordforget" class="translate">Password forget?</span></h2>
+                    <div class="right">
+                        <a href="#" class="link forget-close"><i class="icon material-icons">close</i></a>
+                    </div>
+                    <div class="seperator">
+                        <div class="blue"></div>
+                        <div class="red"></div>
+                    </div>
+                    <form class="forget-form">
+                    <div class="list">
+                        <ul>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div data-string="username" class="item-title item-label translate">Username</div>
+                                    <div class="item-input-wrap">
+                                        <input data-string="yourusername" class="translate" type="text" name="forgetusername" placeholder="Your username" minlength="3" validate required data-error-message="Please fill in your username.">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                              <div class="item-inner">
+                                <div data-string="email" class="item-title item-label translate">E-Mail</div>
+                                <div class="item-input-wrap">
+                                  <input type="email" name="forgetemail" placeholder="Your email" validate required data-error-message="Please fill in your e-mail address.">
+                                </div>
+                              </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <input type="submit" href="#" data-string="passwordforget" value="Send" class="item-link list-button forget-button translate" />
+                            </li>
+                        </ul>
+                        <div class="block-footer"><a href="#" data-string="registernewaccount" class="register_screen_open translate">Register
+                            free DD Account</a><br/>
+                            <a href="#" data-string="login" class="login_screen_open translate"
+                            >Login</a><br/>
+                        </div>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Register Screen -->
+    <div class="login-screen" id="my-register-screen">
+        <div class="view">
+            <div class="page">
+                <div class="page-content login-screen-content">
+                    <h2 class="pagetitle"><span data-string="register" class="translate">Register</span></h2>
+                    <div class="right">
+                        <a href="#" class="link register-close"><i class="icon material-icons">close</i></a>
+                    </div>
+                    <div class="seperator">
+                        <div class="blue"></div>
+                        <div class="red"></div>
+                    </div>
+                    <form class="register-form">
+                    <div class="list">
+                        <ul>
+                            <li class="item-content item-input">
+                                <div class="item-inner usernameerror">
+                                    <div class="item-title item-label">Username*</div>
+                                    <div class="item-input-wrap">
+                                        <input type="text" id="registerusername" name="registerusername" minlength="3" required validate data-error-message="Please fill in a username.">
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">E-Mail address*</div>
+                                    <div class="item-input-wrap">
+                                        <input type="email" name="registeremail" required validate data-error-message="Please fill in your e-mail address.">
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Password*</div>
+                                    <div class="item-input-wrap">
+                                        <input type="password" name="registerpassword" minlength="5" required validate data-error-message="Please fill in a password of at least 5 digits.">
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Retype password*</div>
+                                    <div class="item-input-wrap">
+                                        <input type="password" name="registerrepassword" minlength="5" required validate data-error-message="Please fill in a password of at least 5 digits.">
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Gender*</div>
+                                    <div class="item-input-wrap">
+                                        <select id="gender" name="gender" required="required" class="contact-input" validate data-error-message="Please choose your gender.">
+                                            <option disabled selected value> -- select an option --</option>
+                                            <option value="m">Male</option>
+                                            <option value="f">Female</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="block-title item-label display-flex justify-content-space-between">Weight* <span class="user-weight" style="display:inline-block; margin-right: 30px;">65 kg</span></div>
+                        <div class="list simple-list">
+                            <ul>
+                                <li>
+                                    <div class="range-slider weightslider color-orange" data-value="10">
+                                        <input type="range" class="weight" value="65" max="250" min="35"/>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="block-title item-label display-flex justify-content-space-between" style="padding-right: 25px;">Height* <span class="user-height" style="display:inline-block; margin-right: 30px;">160 cm</span></div>
+                        <div class="list simple-list">
+                            <ul>
+                                <li>
+                                    <div class="range-slider heightslider color-orange" data-value="10">
+                                        <input type="range" class="height" value="160" max="210" min="45"/>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-inner">
+                                        <div class="item-title item-label">Birthdate*</div>
+                                        <div class="item-input-wrap">
+                                            <input type="date" value="2000-01-01" name="birthdate"
+                                                   placeholder="Please choose...">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Group/Company</div>
+                                    <div class="item-input-wrap">
+                                        <input type="text" name="group">
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="item-content item-input">
+                                <div class="item-inner">
+                                    <div class="item-title item-label">Training Type</div>
+                                    <div class="item-input-wrap">
+                                        <select id="4_options">
+                                            <option value="1">Athletic</option>
+                                            <option value="2">Fitness</option>
+                                            <option value="3">Prevention</option>
+                                            <option value="4">Back-to-Sports</option>
+                                            <option value="5">Recovery</option>
+                                            <option value="6">Junior</option>
+                                            <option value="7">Senior</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li>
+                                <input type="submit" value="register" data-string="register" class="item-link list-button register-button translate" />
+                            </li>
+                        </ul>
+                        <div class="block-footer"><a href="#" data-string="login" class="login_screen_open translate">Login</a><br/>
+                            <a href="#" data-string="passwordforget" class="forget_screen_open translate"
+                            >Password
+                                forget?</a><br/>
+                        </div>
+                    </div>
+
+                    </form>
                 </div>
             </div>
         </div>
@@ -299,7 +497,7 @@
     <div class="view">
         <div class="page">
             <div class="page-content login-screen-content">
-                <div data-string="adduser" class="login-screen-title translate">Add User</div>
+                <h2 class="pagetitle"><span data-string="adduser" class="translate">Add user</span></h2>
                 <div class="right">
                     <a href="#" class="link login-close login-add-close"><i class="icon material-icons">close</i></a>
                 </div>
@@ -341,14 +539,14 @@
                             <a href="#" data-string="signin" class="item-link list-button login-add-button translate">Sign In</a>
                         </li>
                     </ul>
-                    <div class="block-footer"><a href="#" data-string="registernewaccount" class="translate"
-                                                 onclick="window.open('https://ddrobotec.com/register', '_system'); return false;">Register
+                    <div class="block-footer"><a href="#" data-string="registernewaccount" class="register_screen_open translate">Register
                         free DD Account</a><br/>
-                        <a href="#" data-string="passwordforget" class="translate"
-                           onclick="window.open('https://ddrobotec.com/password-forget', '_system'); return false;">Password
+                        <a href="#" data-string="passwordforget" class="forget_screen_open translate"
+                        >Password
                             forget?</a><br/>
                     </div>
             </div>
+
         </div>
     </div>
 </div>

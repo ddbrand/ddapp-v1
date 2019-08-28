@@ -201,9 +201,12 @@ function initTouch() {
       : isInsideScrollableViewLight(rippleTarget);
 
     if (!inScrollable) {
+      removeRipple();
       createRipple(rippleTarget, touchStartX, touchStartY);
     } else {
+      clearTimeout(rippleTimeout);
       rippleTimeout = setTimeout(() => {
+        removeRipple();
         createRipple(rippleTarget, touchStartX, touchStartY);
       }, 80);
     }
@@ -213,9 +216,7 @@ function initTouch() {
     removeRipple();
   }
   function rippleTouchEnd() {
-    if (rippleWave) {
-      removeRipple();
-    } else if (rippleTarget && !isMoved) {
+    if (!rippleWave && rippleTarget && !isMoved) {
       clearTimeout(rippleTimeout);
       createRipple(rippleTarget, touchStartX, touchStartY);
       setTimeout(removeRipple, 0);
@@ -575,13 +576,16 @@ function initTouch() {
     return true;
   }
   function handleTouchMoveLight(e) {
-    let distance = 0;
     let touch;
+    let distance;
     if (e.type === 'touchmove') {
       touch = e.targetTouches[0];
-      if (touch && touch.touchType === 'stylus') {
-        distance = 5;
-      }
+      distance = params.touchClicksDistanceThreshold;
+      // if (touch && touch.touchType === 'stylus') {
+      //   distance = 5;
+      // } else {
+      //   distance = 3;
+      // }
     }
 
     if (distance && touch) {
@@ -754,6 +758,8 @@ export default {
       fastClicksDistanceThreshold: 10,
       fastClicksDelayBetweenClicks: 50,
       fastClicksExclude: '', // CSS selector
+      // Clicks
+      touchClicksDistanceThreshold: 5,
       // ContextMenu
       disableContextMenu: false,
       // Tap Hold
@@ -762,7 +768,7 @@ export default {
       tapHoldPreventClicks: true,
       // Active State
       activeState: true,
-      activeStateElements: 'a, button, label, span, .actions-button, .stepper-button, .stepper-button-plus, .stepper-button-minus, .card-expandable, .menu-item',
+      activeStateElements: 'a, button, label, span, .actions-button, .stepper-button, .stepper-button-plus, .stepper-button-minus, .card-expandable, .menu-item, .link, .item-link',
       mdTouchRipple: true,
       iosTouchRipple: false,
       auroraTouchRipple: false,

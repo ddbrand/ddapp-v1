@@ -170,10 +170,14 @@ function forward(el, forwardOptions = {}) {
     newPagePosition = 'previous';
   }
   $newPage
+    .removeClass('page-previous page-current page-next')
     .addClass(`page-${newPagePosition}${isMaster ? ' page-master' : ''}${isDetail ? ' page-master-detail' : ''}`)
     .removeClass('stacked')
     .trigger('page:unstack')
     .trigger('page:position', { position: newPagePosition });
+  router.emit('pageUnstack', $newPage[0]);
+  router.emit('pagePosition', $newPage[0], newPagePosition);
+
   if (isMaster || isDetail) {
     $newPage.trigger('page:role', { role: isMaster ? 'master' : 'detail' });
   }
@@ -181,6 +185,7 @@ function forward(el, forwardOptions = {}) {
 
   if (dynamicNavbar && $newNavbarInner.length) {
     $newNavbarInner
+      .removeClass('navbar-previous navbar-current navbar-next')
       .addClass(`navbar-${newPagePosition}${isMaster ? ' navbar-master' : ''}${isDetail ? ' navbar-master-detail' : ''}`)
       .removeClass('stacked');
   }
@@ -212,6 +217,7 @@ function forward(el, forwardOptions = {}) {
         ) {
           $pagesInView.eq(i).addClass('page-master-stacked');
           $pagesInView.eq(i).trigger('page:masterstack');
+          router.emit('pageMasterStack', $pagesInView[i]);
           if (separateNavbar) {
             $(app.navbar.getElByPage(masterPageEl)).addClass('navbar-master-stacked');
           }
@@ -221,6 +227,7 @@ function forward(el, forwardOptions = {}) {
         if (router.params.stackPages) {
           $pagesInView.eq(i).addClass('stacked');
           $pagesInView.eq(i).trigger('page:stack');
+          router.emit('pageStack', $pagesInView[i]);
           if (separateNavbar) {
             $(oldNavbarInnerEl).addClass('stacked');
           }
@@ -353,12 +360,15 @@ function forward(el, forwardOptions = {}) {
     if (router.params.stackPages && router.initialPages.indexOf($oldPage[0]) >= 0) {
       $oldPage.addClass('stacked');
       $oldPage.trigger('page:stack');
+      router.emit('pageStack', $oldPage[0]);
       if (separateNavbar) {
         $oldNavbarInner.addClass('stacked');
       }
     } else {
       // Page remove event
-      router.pageCallback('beforeRemove', $oldPage, $oldNavbarInner, 'previous', undefined, options);
+      router.pageCallback('beforeOut', $oldPage, $oldNavbarInner, 'current', undefined, options);
+      router.pageCallback('afterOut', $oldPage, $oldNavbarInner, 'current', undefined, options);
+      router.pageCallback('beforeRemove', $oldPage, $oldNavbarInner, 'current', undefined, options);
       router.removePage($oldPage);
       if (separateNavbar && $oldNavbarInner && $oldNavbarInner.length) {
         router.removeNavbar($oldNavbarInner);
@@ -371,11 +381,16 @@ function forward(el, forwardOptions = {}) {
       if (router.params.stackPages && router.initialPages.indexOf($oldPageEl[0]) >= 0) {
         $oldPageEl.addClass('stacked');
         $oldPageEl.trigger('page:stack');
+        router.emit('pageStack', $oldPageEl[0]);
         if (separateNavbar) {
           $oldNavbarInnerEl.addClass('stacked');
         }
       } else {
         // Page remove event
+        if ($oldPageEl.hasClass('page-current')) {
+          router.pageCallback('beforeOut', $oldPage, $oldNavbarInner, 'current', undefined, options);
+          router.pageCallback('afterOut', $oldPage, $oldNavbarInner, 'current', undefined, options);
+        }
         router.pageCallback('beforeRemove', $oldPageEl, $oldNavbarInner && $oldNavbarInner.eq(index), 'previous', undefined, options);
         router.removePage($oldPageEl);
         if (separateNavbar && $oldNavbarInnerEl.length) {
@@ -387,6 +402,7 @@ function forward(el, forwardOptions = {}) {
     if (router.params.stackPages && router.initialPages.indexOf($oldPage[0]) >= 0) {
       $oldPage.addClass('stacked');
       $oldPage.trigger('page:stack');
+      router.emit('pageStack', $oldPage[0]);
       if (separateNavbar) {
         $oldNavbarInner.addClass('stacked');
       }
@@ -414,12 +430,18 @@ function forward(el, forwardOptions = {}) {
   if (options.reloadCurrent || options.reloadAll || reloadDetail) {
     router.allowPageChange = true;
     router.pageCallback('beforeIn', $newPage, $newNavbarInner, newPagePosition, 'current', options);
+    $newPage.removeAttr('aria-hidden');
+    if (dynamicNavbar && $newNavbarInner) {
+      $newNavbarInner.removeAttr('aria-hidden');
+    }
     router.pageCallback('afterIn', $newPage, $newNavbarInner, newPagePosition, 'current', options);
     if (options.reloadCurrent && options.clearPreviousHistory) router.clearPreviousHistory();
     if (reloadDetail) {
       masterPageEl.classList.add('page-previous');
       masterPageEl.classList.remove('page-current');
       $(masterPageEl).trigger('page:position', { position: 'previous' });
+      router.emit('pagePosition', masterPageEl, 'previous');
+
       if (masterPageEl.f7Page && masterPageEl.f7Page.navbarEl) {
         masterPageEl.f7Page.navbarEl.classList.add('navbar-previous');
         masterPageEl.f7Page.navbarEl.classList.remove('navbar-current');
@@ -433,15 +455,18 @@ function forward(el, forwardOptions = {}) {
   }
 
   // Before animation event
-  router.pageCallback('beforeIn', $newPage, $newNavbarInner, 'next', 'current', options);
   router.pageCallback('beforeOut', $oldPage, $oldNavbarInner, 'current', 'previous', options);
+  router.pageCallback('beforeIn', $newPage, $newNavbarInner, 'next', 'current', options);
 
   // Animation
   function afterAnimation() {
     const pageClasses = 'page-previous page-current page-next';
     const navbarClasses = 'navbar-previous navbar-current navbar-next';
     $newPage.removeClass(pageClasses).addClass('page-current').removeAttr('aria-hidden').trigger('page:position', { position: 'current' });
+    router.emit('pagePosition', $newPage[0], 'current');
     $oldPage.removeClass(pageClasses).addClass('page-previous').trigger('page:position', { position: 'previous' });
+    router.emit('pagePosition', $oldPage[0], 'previous');
+
     if (!$oldPage.hasClass('page-master')) {
       $oldPage.attr('aria-hidden', 'true');
     }
@@ -454,12 +479,12 @@ function forward(el, forwardOptions = {}) {
     }
     // After animation event
     router.allowPageChange = true;
-    router.pageCallback('afterIn', $newPage, $newNavbarInner, 'next', 'current', options);
     router.pageCallback('afterOut', $oldPage, $oldNavbarInner, 'current', 'previous', options);
+    router.pageCallback('afterIn', $newPage, $newNavbarInner, 'next', 'current', options);
 
     let keepOldPage = (router.params.preloadPreviousPage || router.params[`${app.theme}SwipeBack`]) && !isMaster;
     if (!keepOldPage) {
-      if ($newPage.hasClass('smart-select-page') || $newPage.hasClass('photo-browser-page') || $newPage.hasClass('autocomplete-page')) {
+      if ($newPage.hasClass('smart-select-page') || $newPage.hasClass('photo-browser-page') || $newPage.hasClass('autocomplete-page') || $newPage.hasClass('color-picker-page')) {
         keepOldPage = true;
       }
     }
@@ -467,6 +492,7 @@ function forward(el, forwardOptions = {}) {
       if (router.params.stackPages) {
         $oldPage.addClass('stacked');
         $oldPage.trigger('page:stack');
+        router.emit('pageStack', $oldPage[0]);
         if (separateNavbar) {
           $oldNavbarInner.addClass('stacked');
         }
@@ -490,7 +516,9 @@ function forward(el, forwardOptions = {}) {
     const pageClasses = 'page-previous page-current page-next';
     const navbarClasses = 'navbar-previous navbar-current navbar-next';
     $oldPage.removeClass(pageClasses).addClass('page-current').removeAttr('aria-hidden').trigger('page:position', { position: 'current' });
+    router.emit('pagePosition', $oldPage[0], 'current');
     $newPage.removeClass(pageClasses).addClass('page-next').removeAttr('aria-hidden').trigger('page:position', { position: 'next' });
+    router.emit('pagePosition', $newPage[0], 'next');
     if (dynamicNavbar) {
       $oldNavbarInner.removeClass(navbarClasses).addClass('navbar-current').removeAttr('aria-hidden');
       $newNavbarInner.removeClass(navbarClasses).addClass('navbar-next').removeAttr('aria-hidden');
@@ -760,20 +788,35 @@ function navigate(navigateParams, navigateOptions = {}) {
   if (router.params.masterDetailBreakpoint > 0 && route.route.masterRoute) {
     // load detail route
     let preloadMaster = true;
+    let masterLoaded = false;
     if (router.currentRoute && router.currentRoute.route) {
-      if (router.currentRoute.route.master && (router.currentRoute.route === route.route.masterRoute || router.currentRoute.route.path === route.route.masterRoute.path)) {
+      if (
+        router.currentRoute.route.master
+        && (
+          router.currentRoute.route === route.route.masterRoute
+          || router.currentRoute.route.path === route.route.masterRoute.path
+        )
+      ) {
         preloadMaster = false;
       }
-      if (router.currentRoute.route.masterRoute && ((router.currentRoute.route.masterRoute === route.route.masterRoute) || (router.currentRoute.route.masterRoute.path === route.route.masterRoute.path))) {
+      if (
+        router.currentRoute.route.masterRoute
+        && (router.currentRoute.route.masterRoute === route.route.masterRoute
+          || router.currentRoute.route.masterRoute.path === route.route.masterRoute.path
+        )
+      ) {
         preloadMaster = false;
+        masterLoaded = true;
       }
     }
-    if (preloadMaster) {
+    if (preloadMaster || (masterLoaded && navigateOptions.reloadAll)) {
       router.navigate(route.route.masterRoute.path, {
         animate: false,
         reloadAll: navigateOptions.reloadAll,
         reloadCurrent: navigateOptions.reloadCurrent,
         reloadPrevious: navigateOptions.reloadPrevious,
+        pushState: !navigateOptions.initial,
+        history: !navigateOptions.initial,
         once: {
           pageAfterIn() {
             router.navigate(navigateParams, Utils.extend({}, navigateOptions, {
@@ -781,6 +824,8 @@ function navigate(navigateParams, navigateOptions = {}) {
               reloadAll: false,
               reloadCurrent: false,
               reloadPrevious: false,
+              history: !navigateOptions.initial,
+              pushState: !navigateOptions.initial,
             }));
           },
         },

@@ -63,11 +63,33 @@
 
 #pragma mark View lifecycle
 
+- (void)viewDidLayoutSubviews{
+    
+    if ([self respondsToSelector:@selector(topLayoutGuide)]) // iOS 7 or above
+    {
+        CGFloat top = self.topLayoutGuide.length;
+        if(self.webView.frame.origin.y == 0){
+            // We only want to do this once, or
+            // if the view has somehow been "restored" by other    code.
+            self.webView.frame = CGRectMake(self.webView.frame.origin.x,
+                                            self.webView.frame.origin.y + top,
+                                            self.webView.frame.size.width,
+                                            self.webView.frame.size.height-top);
+        }
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     // View defaults to full size.  If you want to customize the view's size, or its subviews (e.g. webView),
     // you can do so here.
-
+    //Lower screen 20px on ios 7
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+        CGRect viewBounds = [self.webView bounds];
+        viewBounds.origin.y = 18;
+        viewBounds.size.height = viewBounds.size.height - 18;
+        self.webView.frame = viewBounds;
+    }
     [super viewWillAppear:animated];
 }
 

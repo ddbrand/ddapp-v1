@@ -169,12 +169,15 @@ class SmartSelect extends Framework7Class {
       }
     } else {
       optionEl = ss.$selectEl.find(`option[value="${newValue}"]`)[0];
-      displayAs = optionEl.dataset ? optionEl.dataset.displayAs : $(optionEl).data('display-as');
-      text = displayAs && typeof displayAs !== 'undefined' ? displayAs : optionEl.textContent;
-      optionText = [text];
+      if (optionEl) {
+        displayAs = optionEl.dataset ? optionEl.dataset.displayAs : $(optionEl).data('display-as');
+        text = displayAs && typeof displayAs !== 'undefined' ? displayAs : optionEl.textContent;
+        optionText = [text];
+      }
       ss.selectEl.value = newValue;
     }
     ss.$valueEl.text(optionText.join(', '));
+    return ss;
   }
 
   getValue() {
@@ -357,9 +360,9 @@ class SmartSelect extends Framework7Class {
         <div class="navbar ${ss.params.navbarColorTheme ? `color-${ss.params.navbarColorTheme}` : ''}">
           <div class="navbar-inner sliding ${ss.params.navbarColorTheme ? `color-${ss.params.navbarColorTheme}` : ''}">
             <div class="left">
-              <a href="#" class="link back">
+              <a class="link back">
                 <i class="icon icon-back"></i>
-                <span class="ios-only">${ss.params.pageBackLinkText}</span>
+                <span class="if-not-md">${ss.params.pageBackLinkText}</span>
               </a>
             </div>
             ${pageTitle ? `<div class="title">${pageTitle}</div>` : ''}
@@ -392,13 +395,10 @@ class SmartSelect extends Framework7Class {
           <div class="page smart-select-page ${ss.params.searchbar ? 'page-with-subnavbar' : ''}" data-name="smart-select-page">
             <div class="navbar ${ss.params.navbarColorTheme ? `color-${ss.params.navbarColorTheme}` : ''}">
               <div class="navbar-inner sliding">
-                <div class="left">
-                  <a href="#" class="link popup-close" data-popup=".smart-select-popup[data-select-name='${ss.selectName}']">
-                    <i class="icon icon-back"></i>
-                    <span class="ios-only">${ss.params.popupCloseLinkText}</span>
-                  </a>
-                </div>
                 ${pageTitle ? `<div class="title">${pageTitle}</div>` : ''}
+                <div class="right">
+                  <a class="link popup-close" data-popup=".smart-select-popup[data-select-name='${ss.selectName}']">${ss.params.popupCloseLinkText}</span></a>
+                </div>
                 ${ss.params.searchbar ? `<div class="subnavbar">${ss.renderSearchbar()}</div>` : ''}
               </div>
             </div>
@@ -457,6 +457,28 @@ class SmartSelect extends Framework7Class {
     return popoverHtml;
   }
 
+  scrollToSelectedItem() {
+    const ss = this;
+    const { params, $containerEl } = ss;
+    if (!ss.opened) return ss;
+    if (params.virtualList) {
+      let selectedIndex;
+      ss.vl.items.forEach((item, index) => {
+        if (typeof selectedIndex === 'undefined' && item.selected) {
+          selectedIndex = index;
+        }
+      });
+      if (typeof selectedIndex !== 'undefined') {
+        ss.vl.scrollToItem(selectedIndex);
+      }
+    } else {
+      const $selectedItemEl = $containerEl.find('input:checked').parents('li');
+      const $pageContentEl = $containerEl.find('.page-content');
+      $pageContentEl.scrollTop($selectedItemEl.offset().top - $pageContentEl.offset().top - parseInt($pageContentEl.css('padding-top'), 10));
+    }
+    return ss;
+  }
+
   onOpen(type, containerEl) {
     const ss = this;
     const app = ss.app;
@@ -477,6 +499,9 @@ class SmartSelect extends Framework7Class {
           return false;
         },
       });
+    }
+    if (ss.params.scrollToSelectedItem) {
+      ss.scrollToSelectedItem();
     }
 
     // Init SB

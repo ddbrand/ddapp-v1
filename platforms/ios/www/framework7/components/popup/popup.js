@@ -6,7 +6,11 @@ export default {
   params: {
     popup: {
       backdrop: true,
+      backdropEl: undefined,
       closeByBackdropClick: true,
+      closeOnEscape: false,
+      swipeToClose: false,
+      swipeHandler: null,
     },
   },
   static: {

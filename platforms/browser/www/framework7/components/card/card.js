@@ -1,3 +1,4 @@
+/* eslint no-param-reassign: "off" */
 import $ from 'dom7';
 import Utils from '../../utils/utils';
 import Support from '../../utils/support';
@@ -5,6 +6,7 @@ import Support from '../../utils/support';
 const CardExpandable = {
   open(cardEl = '.card-expandable', animate = true) {
     const app = this;
+
     if ($('.card-opened').length) return;
     const $cardEl = $(cardEl).eq(0);
 
@@ -25,27 +27,31 @@ const CardExpandable = {
 
     if (prevented) return;
 
-    let $backropEl;
+    const cardParams = Object.assign({ animate }, app.params.card, $cardEl.dataset());
+
+    const $pageContentEl = $cardEl.parents('.page-content');
+
+    let $backdropEl;
     if ($cardEl.attr('data-backdrop-el')) {
-      $backropEl = $($cardEl.attr('data-backdrop-el'));
+      $backdropEl = $($cardEl.attr('data-backdrop-el'));
     }
-    if (!$backropEl && app.params.card.backrop) {
-      $backropEl = $cardEl.parents('.page-content').find('.card-backdrop');
-      if (!$backropEl.length) {
-        $backropEl = $('<div class="card-backdrop"></div>');
-        $cardEl.parents('.page-content').append($backropEl);
+    if (!$backdropEl && cardParams.backdrop) {
+      $backdropEl = $pageContentEl.find('.card-backdrop');
+      if (!$backdropEl.length) {
+        $backdropEl = $('<div class="card-backdrop"></div>');
+        $pageContentEl.append($backdropEl);
       }
     }
 
     let $navbarEl;
     let $toolbarEl;
-    if (app.params.card.hideNavbarOnOpen) {
+    if (cardParams.hideNavbarOnOpen) {
       $navbarEl = $pageEl.children('.navbar');
       if (!$navbarEl.length) {
         if ($pageEl[0].f7Page) $navbarEl = $pageEl[0].f7Page.$navbarEl;
       }
     }
-    if (app.params.card.hideToolbarOnOpen) {
+    if (cardParams.hideToolbarOnOpen) {
       $toolbarEl = $pageEl.children('.toolbar');
       if (!$toolbarEl.length) {
         $toolbarEl = $pageEl.parents('.view').children('.toolbar');
@@ -79,7 +85,6 @@ const CardExpandable = {
     let offset = $cardEl.offset();
     let pageOffset = $pageEl.offset();
     offset.left -= pageOffset.left;
-    offset.top -= pageOffset.top;
 
     let cardLeftOffset;
     let cardTopOffset;
@@ -92,15 +97,15 @@ const CardExpandable = {
       if (transformValues && transformValues.length > 1) {
         const scale = parseFloat(transformValues[0]);
         cardLeftOffset = offset.left - cardWidth * (1 - scale) / 2;
-        cardTopOffset = offset.top - $pageEl.offset().top - cardHeight * (1 - scale) / 2;
+        cardTopOffset = offset.top - pageOffset.top - cardHeight * (1 - scale) / 2;
         if (app.rtl) cardLeftOffset -= $cardEl[0].scrollLeft;
       } else {
         cardLeftOffset = $cardEl[0].offsetLeft;
-        cardTopOffset = $cardEl[0].offsetTop - $cardEl.parents('.page-content')[0].scrollTop;
+        cardTopOffset = $cardEl[0].offsetTop - ($pageContentEl.length ? $pageContentEl[0].scrollTop : 0);
       }
     } else {
       cardLeftOffset = offset.left;
-      cardTopOffset = offset.top - $pageEl.offset().top;
+      cardTopOffset = offset.top - pageOffset.top;
       if (app.rtl) cardLeftOffset -= $cardEl[0].scrollLeft;
     }
 
@@ -114,26 +119,33 @@ const CardExpandable = {
     let cardBottomOffset = maxHeight - cardHeight - cardTopOffset;
     let translateX = (cardRightOffset - cardLeftOffset) / 2;
     let translateY = (cardBottomOffset - cardTopOffset) / 2;
-    if (app.params.card.hideNavbarOnOpen && $navbarEl && $navbarEl.length) {
-      app.navbar.hide($navbarEl, animate);
+    if (cardParams.hideNavbarOnOpen && $navbarEl && $navbarEl.length) {
+      app.navbar.hide($navbarEl, cardParams.animate);
     }
-    if (app.params.card.hideToolbarOnOpen && $toolbarEl && $toolbarEl.length) {
-      app.toolbar.hide($toolbarEl, animate);
+    if (cardParams.hideToolbarOnOpen && $toolbarEl && $toolbarEl.length) {
+      app.toolbar.hide($toolbarEl, cardParams.animate);
     }
-    if ($backropEl) {
-      $backropEl.removeClass('card-backdrop-out').addClass('card-backdrop-in');
+    if ($backdropEl) {
+      $backdropEl.removeClass('card-backdrop-out').addClass('card-backdrop-in');
     }
     $cardEl.removeClass('card-transitioning');
-    if (animate) {
+    if (cardParams.animate) {
       $cardEl.addClass('card-opening');
     }
     $cardEl.trigger('card:open');
     app.emit('cardOpen', $cardEl[0]);
     function transitionEnd() {
+      $pageEl.addClass('page-with-card-opened');
+      if (app.device.ios && $pageContentEl.length) {
+        $pageContentEl.css('height', `${$pageContentEl[0].offsetHeight + 1}px`);
+        setTimeout(() => {
+          $pageContentEl.css('height', '');
+        });
+      }
       $cardEl.addClass('card-opened');
       $cardEl.removeClass('card-opening');
       $cardEl.trigger('card:opened');
-      app.emit('cardOpened', $cardEl[0]);
+      app.emit('cardOpened', $cardEl[0], $pageEl[0]);
     }
     $cardContentEl
       .css({
@@ -144,15 +156,13 @@ const CardExpandable = {
 
     $cardEl
       .transform(`translate3d(${translateX}px, ${translateY}px, 0) scale(${scaleX}, ${scaleY})`);
-    if (animate) {
+    if (cardParams.animate) {
       $cardEl.transitionEnd(() => {
         transitionEnd();
       });
     } else {
       transitionEnd();
     }
-
-    $pageEl.addClass('page-with-card-opened');
 
     function onResize() {
       $cardEl.removeClass('card-transitioning');
@@ -276,7 +286,7 @@ const CardExpandable = {
 
     $cardEl[0].detachEventHandlers = function detachEventHandlers() {
       app.off('resize', onResize);
-      if (Support.touch && app.params.card.swipeToClose) {
+      if (Support.touch && cardParams.swipeToClose) {
         app.off('touchstart:passive', onTouchStart);
         app.off('touchmove:active', onTouchMove);
         app.off('touchend:passive', onTouchEnd);
@@ -284,7 +294,7 @@ const CardExpandable = {
     };
 
     app.on('resize', onResize);
-    if (Support.touch && app.params.card.swipeToClose) {
+    if (Support.touch && cardParams.swipeToClose) {
       app.on('touchstart:passive', onTouchStart);
       app.on('touchmove:active', onTouchMove);
       app.on('touchend:passive', onTouchEnd);
@@ -297,30 +307,34 @@ const CardExpandable = {
     if (!$cardEl.hasClass('card-opened') || $cardEl.hasClass('card-opening') || $cardEl.hasClass('card-closing')) return;
 
     const $cardContentEl = $cardEl.children('.card-content');
+    const $pageContentEl = $cardEl.parents('.page-content');
 
     const $pageEl = $cardEl.parents('.page').eq(0);
     if (!$pageEl.length) return;
+
+    const cardParams = Object.assign({ animate }, app.params.card, $cardEl.dataset());
+
     let $navbarEl;
     let $toolbarEl;
 
-    let $backropEl;
+    let $backdropEl;
     if ($cardEl.attr('data-backdrop-el')) {
-      $backropEl = $($cardEl.attr('data-backdrop-el'));
+      $backdropEl = $($cardEl.attr('data-backdrop-el'));
     }
-    if (app.params.card.backrop) {
-      $backropEl = $cardEl.parents('.page-content').find('.card-backdrop');
+    if (cardParams.backdrop) {
+      $backdropEl = $cardEl.parents('.page-content').find('.card-backdrop');
     }
 
-    if (app.params.card.hideNavbarOnOpen) {
+    if (cardParams.hideNavbarOnOpen) {
       $navbarEl = $pageEl.children('.navbar');
       if (!$navbarEl.length) {
         if ($pageEl[0].f7Page) $navbarEl = $pageEl[0].f7Page.$navbarEl;
       }
       if ($navbarEl && $navbarEl.length) {
-        app.navbar.show($navbarEl, animate);
+        app.navbar.show($navbarEl, cardParams.animate);
       }
     }
-    if (app.params.card.hideToolbarOnOpen) {
+    if (cardParams.hideToolbarOnOpen) {
       $toolbarEl = $pageEl.children('.toolbar');
       if (!$toolbarEl.length) {
         $toolbarEl = $pageEl.parents('.view').children('.toolbar');
@@ -329,17 +343,25 @@ const CardExpandable = {
         $toolbarEl = $pageEl.parents('.views').children('.toolbar');
       }
       if ($toolbarEl && $toolbarEl.length) {
-        app.toolbar.show($toolbarEl, animate);
+        app.toolbar.show($toolbarEl, cardParams.animate);
       }
     }
+
     $pageEl.removeClass('page-with-card-opened');
 
-    if ($backropEl && $backropEl.length) {
-      $backropEl.removeClass('card-backdrop-in').addClass('card-backdrop-out');
+    if (app.device.ios && $pageContentEl.length) {
+      $pageContentEl.css('height', `${$pageContentEl[0].offsetHeight + 1}px`);
+      setTimeout(() => {
+        $pageContentEl.css('height', '');
+      });
+    }
+
+    if ($backdropEl && $backdropEl.length) {
+      $backdropEl.removeClass('card-backdrop-in').addClass('card-backdrop-out');
     }
 
     $cardEl.removeClass('card-opened card-transitioning');
-    if (animate) {
+    if (cardParams.animate) {
       $cardEl.addClass('card-closing');
     } else {
       $cardEl.addClass('card-no-transition');
@@ -352,7 +374,7 @@ const CardExpandable = {
       $cardEl.removeClass('card-closing card-no-transition');
       $cardEl.trigger('card:closed');
       $cardEl.find('.card-expandable-size').remove();
-      app.emit('cardClosed', $cardEl[0]);
+      app.emit('cardClosed', $cardEl[0], $pageEl[0]);
     }
     $cardContentEl
       .css({
@@ -394,7 +416,7 @@ export default {
       hideToolbarOnOpen: true,
       swipeToClose: true,
       closeByBackdropClick: true,
-      backrop: true,
+      backdrop: true,
     },
   },
   create() {
@@ -431,16 +453,16 @@ export default {
   clicks: {
     '.card-close': function closeCard($clickedEl, data) {
       const app = this;
-      app.card.close(data.card);
+      app.card.close(data.card, data.animate);
     },
     '.card-open': function closeCard($clickedEl, data) {
       const app = this;
-      app.card.open(data.card);
+      app.card.open(data.card, data.animate);
     },
     '.card-expandable': function toggleExpandableCard($clickedEl, data, e) {
       const app = this;
       if ($clickedEl.hasClass('card-opened') || $clickedEl.hasClass('card-opening') || $clickedEl.hasClass('card-closing')) return;
-      if ($(e.target).closest('.card-prevent-open').length) return;
+      if ($(e.target).closest('.card-prevent-open, .card-close').length) return;
       app.card.open($clickedEl);
     },
     '.card-backdrop-in': function onBackdropClick() {

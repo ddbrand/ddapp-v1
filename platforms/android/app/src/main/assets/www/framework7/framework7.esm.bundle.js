@@ -1,5 +1,5 @@
 /**
- * Framework7 4.2.0
+ * Framework7 4.4.6
  * Full featured mobile HTML framework for building iOS & Android apps
  * http://framework7.io/
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: March 20, 2019
+ * Released on: July 1, 2019
  */
 
 import Template7 from 'template7';
@@ -96,6 +96,8 @@ import Tooltip from './components/tooltip/tooltip';
 import Gauge from './components/gauge/gauge';
 import Skeleton from './components/skeleton/skeleton';
 import Menu from './components/menu/menu';
+import ColorPicker from './components/color-picker/color-picker';
+import Treeview from './components/treeview/treeview';
 import Vi from './components/vi/vi';
 import Elevation from './components/elevation/elevation';
 import Typography from './components/typography/typography';
@@ -184,6 +186,8 @@ Framework7.use([
   Gauge,
   Skeleton,
   Menu,
+  ColorPicker,
+  Treeview,
   Vi,
   Elevation,
   Typography

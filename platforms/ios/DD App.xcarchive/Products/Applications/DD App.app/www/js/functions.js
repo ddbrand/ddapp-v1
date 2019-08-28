@@ -156,7 +156,6 @@ function dev_login(callback) {
         data: JSON.stringify({
             "CompId": "",
             "Username": username_cookie,
-            // "Email": email_cookie,
             "Pass": password_cookie,
             "CacheName": ""
         }),
@@ -173,15 +172,12 @@ function dev_login(callback) {
                 $$('li.devsettings .item-after span.badge').html('On');
                 $$('li.devsettings .item-after span.badge').removeClass('color-red');
                 $$('li.devsettings .item-after span.badge').addClass('color-green');
-
-                // localStorage.setItem("email", email_cookie);
                 callback(true);
             }
         },
         error: function (errMsg) {
             localStorage.removeItem("dev_username");
             localStorage.removeItem("dev_pass");
-            // localStorage.removeItem("email");
             callback(false);
         }
     });
@@ -216,12 +212,12 @@ function displayContents(err, text) {
                         QRScanner.cancelScan(function(status){
                             $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
                             //app.tab.show("#view-home", true);
+                            QRScanner.hide();
                             homeView.router.navigate('/', {reloadAll: true, animate: true});
                             $('.toolbar-bottom').show();
                             app.toolbar.show('.toolbar-bottom', true);
                             QRScanner.destroy();
                             QRScanner.cancelScan();
-                            QRScanner.hide();
                         });
                     }
                 });
@@ -239,7 +235,9 @@ function displayContents(err, text) {
                     closeTimeout: 4000,
                 });
                 toastCenter.open();
+                QRScanner.hide();
                 QRScanner.cancelScan(function (status) {
+                    QRScanner.hide();
                     $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
                     // app.tab.show("#view-home", true);
                     homeView.router.navigate('/', {reloadAll: true, animate: true});
@@ -251,7 +249,6 @@ function displayContents(err, text) {
                 });
                 app.tab.show("#view-stats", true);
                 statsView.router.navigate('/stats/', {reloadAll: true, animate: true});
-
             }
         } else {
             QRScanner.cancelScan(function (status) {
@@ -266,12 +263,6 @@ function displayContents(err, text) {
                 QRScanner.scan(displayContents);
                 QRScanner.show();
             });
-            /*var toastCenter = app.toast.create({
-              text: 'The code you scanned is invalid. Please try another.',
-              position: 'top',
-              closeTimeout: 6000,
-            });
-            toastCenter.open();*/
         }
     }
 }
@@ -294,13 +285,19 @@ function devcheck() {
 }
 
 function login_add(callback) {
+    var username_cookie = localStorage.getItem("username");
+    var password_cookie = localStorage.getItem("pass");
     var next_username_cookie = $$('#my-login-add-screen [name="username"]').val();
     var next_password_cookie = $$('#my-login-add-screen [name="password"]').val();
-    //var next_email_cookie = $$('#my-login-add-screen [name="email"]').val();
     $.ajax({
         type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username_cookie + ':' + password_cookie));
+        },
         url: "https://data-manager-1.dd-brain.com/api/login",
-        // The key needs to match your method's input parameter (case-sensitive).
         data: JSON.stringify({
             "CompId": "",
             "Username": next_username_cookie,
@@ -382,6 +379,18 @@ function savebase64AsImageFile(folderpath,filename,content,contentType){
     });
 }
 
+
+function isplanselected(planid) {
+    var currentplans = JSON.parse(localStorage.getItem("myplans"));
+    var myplans = [];
+    var finalplans = myplans.concat(currentplans);
+    if ($.inArray(planid, finalplans) !== -1) {
+        $('.planselecter[data-id="' + planid + '"]').prop('checked', true);
+    } else {
+        $('.planselecter[data-id="' + planid + '"]').prop('checked', false);
+    }
+}
+
 function pullalltrainings() {
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
@@ -390,6 +399,7 @@ function pullalltrainings() {
             if(response_obj.success == false) {
                 //$('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
             } else {
+                $$('.iwu ul').html('');
                 var checkedcategories = [];
                 var valuearray = {};
                 var checkedsubcategories = [];
@@ -405,52 +415,67 @@ function pullalltrainings() {
                         var thisplanunits = response_obj.value[i]['numunits'];
                         var thisplandescription = response_obj.value[i]['description'];
                         if ($.inArray(thisplan, checkedplans) !== -1) {
-
                         } else {
+                            $$('div.iwu ul').append('<li><div href="#" class="item-link item-checkbox item-content setplan" data-id="' + thisplan + '">\n' +
 
-                            $$('div.iwu ul').append('<li><a href="#" class="item-link item-content setplan" data-id="' + thisplan + '">\n' +
-                                '                                <div class="item-inner">\n' +
+                                '        <div class="item-inner">\n' +
                                 '                                <div class="item-title-row">\n' +
+                                '                                <label class="checkbox"><input class="planselecter color-lightblue" type="checkbox" data-id="' + thisplan + '">' +
+                                '                                <i class="color-lightblue icon-checkbox"></i></label>&nbsp;' +
                                 '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
                                 '                                <div class="item-after">' + thisplanunits + ' ' + translate_strings('units') + '</div>\n' +
                                 '                            </div>\n' +
                                 '                            <div class="item-subtitle">by ' +  thisplanauthor + '</div>\n' +
                                 '                            <div class="item-text">' + thisplandescription + '</div>\n' +
                                 '                            </div>\n' +
-                                '                            </a></li>');
+                                '                            </div></li>');
                             checkedplans.push(thisplan);
-
+                            isplanselected(thisplan);
                         }
-
-
-
                 }
 
-                $$('div.iwu ul a').on('click', function() {
-                    var planid = $(this).attr('data-id');
-                    var currentplans = JSON.parse(localStorage.getItem("myplans"));
-                    var myplans = [];
-
-                    //var myplans = JSON.parse(localStorage.getItem("myplans"));
-
-                    var finalplans = myplans.concat(currentplans);
-                    if ($.inArray(planid, finalplans) !== -1) {
-                        var toastCenter = app.toast.create({
-                            text: 'You have already selected this plan.',
-                            position: 'top',
-                            closeButton: true,
-                            closeTimeout: 3000,
-                        });
-                        toastCenter.open();
-                        var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
-                        $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                $('div.iwu ul input.planselecter').on('change', function(e) {
+                    if (e.target.checked) {
+                        $(this).prop('checked', true);
+                        var planid = $(this).attr('data-id');
+                        var currentplans = JSON.parse(localStorage.getItem("myplans"));
+                        var myplans = [];
+                        var finalplans = myplans.concat(currentplans);
+                        if ($.inArray(planid, finalplans) !== -1) {
+                            var toastCenter = app.toast.create({
+                                text: translate_strings('selectedplan'),
+                                position: 'top',
+                                closeButton: true,
+                                closeTimeout: 3000,
+                            });
+                            toastCenter.open();
+                            var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                            $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                            sendplans();
+                        } else {
+                            finalplans.push(planid);
+                            localStorage.setItem("myplans", JSON.stringify(finalplans));
+                            var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                            $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                            sendplans();
+                        }
                     } else {
-                        finalplans.push(planid);
-                        localStorage.setItem("myplans", JSON.stringify(finalplans));
+                        var dataid = $$(this).attr('data-id');
                         var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+
+                        removedIndx = myplansindicator.indexOf(dataid);
+                        while(removedIndx > -1) {
+                            myplansindicator.splice(removedIndx, 1);
+                            removedIndx = myplansindicator.indexOf(dataid);
+                        }
+                        localStorage.setItem("myplans", JSON.stringify(myplansindicator));
+
                         $$('.myplansind i .badge').html(myplansindicator.length - 1);
+
+                        $(this).prop('checked', false);
                         sendplans();
                     }
+
 
                 });
             }
@@ -459,11 +484,22 @@ function pullalltrainings() {
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     } else {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     }
-    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
@@ -515,11 +551,22 @@ function trainingplans() {
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     } else {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     }
-    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
@@ -567,12 +614,24 @@ function subcat() {
     });
     // Set http request method and url
     xhr.withCredentials = true;
+
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     } else {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     }
-    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
@@ -583,50 +642,94 @@ function sendplans() {
     var filtered = localplans.filter(function (el) {
         return el != null;
     });
-    
-    
-    $.ajax({
-        type: "POST",
-        url: "https://data-manager-1.dd-brain.com/api/workouts/selected",
-        // The key needs to match your method's input parameter (case-sensitive).
-        xhrFields: {
-            withCredentials: true
-        },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
-        },
-        data: JSON.stringify({
-            "ids": filtered,
-            "username": localStorage.getItem('username'),
-            "password": localStorage.getItem('pass'),
-            "cachename": ""
-        }),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        timeout: 25000,
-        success: function (data) {
-            if (data.success === false) {
-                var toastCenter = app.toast.create({
-                    text: JSON.stringify(data),
-                    position: 'top',
-                    closeTimeout: 12000,
-                });
-                toastCenter.open();
-                callback(false);
-            } else {
-                /*var toastCenter = app.toast.create({
-                    text: 'Erfolg :)',
-                    position: 'top',
-                    closeTimeout: 12000,
-                });
-                toastCenter.open();
-                callback(true);*/
+
+    if(localStorage.getItem('dev_login') === 'ok') {
+        $.ajax({
+            type: "POST",
+            url: "https://data-manager-1-dev.dd-brain.com/api/workouts/selected",
+            // The key needs to match your method's input parameter (case-sensitive).
+            xhrFields: {
+                withCredentials: true
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+            },
+            data: JSON.stringify({
+                "ids": filtered,
+                "username": localStorage.getItem('username'),
+                "password": localStorage.getItem('pass'),
+                "cachename": ""
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            timeout: 25000,
+            success: function (data) {
+                if (data.success === false) {
+                    var toastCenter = app.toast.create({
+                        text: JSON.stringify(data),
+                        position: 'top',
+                        closeTimeout: 12000,
+                    });
+                    toastCenter.open();
+                    callback(false);
+                } else {
+                    /*var toastCenter = app.toast.create({
+                        text: 'Erfolg :)',
+                        position: 'top',
+                        closeTimeout: 12000,
+                    });
+                    toastCenter.open();
+                    callback(true);*/
+                }
+            },
+            error: function (errMsg) {
+                alert(JSON.stringify(errMsg));
             }
-        },
-        error: function (errMsg) {
-            alert(JSON.stringify(errMsg));
-        }
-    });
+        });
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "https://data-manager-1.dd-brain.com/api/workouts/selected",
+            // The key needs to match your method's input parameter (case-sensitive).
+            xhrFields: {
+                withCredentials: true
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+            },
+            data: JSON.stringify({
+                "ids": filtered,
+                "username": localStorage.getItem('username'),
+                "password": localStorage.getItem('pass'),
+                "cachename": ""
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            timeout: 25000,
+            success: function (data) {
+                if (data.success === false) {
+                    var toastCenter = app.toast.create({
+                        text: JSON.stringify(data),
+                        position: 'top',
+                        closeTimeout: 12000,
+                    });
+                    toastCenter.open();
+                    callback(false);
+                } else {
+                    /*var toastCenter = app.toast.create({
+                        text: 'Erfolg :)',
+                        position: 'top',
+                        closeTimeout: 12000,
+                    });
+                    toastCenter.open();
+                    callback(true);*/
+                }
+            },
+            error: function (errMsg) {
+                alert(JSON.stringify(errMsg));
+            }
+        });
+    }
 }
 function planchoice() {
 
@@ -657,60 +760,91 @@ function planchoice() {
 
                         } else {
 
-                            $$('ul.planchoice').append('<li><a href="#" class="item-link item-content setplan" data-id="' + thisplan + '">\n' +
-                                '                                <div class="item-inner">\n' +
+                            $$('ul.planchoice').append('<li><div href="#" class="item-link item-checkbox item-content setplan" data-id="' + thisplan + '">\n' +
+
+                                '        <div class="item-inner">\n' +
                                 '                                <div class="item-title-row">\n' +
+                                '                                <label class="checkbox"><input class="planselecter color-lightblue" type="checkbox" data-id="' + thisplan + '">' +
+                                '                                <i class="color-lightblue icon-checkbox"></i></label>&nbsp;' +
                                 '                                <div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
                                 '                                <div class="item-after">' + thisplanunits + ' ' + translate_strings('units') + '</div>\n' +
                                 '                            </div>\n' +
                                 '                            <div class="item-subtitle">by ' +  thisplanauthor + '</div>\n' +
                                 '                            <div class="item-text">' + thisplandescription + '</div>\n' +
                                 '                            </div>\n' +
-                                '                            </a></li>');
+                                '                            </div></li>');
                             checkedplans.push(thisplan);
+                            isplanselected(thisplan);
                         }
                     }
                 }
 
-                $$('ul.planchoice a').on('click', function() {
-                    $$('subplansbreadcrumb').html(localStorage.getItem('category'));
-                    var planid = $(this).attr('data-id');
-                    var currentplans = JSON.parse(localStorage.getItem("myplans"));
-                    var myplans = [];
-
-                    //var myplans = JSON.parse(localStorage.getItem("myplans"));
-
-                    var finalplans = myplans.concat(currentplans);
-                    if ($.inArray(planid, finalplans) !== -1) {
-                        var toastCenter = app.toast.create({
-                            text: translate_strings('selectedplan'),
-                            position: 'top',
-                            closeButton: true,
-                            closeTimeout: 3000,
-                        });
-                        toastCenter.open();
-                        var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
-                        $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                $('input.planselecter').on('change', function(e) {
+                    if (e.target.checked) {
+                        $(this).prop('checked', true);
+                        var planid = $(this).attr('data-id');
+                        var currentplans = JSON.parse(localStorage.getItem("myplans"));
+                        var myplans = [];
+                        var finalplans = myplans.concat(currentplans);
+                        if ($.inArray(planid, finalplans) !== -1) {
+                            var toastCenter = app.toast.create({
+                                text: translate_strings('selectedplan'),
+                                position: 'top',
+                                closeButton: true,
+                                closeTimeout: 3000,
+                            });
+                            toastCenter.open();
+                            var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                            $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                            sendplans();
+                        } else {
+                            finalplans.push(planid);
+                            localStorage.setItem("myplans", JSON.stringify(finalplans));
+                            var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+                            $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                            sendplans();
+                        }
                     } else {
-                        finalplans.push(planid);
-                        localStorage.setItem("myplans", JSON.stringify(finalplans));
+                        var dataid = $$(this).attr('data-id');
                         var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
+
+                        removedIndx = myplansindicator.indexOf(dataid);
+                        while(removedIndx > -1) {
+                            myplansindicator.splice(removedIndx, 1);
+                            removedIndx = myplansindicator.indexOf(dataid);
+                        }
+                        localStorage.setItem("myplans", JSON.stringify(myplansindicator));
+
                         $$('.myplansind i .badge').html(myplansindicator.length - 1);
+
+                        $(this).prop('checked', false);
+                        sendplans();
                     }
 
+
                 });
-                sendplans();
             }
         }
     });
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     } else {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     }
-    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
@@ -766,27 +900,34 @@ function showmyplans() {
                         myplansindicator.splice(removedIndx, 1);
                         removedIndx = myplansindicator.indexOf(dataid);
                     }
-                    sendplans();
                     localStorage.setItem("myplans", JSON.stringify(myplansindicator));
 
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
+                    sendplans();
                 });
-                sendplans();
             }
         }
     });
     // Set http request method and url
     xhr.withCredentials = true;
     if(localStorage.getItem('language') == 'de') {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     } else {
-        xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+        if(localStorage.getItem('dev_login') === 'ok') {
+            xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+        } else {
+            xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+        }
     }
-    xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
 }
-
-
-/* funktion für subcat */

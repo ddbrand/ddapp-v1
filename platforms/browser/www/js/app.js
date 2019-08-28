@@ -12,14 +12,19 @@ var app = new Framework7({
     touch: {
         tapHold: true //enable tap hold events
     },
+    dialog: {
+        title: translate_strings('attention'),
+        buttonOk: translate_strings('ok'),
+        buttonCancel: translate_strings('cancel'),
+    }
 });
-
 // Init/Create views
 var homeView = app.views.create('#view-home', {
     url: '/',
     componentUrl: '/',
     domCache: false,
-    reloadPages: true
+    reloadPages: true,
+    reloadCurrent: true
 });
 var statsView = app.views.create('#view-stats', {
     url: '/stats/',
@@ -95,7 +100,6 @@ $$('#my-dev-login-screen .login-button').on('click', function () {
     app.loginScreen.close('#my-dev-login-screen');
 });
 
-
 $$(document).on('page:init', function (e) {
 
     devcheck();
@@ -105,33 +109,6 @@ $$(document).on('page:init', function (e) {
             /*ignoreCache: true,
             reloadCurrent: true,*/
         })
-    });
-
-    var $ptrContent = $$('.ptr-content');
-// Add 'refresh' listener on it
-    $ptrContent.on('ptr:refresh', function (e) {
-        // Emulate 2s loading
-        statsView.router.navigate('/stats/', {
-            ignoreCache: true,
-            reloadCurrent: true,
-        });
-        setTimeout(function () {
-
-            app.ptr.done(); // or e.detail();
-        }, 2000);
-    });
-
-    $$('.resettrainingplans').on('click', function () {
-        localStorage.removeItem("myplans");
-        var toastCenter = app.toast.create({
-            text: translate_strings('resetedworkouts'),
-            position: 'top',
-            closeButton: true,
-            closeTimeout: 3000,
-        });
-        toastCenter.open();
-        $$('.myplansind i .badge').html(0);
-        sendplans();
     });
 
     var current_username = localStorage.getItem("username");
@@ -156,8 +133,12 @@ $$(document).on('page:init', function (e) {
         }
         statsView.router.back('/training_detail/', {force: true, ignoreCache: true, animate: true})
     });
-
-
+    $$('.showhome').on('click', function() {
+        homeView.router.navigate('/', {
+            reloadCurrent: true,
+            ignoreCache: true
+        });
+    });
     $$('.showstats').on('click', function (e) {
         app.tab.show("#view-stats", true);
         e.preventDefault();
@@ -173,27 +154,5 @@ $$(document).on('page:init', function (e) {
     $$('.showplans').on('click', function (e) {
         app.tab.show("#view-plans", true);
         e.preventDefault();
-    });
-});
-
-
-
-$$(document).on('page:init', '.page[data-name="user"]', function (e) {
-    $$('.pushy').on('change', function () {
-        if ($(this).prop('checked')) {
-            notificationFull.open();
-            localStorage.setItem('pushy', 'true');
-        } else {
-            localStorage.removeItem('pushy');
-        }
-    });
-    $$('.darkmode').on('change', function () {
-        if ($(this).prop('checked')) {
-            localStorage.setItem('theme', 'theme-dark');
-            $('body').addClass('theme-dark');
-        } else {
-            localStorage.removeItem('theme');
-            $('body').removeClass('theme-dark');
-        }
     });
 });

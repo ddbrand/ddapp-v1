@@ -1,5 +1,6 @@
 import $ from 'dom7';
 import Utils from '../../utils/utils';
+import Support from '../../utils/support';
 import Modal from '../modal/modal-class';
 
 class Sheet extends Modal {
@@ -16,13 +17,16 @@ class Sheet extends Modal {
     const sheet = this;
 
     sheet.params = extendedParams;
+    if (typeof sheet.params.backdrop === 'undefined') {
+      sheet.params.backdrop = app.theme !== 'ios';
+    }
 
     // Find Element
     let $el;
     if (!sheet.params.el) {
-      $el = $(sheet.params.content);
+      $el = $(sheet.params.content).filter((elIndex, node) => node.nodeType === 1).eq(0);
     } else {
-      $el = $(sheet.params.el);
+      $el = $(sheet.params.el).eq(0);
     }
 
     if ($el && $el.length > 0 && $el[0].f7Modal) {
@@ -33,7 +37,10 @@ class Sheet extends Modal {
       return sheet.destroy();
     }
     let $backdropEl;
-    if (sheet.params.backdrop) {
+
+    if (sheet.params.backdrop && sheet.params.backdropEl) {
+      $backdropEl = $(sheet.params.backdropEl);
+    } else if (sheet.params.backdrop) {
       $backdropEl = app.root.children('.sheet-backdrop');
       if ($backdropEl.length === 0) {
         $backdropEl = $('<div class="sheet-backdrop"></div>');
@@ -41,8 +48,17 @@ class Sheet extends Modal {
       }
     }
 
+    Utils.extend(sheet, {
+      app,
+      $el,
+      el: $el[0],
+      $backdropEl,
+      backdropEl: $backdropEl && $backdropEl[0],
+      type: 'sheet',
+    });
+
     let $pageContentEl;
-    function scrollToOpen() {
+    function scrollToElementOnOpen() {
       const $scrollEl = $(sheet.params.scrollToEl).eq(0);
       if ($scrollEl.length === 0) return;
       $pageContentEl = $scrollEl.parents('.page-content');
@@ -72,7 +88,7 @@ class Sheet extends Modal {
       }
     }
 
-    function scrollToClose() {
+    function scrollToElementOnClose() {
       if ($pageContentEl && $pageContentEl.length > 0) {
         $pageContentEl.css({
           'padding-bottom': '',
@@ -82,6 +98,8 @@ class Sheet extends Modal {
     function handleClick(e) {
       const target = e.target;
       const $target = $(target);
+      const keyboardOpened = !app.device.desktop && app.device.cordova && ((window.Keyboard && window.Keyboard.isVisible) || (window.cordova.plugins && window.cordova.plugins.Keyboard && window.cordova.plugins.Keyboard.isVisible));
+      if (keyboardOpened) return;
       if ($target.closest(sheet.el).length === 0) {
         if (
           sheet.params.closeByBackdropClick
@@ -96,9 +114,203 @@ class Sheet extends Modal {
       }
     }
 
+    function onKeyDown(e) {
+      const keyCode = e.keyCode;
+      if (keyCode === 27 && sheet.params.closeOnEscape) {
+        sheet.close();
+      }
+    }
+
+
+    let isTouched = false;
+    let startTouch;
+    let currentTouch;
+    let isScrolling;
+    let touchStartTime;
+    let touchesDiff;
+    let isMoved = false;
+    let isTopSheetModal;
+    let swipeStepTranslate;
+    let startTranslate;
+    let currentTranslate;
+    let sheetElOffsetHeight;
+    let minTranslate;
+    let maxTranslate;
+
+    function handleTouchStart(e) {
+      if (isTouched || !(sheet.params.swipeToClose || sheet.params.swipeToStep)) return;
+      if (sheet.params.swipeHandler && $(e.target).closest(sheet.params.swipeHandler).length === 0) {
+        return;
+      }
+      isTouched = true;
+      isMoved = false;
+      startTouch = {
+        x: e.type === 'touchstart' ? e.targetTouches[0].pageX : e.pageX,
+        y: e.type === 'touchstart' ? e.targetTouches[0].pageY : e.pageY,
+      };
+      touchStartTime = Utils.now();
+      isScrolling = undefined;
+      isTopSheetModal = $el.hasClass('sheet-modal-top');
+    }
+    function handleTouchMove(e) {
+      if (!isTouched) return;
+      currentTouch = {
+        x: e.type === 'touchmove' ? e.targetTouches[0].pageX : e.pageX,
+        y: e.type === 'touchmove' ? e.targetTouches[0].pageY : e.pageY,
+      };
+
+      if (typeof isScrolling === 'undefined') {
+        isScrolling = !!(isScrolling || Math.abs(currentTouch.x - startTouch.x) > Math.abs(currentTouch.y - startTouch.y));
+      }
+      if (isScrolling) {
+        isTouched = false;
+        isMoved = false;
+        return;
+      }
+
+      touchesDiff = startTouch.y - currentTouch.y;
+
+      if (!isMoved) {
+        sheetElOffsetHeight = $el[0].offsetHeight;
+        startTranslate = Utils.getTranslate($el[0], 'y');
+        if (isTopSheetModal) {
+          minTranslate = sheet.params.swipeToClose ? -sheetElOffsetHeight : -swipeStepTranslate;
+          maxTranslate = 0;
+        } else {
+          minTranslate = 0;
+          maxTranslate = sheet.params.swipeToClose ? sheetElOffsetHeight : swipeStepTranslate;
+        }
+        isMoved = true;
+      }
+      currentTranslate = startTranslate - touchesDiff;
+      currentTranslate = Math.min(Math.max(currentTranslate, minTranslate), maxTranslate);
+      e.preventDefault();
+      $el
+        .transition(0)
+        .transform(`translate3d(0,${currentTranslate}px,0)`);
+    }
+    function handleTouchEnd() {
+      isTouched = false;
+      if (!isMoved) {
+        return;
+      }
+      isMoved = false;
+      $el.transform('').transition('');
+
+      const direction = touchesDiff < 0 ? 'to-bottom' : 'to-top';
+
+      const diff = Math.abs(touchesDiff);
+      if (diff === 0 || currentTranslate === startTranslate) return;
+
+      const timeDiff = (new Date()).getTime() - touchStartTime;
+
+      if (!sheet.params.swipeToStep) {
+        if (direction !== (isTopSheetModal ? 'to-top' : 'to-bottom')) {
+          return;
+        }
+        if ((timeDiff < 300 && diff > 20) || (timeDiff >= 300 && diff > (sheetElOffsetHeight / 2))) {
+          sheet.close();
+        }
+        return;
+      }
+
+      const openDirection = isTopSheetModal ? 'to-bottom' : 'to-top';
+      const closeDirection = isTopSheetModal ? 'to-top' : 'to-bottom';
+      const absCurrentTranslate = Math.abs(currentTranslate);
+      const absSwipeStepTranslate = Math.abs(swipeStepTranslate);
+
+      if (timeDiff < 300 && diff > 10) {
+        if (direction === openDirection && absCurrentTranslate < absSwipeStepTranslate) {
+          // open step
+          $el.removeClass('modal-in-swipe-step');
+          $el.trigger('sheet:stepopen');
+          sheet.emit('local::stepOpen sheetStepOpen', sheet);
+        }
+        if (direction === closeDirection && absCurrentTranslate > absSwipeStepTranslate) {
+          // close sheet
+          if (sheet.params.swipeToClose) {
+            sheet.close();
+          } else {
+            // close step
+            $el.addClass('modal-in-swipe-step');
+            $el.trigger('sheet:stepclose');
+            sheet.emit('local::stepClose sheetStepClose', sheet);
+          }
+        }
+        if (direction === closeDirection && absCurrentTranslate <= absSwipeStepTranslate) {
+          // close step
+          $el.addClass('modal-in-swipe-step');
+          $el.trigger('sheet:stepclose');
+          sheet.emit('local::stepClose sheetStepClose', sheet);
+        }
+        return;
+      }
+      if (timeDiff >= 300) {
+        const stepOpened = !$el.hasClass('modal-in-swipe-step');
+        if (!stepOpened) {
+          if (absCurrentTranslate < (absSwipeStepTranslate / 2)) {
+            // open step
+            $el.removeClass('modal-in-swipe-step');
+            $el.trigger('sheet:stepopen');
+            sheet.emit('local::stepOpen sheetStepOpen', sheet);
+          } else if ((absCurrentTranslate - absSwipeStepTranslate) > (sheetElOffsetHeight - absSwipeStepTranslate) / 2) {
+            // close sheet
+            if (sheet.params.swipeToClose) sheet.close();
+          }
+        } else if (stepOpened) {
+          if (absCurrentTranslate > absSwipeStepTranslate + (sheetElOffsetHeight - absSwipeStepTranslate) / 2) {
+            // close sheet
+            if (sheet.params.swipeToClose) sheet.close();
+          } else if (absCurrentTranslate > absSwipeStepTranslate / 2) {
+            // close step
+            $el.addClass('modal-in-swipe-step');
+            $el.trigger('sheet:stepclose');
+            sheet.emit('local::stepClose sheetStepClose', sheet);
+          }
+        }
+      }
+    }
+
+    function setSwipeStep(byResize) {
+      const $swipeStepEl = $el.find('.sheet-modal-swipe-step').eq(0);
+      if (!$swipeStepEl.length) return;
+      if ($el.hasClass('sheet-modal-top')) {
+        swipeStepTranslate = -($swipeStepEl.offset().top - $el.offset().top + $swipeStepEl[0].offsetHeight);
+      } else {
+        swipeStepTranslate = $el[0].offsetHeight - ($swipeStepEl.offset().top - $el.offset().top + $swipeStepEl[0].offsetHeight);
+      }
+      $el[0].style.setProperty('--f7-sheet-swipe-step', `${swipeStepTranslate}px`);
+      if (!byResize) {
+        $el.addClass('modal-in-swipe-step');
+      }
+    }
+
+    function onResize() {
+      setSwipeStep(true);
+    }
+
+    const passive = Support.passiveListener ? { passive: true } : false;
+    if (sheet.params.swipeToClose || sheet.params.swipeToStep) {
+      $el.on(app.touchEvents.start, handleTouchStart, passive);
+      app.on('touchmove', handleTouchMove);
+      app.on('touchend:passive', handleTouchEnd);
+      sheet.once('sheetDestroy', () => {
+        $el.off(app.touchEvents.start, handleTouchStart, passive);
+        app.off('touchmove', handleTouchMove);
+        app.off('touchend:passive', handleTouchEnd);
+      });
+    }
+
     sheet.on('sheetOpen', () => {
+      if (sheet.params.closeOnEscape) {
+        $(document).on('keydown', onKeyDown);
+      }
+      if (sheet.params.swipeToStep) {
+        setSwipeStep();
+        app.on('resize', onResize);
+      }
       if (sheet.params.scrollToEl) {
-        scrollToOpen();
+        scrollToElementOnOpen();
       }
     });
     sheet.on('sheetOpened', () => {
@@ -107,22 +319,30 @@ class Sheet extends Modal {
       }
     });
     sheet.on('sheetClose', () => {
+      if (sheet.params.swipeToStep) {
+        $el.removeClass('modal-in-swipe-step');
+        app.off('resize', onResize);
+      }
+      if (sheet.params.closeOnEscape) {
+        $(document).off('keydown', onKeyDown);
+      }
       if (sheet.params.scrollToEl) {
-        scrollToClose();
+        scrollToElementOnClose();
       }
       if (sheet.params.closeByOutsideClick || sheet.params.closeByBackdropClick) {
         app.off('click', handleClick);
       }
     });
 
-    Utils.extend(sheet, {
-      app,
-      $el,
-      el: $el[0],
-      $backdropEl,
-      backdropEl: $backdropEl && $backdropEl[0],
-      type: 'sheet',
-    });
+    sheet.stepOpen = function stepOpen() {
+      $el.removeClass('modal-in-swipe-step');
+    };
+    sheet.stepClose = function stepClose() {
+      $el.addClass('modal-in-swipe-step');
+    };
+    sheet.stepToggle = function stepToggle() {
+      $el.toggleClass('modal-in-swipe-step');
+    };
 
     $el[0].f7Modal = sheet;
 

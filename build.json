@@ -1,0 +1,11 @@
+{
+  "android": {
+    "release": {
+      "keystore": "ddrelease.jks",
+      "storePassword": "mXNHt5",
+      "alias": "ddrelease",
+      "password" : "mXNHt5",
+      "keystoreType": "JKS"
+    }
+  }
+}

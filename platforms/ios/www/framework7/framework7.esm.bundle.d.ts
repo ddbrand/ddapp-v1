@@ -31,6 +31,7 @@ import {Calendar as CalendarNamespace} from './components/calendar/calendar';
 import {Card as CardNamespace} from './components/card/card';
 import {Checkbox as CheckboxNamespace} from './components/checkbox/checkbox';
 import {Chip as ChipNamespace} from './components/chip/chip';
+import {ColorPicker as ColorPickerNamespace} from './components/color-picker/color-picker';
 import {ContactsList as ContactsListNamespace} from './components/contacts-list/contacts-list';
 import {DataTable as DataTableNamespace} from './components/data-table/data-table';
 import {Dialog as DialogNamespace} from './components/dialog/dialog';
@@ -81,6 +82,7 @@ import {Toggle as ToggleNamespace} from './components/toggle/toggle';
 import {Toolbar as ToolbarNamespace} from './components/toolbar/toolbar';
 import {Tooltip as TooltipNamespace} from './components/tooltip/tooltip';
 import {TouchRipple as TouchRippleNamespace} from './components/touch-ripple/touch-ripple';
+import {Treeview as TreeviewNamespace} from './components/treeview/treeview';
 import {Typography as TypographyNamespace} from './components/typography/typography';
 import {Vi as ViNamespace} from './components/vi/vi';
 import {View as ViewNamespace} from './components/view/view';
@@ -147,6 +149,9 @@ declare module './components/app/app-class' {
   interface Framework7Class<Events> extends ChipNamespace.AppMethods{}
   interface Framework7Params extends ChipNamespace.AppParams{}
   interface Framework7Events extends ChipNamespace.AppEvents{}
+  interface Framework7Class<Events> extends ColorPickerNamespace.AppMethods{}
+  interface Framework7Params extends ColorPickerNamespace.AppParams{}
+  interface Framework7Events extends ColorPickerNamespace.AppEvents{}
   interface Framework7Class<Events> extends ContactsListNamespace.AppMethods{}
   interface Framework7Params extends ContactsListNamespace.AppParams{}
   interface Framework7Events extends ContactsListNamespace.AppEvents{}
@@ -297,6 +302,9 @@ declare module './components/app/app-class' {
   interface Framework7Class<Events> extends TouchRippleNamespace.AppMethods{}
   interface Framework7Params extends TouchRippleNamespace.AppParams{}
   interface Framework7Events extends TouchRippleNamespace.AppEvents{}
+  interface Framework7Class<Events> extends TreeviewNamespace.AppMethods{}
+  interface Framework7Params extends TreeviewNamespace.AppParams{}
+  interface Framework7Events extends TreeviewNamespace.AppEvents{}
   interface Framework7Class<Events> extends TypographyNamespace.AppMethods{}
   interface Framework7Params extends TypographyNamespace.AppParams{}
   interface Framework7Events extends TypographyNamespace.AppEvents{}

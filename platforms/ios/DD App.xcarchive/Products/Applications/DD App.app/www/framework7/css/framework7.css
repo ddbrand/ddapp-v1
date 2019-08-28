@@ -1,5 +1,5 @@
 /**
- * Framework7 4.2.0
+ * Framework7 4.4.6
  * Full featured mobile HTML framework for building iOS & Android apps
  * http://framework7.io/
  *
@@ -7,17 +7,17 @@
  *
  * Released under the MIT License
  *
- * Released on: March 20, 2019
+ * Released on: July 1, 2019
  */
 
 /*====================
   Core
   ==================== */
 :root {
-  --f7-theme-color: #58595b;
+  --f7-theme-color: #007aff;
   --f7-theme-color-rgb: 0, 122, 255;
-  --f7-theme-color-shade: #323334;
-  --f7-theme-color-tint: #58595b;
+  --f7-theme-color-shade: #0066d6;
+  --f7-theme-color-tint: #298fff;
   --f7-safe-area-left: 0px;
   --f7-safe-area-right: 0px;
   --f7-safe-area-top: 0px;
@@ -676,6 +676,10 @@ a {
   cursor: pointer;
   text-decoration: none;
   color: var(--f7-theme-color);
+}
+.link,
+.item-link {
+  cursor: pointer;
 }
 p {
   margin: 1em 0;
@@ -4725,9 +4729,9 @@ input[type="button"].button {
 }
 .ripple,
 .fab a,
-a.link,
-a.item-link,
-a.list-button,
+.link,
+.item-link,
+.list-button,
 .button,
 .dialog-button,
 .tab-link,

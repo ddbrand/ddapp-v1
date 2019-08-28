@@ -25,7 +25,7 @@
                         </div>
                         <div class="item-inner">
                             <div class="item-title-row">
-                                <div data-string="currentuser" class="item-title translate"><span data-string="currentuser" class="translate">Current user: </span><span class="insert-username"></span></div>
+                                <div class="item-title"><span data-string="currentuser" class="translate">Current user: </span><span class="insert-username"></span></div>
                             </div>
                         </div>
                     </a>
@@ -34,8 +34,13 @@
         </div>
         <div class="centered">
             <div data-string="adduser" class="add_user_button login_add_screen_open translate">Add User</div><br />
-            <a href="#" data-string="registernewaccount" class="translate" onclick="window.open('https://ddrobotec.com/register', '_system');">Register new account</a><br />
-            <a href="#" data-string="passwordforget" class="translate" onclick="window.open('https://ddrobotec.com/password-forget', '_system');">Password forget?</a><br />
+            <div class="list adduser-list">
+                <div class="block-footer"><a href="#" data-string="registernewaccount" class="register_screen_open translate">Register
+                    free DD Account</a><br/>
+                    <a href="#" data-string="passwordforget" class="forget_screen_open translate"
+                    >Password forget?</a><br/>
+                </div>
+            </div>
         </div>
     </div>
 </div>

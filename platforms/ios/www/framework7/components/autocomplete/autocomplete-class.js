@@ -206,10 +206,43 @@ class Autocomplete extends Framework7Class {
     }
 
     function onKeyDown(e) {
-      if (ac.opened && e.keyCode === 13) {
+      if (!ac.opened) return;
+      if (e.keyCode === 27) {
+        // ESC
         e.preventDefault();
         ac.$inputEl.blur();
+        return;
       }
+      if (e.keyCode === 13) {
+        // Enter
+        const $selectedItemLabel = ac.$dropdownEl.find('.autocomplete-dropdown-selected label');
+        if ($selectedItemLabel.length) {
+          e.preventDefault();
+          $selectedItemLabel.trigger('click');
+          ac.$inputEl.blur();
+          return;
+        }
+        if (ac.params.typeahead) {
+          e.preventDefault();
+          ac.$inputEl.blur();
+        }
+        return;
+      }
+      if (e.keyCode !== 40 && e.keyCode !== 38) return;
+      e.preventDefault();
+      const $selectedItem = ac.$dropdownEl.find('.autocomplete-dropdown-selected');
+      let $newItem;
+      if ($selectedItem.length) {
+        $newItem = $selectedItem[e.keyCode === 40 ? 'next' : 'prev']('li');
+        if (!$newItem.length) {
+          $newItem = ac.$dropdownEl.find('li').eq(e.keyCode === 40 ? 0 : ac.$dropdownEl.find('li').length - 1);
+        }
+      } else {
+        $newItem = ac.$dropdownEl.find('li').eq(e.keyCode === 40 ? 0 : ac.$dropdownEl.find('li').length - 1);
+      }
+      if ($newItem.hasClass('autocomplete-dropdown-placeholder')) return;
+      $selectedItem.removeClass('autocomplete-dropdown-selected');
+      $newItem.addClass('autocomplete-dropdown-selected');
     }
     function onDropdownClick() {
       const $clickedEl = $(this);
@@ -242,9 +275,7 @@ class Autocomplete extends Framework7Class {
         } else {
           ac.$inputEl.on('blur', onInputBlur);
         }
-        if (ac.params.typeahead) {
-          ac.$inputEl.on('keydown', onKeyDown);
-        }
+        ac.$inputEl.on('keydown', onKeyDown);
       }
     };
     ac.detachEvents = function attachEvents() {
@@ -259,9 +290,7 @@ class Autocomplete extends Framework7Class {
         } else {
           ac.$inputEl.off('blur', onInputBlur);
         }
-        if (ac.params.typeahead) {
-          ac.$inputEl.off('keydown', onKeyDown);
-        }
+        ac.$inputEl.off('keydown', onKeyDown);
       }
     };
     ac.attachDropdownEvents = function attachDropdownEvents() {
@@ -497,21 +526,44 @@ class Autocomplete extends Framework7Class {
     if (typeof pageTitle === 'undefined' && ac.$openerEl && ac.$openerEl.length) {
       pageTitle = ac.$openerEl.find('.item-title').text().trim();
     }
+    const inPopup = ac.params.openIn === 'popup';
+    const navbarLeft = inPopup
+      ? `
+        ${ac.params.preloader ? `
+        <div class="left">
+          ${ac.renderPreloader()}
+        </div>
+        ` : ''}
+      `
+      : `
+        <div class="left sliding">
+          <a class="link back">
+            <i class="icon icon-back"></i>
+            <span class="if-not-md">${ac.params.pageBackLinkText}</span>
+          </a>
+        </div>
+      `;
+    const navbarRight = inPopup
+      ? `
+        <div class="right">
+          <a class="link popup-close" data-popup=".autocomplete-popup">
+            ${ac.params.popupCloseLinkText}
+          </a>
+        </div>
+      `
+      : `
+        ${ac.params.preloader ? `
+        <div class="right">
+          ${ac.renderPreloader()}
+        </div>
+        ` : ''}
+      `;
     const navbarHtml = `
       <div class="navbar ${ac.params.navbarColorTheme ? `color-${ac.params.navbarColorTheme}` : ''}">
         <div class="navbar-inner ${ac.params.navbarColorTheme ? `color-${ac.params.navbarColorTheme}` : ''}">
-          <div class="left sliding">
-            <a href="#" class="link ${ac.params.openIn === 'page' ? 'back' : 'popup-close'}" ${ac.params.openIn === 'popup' ? 'data-popup=".autocomplete-popup"' : ''}>
-              <i class="icon icon-back"></i>
-              <span class="ios-only">${ac.params.openIn === 'page' ? ac.params.pageBackLinkText : ac.params.popupCloseLinkText}</span>
-            </a>
-          </div>
+          ${navbarLeft}
           ${pageTitle ? `<div class="title sliding">${pageTitle}</div>` : ''}
-          ${ac.params.preloader ? `
-          <div class="right">
-            ${ac.renderPreloader()}
-          </div>
-          ` : ''}
+          ${navbarRight}
           <div class="subnavbar sliding">${ac.renderSearchbar()}</div>
         </div>
       </div>
@@ -535,13 +587,13 @@ class Autocomplete extends Framework7Class {
     return dropdownHtml;
   }
 
-  renderPage() {
+  renderPage(inPopup) {
     const ac = this;
     if (ac.params.renderPage) return ac.params.renderPage.call(ac, ac.items);
 
     const pageHtml = `
       <div class="page page-with-subnavbar autocomplete-page" data-name="autocomplete-page">
-        ${ac.renderNavbar()}
+        ${ac.renderNavbar(inPopup)}
         <div class="searchbar-backdrop"></div>
         <div class="page-content">
           <div class="list autocomplete-list autocomplete-found autocomplete-list-${ac.id} ${ac.params.formColorTheme ? `color-${ac.params.formColorTheme}` : ''}">
@@ -567,7 +619,7 @@ class Autocomplete extends Framework7Class {
     const popupHtml = `
       <div class="popup autocomplete-popup">
         <div class="view">
-          ${ac.renderPage()};
+          ${ac.renderPage(true)};
         </div>
       </div>
     `.trim();
