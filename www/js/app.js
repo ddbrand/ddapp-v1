@@ -107,31 +107,12 @@ $$(document).on('page:init', function (e) {
         })
     });
 
-    var $ptrContent = $$('.ptr-content');
-// Add 'refresh' listener on it
-    $ptrContent.on('ptr:refresh', function (e) {
-        // Emulate 2s loading
-        statsView.router.navigate('/stats/', {
-            ignoreCache: true,
-            reloadCurrent: true,
-        });
-        setTimeout(function () {
-
-            app.ptr.done(); // or e.detail();
-        }, 2000);
-    });
-
-    $$('.resettrainingplans').on('click', function () {
-        localStorage.removeItem("myplans");
-        var toastCenter = app.toast.create({
-            text: translate_strings('resetedworkouts'),
-            position: 'top',
-            closeButton: true,
-            closeTimeout: 3000,
-        });
-        toastCenter.open();
-        $$('.myplansind i .badge').html(0);
-        sendplans();
+    $("#view-plans").on('tab:show', function (event, ui) {
+        // do whatever you want here, like alert a message!
+        plansView.router.navigate('/plans/', {
+            /*ignoreCache: true,
+            reloadCurrent: true,*/
+        })
     });
 
     var current_username = localStorage.getItem("username");
@@ -156,8 +137,12 @@ $$(document).on('page:init', function (e) {
         }
         statsView.router.back('/training_detail/', {force: true, ignoreCache: true, animate: true})
     });
-
-
+    $$('.showhome').on('click', function() {
+        homeView.router.navigate('/', {
+            reloadCurrent: true,
+            ignoreCache: true
+        });
+    });
     $$('.showstats').on('click', function (e) {
         app.tab.show("#view-stats", true);
         e.preventDefault();
