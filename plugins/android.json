@@ -43,6 +43,12 @@
     },
     "cordova-plugin-navigationbar-color": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
   "dependent_plugins": {
