@@ -17,14 +17,14 @@ function translate_strings(key, value, value2) {
             close: "Schliessen",
             developerlogin: "Entwickler Login",
             authboxtitle: "Brain-Muscle Training",
-            starttitle: "Bereit für dein Training, ",
+            starttitle: ", bereit für dein Training",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "Aktivitätsübersicht",
             checkoutspotlights: "Spotlights",
             browseworkouts: "Workouts",
-            qrcodehint: "Scanne den QR-Code, der auf dem Anmeldebildschirm des DD-Systems angezeigt wird, um dich mit dem Robotic Personal Trainer zu verbinden.",
+            qrcodehint: "Scanne den QR-Code, der auf dem Anmeldebildschirm des DD Systems angezeigt wird, um dich mit dem Robotic Personal Trainer zu verbinden.",
             youractivity: "Deine Aktivitäten",
-            activityintro: "Übersicht über Ihre Trainingsaktivitäten der letzten 30 Tage:",
+            activityintro: "Übersicht über deine Trainingsaktivitäten der letzten 30 Tage:",
             biggaugelabel: "von " + value + ' Punkte des Topscores',
             leftgaugelabel: "dein Rang",
             rightgaugelabel: "deine Bestleistung",
@@ -50,18 +50,20 @@ function translate_strings(key, value, value2) {
             notrainingactivity: "Du hast in den letzten 30 Tagen kein Training abgeschlossen.",
             enablecamerasupport: "Bitte aktiviere die Kameraberechtigung in den Einstellungen für die DD App.",
             successlogout: "Du wurdest erfolgreich ausgeloggt.",
-            enableddevmode: "Der Entwickler Modus wurde aktiviert. Sie können nun unveröffentlichte Funktionen in Ihrer App testen. Sie benötigen ein Entwickleraccount auf dem DD data-manager Dev Server.",
+            enableddevmode: "Der Entwickler Modus wurde aktiviert. Du kannst nun unveröffentlichte Funktionen in deiner App testen. Du benötigst ein Entwickleraccount auf dem DD data-manager Dev Server.",
             disableddevmode: "Entwicker Modus wurde deaktiviert.",
             disable: "Deaktivieren",
             remove: "Entfernen",
             successremoveuser: "Benutzer wurde erfolgreich vom Gerät entfernt.",
             failedlogin: "Du konntest leider nicht erfolgreich eingeloggt werden. Versuche es erneut.",
-            faileddevlogin: "Du konntest nicht erfolgreich als Entwickler angemeldet sein. Bitte versuchen Sie es erneut oder deaktivieren Sie den Entwicklermodus.",
+            faileddevlogin: "Du konntest nicht erfolgreich als Entwickler angemeldet werden. Bitte versuche es erneut oder deaktiviere den Entwicklermodus.",
             userchanged: "Benutzer wurde erfolgreich gewechselt.",
             successlogin: "Du wurdest erfolgreich eingeloggt.",
             successdevlogin: "Du wurdest erfolgreich als Entwickler eingeloggt.",
             successaddeduser: "Neuer Benutzer wurde erfolgreich deinem Gerät hinzugefügt.",
             selectedplan: "Dieses Workout wurde bereits hinzugefügt.",
+            selectedplans: "Ausgewählte Workouts",
+            selectedplanscopy: 'Bearbeite deine ausgewählten Workouts. Du kannst einzelne Pläne durch Wischen entfernen.',
             resetedworkouts: "Deine Workouts wurden erfolgreich zurückgesetzt.",
             language: "Sprache",
             english: "Englisch",
@@ -70,7 +72,96 @@ function translate_strings(key, value, value2) {
             workouts: "Workouts",
             restartyourapp: "Bitte starte deine App neu, damit die Änderungen wirksam werden.",
             units: "Einheiten",
+            now: "jetzt",
+            pushenabled: "Push Benachrichtigungen wurden erfolgreich aktiviert.",
+            confirmlogout: "Möchten Sie wirklich ausloggen?",
+            cancel: 'Abbrechen',
+            ok: 'OK',
+            attention: 'Achtung...',
+            confirmresetplans: 'Möchten Sie wirklich Ihre gewählten Workouts zurücksetzen?',
+            languageswitched: "Sprache erfolgreich geändert."
         };
+    } else if (localStorage.getItem('language') === 'ja') {
+        var Messages = {
+            home: "ホーム",
+            activity: "アクティビティ",
+            spotlights: "スポットライト",
+            profile: "プロフィール",
+            login: "ログイン",
+            register: "登録",
+            username: "ユーザーネーム",
+            yourusername: "あなたのユーザーネーム",
+            password: "パスワード",
+            yourpassword: "あなたのパスワード",
+            signin: "サインイン",
+            qrcodescanfailed: "QRコードでのログインに失敗しました。",
+            qrcodescanfailedcopy: "あなたがスキャンしたQRコードは無効です。このポップアップウィンドウを閉じてもう一度試して下さい。",
+            close: "閉じる",
+            developerlogin: "開発者ログイン",
+            authboxtitle: "ブレイン·マッスルトレーニング",
+            starttitle: "。 トレーニングの準備ができました",
+            qrcodelogin: "QRコードログイン",
+            viewyouractivity: "あなたのアクティビティ",
+            checkoutspotlights: "DD スポットライト",
+            browseworkouts: "トレーニング",
+            qrcodehint: "DDシステムログイン画面のQRコードをスキャンして、ロボットトレーナーと接続して下さい。",
+            youractivity: "あなたのアクティビティ",
+            activityintro: "過去30日間のトレーニングのオーバービュー",
+            biggaugelabel: "out of " + value + " ポイント トップスコア",
+            leftgaugelabel: "あなたの順位",
+            rightgaugelabel: "あなたの最高得点です。",
+            sharetext: '私の順位は、 ' + value + ' 中 ' + value2 + '私に勝てる ?',
+            last30days: '過去30日間',
+            leaderboardwomen: 'リーダーボード　女性',
+            leaderboardmen: 'リーダーボード　男性',
+            leaderboardall: 'リーダーボード　男女',
+            yourprofile: "あなたのプロフィール ",
+            developermode: '開発者モード',
+            changeuser: "ユーザーを変更する。",
+            resetplans: "選択したワークアウトをリセットする。",
+            logout: "ログアウト",
+            settings: "設定",
+            enablepush: "プッシュ通知をオンにする。",
+            enabledark: "ダークモードをオンにする。",
+            useroverview: "ユーザーオーバービュー",
+            useroverviewintro: "現在のアカウント変更をするには、他のユーザーネームをクリックするか、新規アカウントを追加して下さい。",
+            currentuser: "現在のユーザー: ",
+            adduser: "ユーザーを追加",
+            passwordforget: "パスワードをお忘れですか?",
+            registernewaccount: "新しいアカウントを登録する。",
+            notrainingactivity: "過去30日間に完結したトレーニングがありません。",
+            enablecamerasupport: "DDアプリの設定のカメラ機能を有効にして下さい。",
+            successlogout: "ログアウトしました。また次回お会いしましょう！",
+            enableddevmode: "開発モードが起動中です。 開発モードでは、まだオンラインになっていない機能をお試し頂けます。DDデータマネージャー開発サーバー上の開発アカウントが必要です。",
+            disableddevmode: "開発者モードはオフになりました。",
+            disable: "無効",
+            remove: "削除する",
+            successremoveuser: "ユーザーは削除されました。",
+            failedlogin: "ログインできませんでした。もう一度お試し下さい。.",
+            faileddevlogin: "開発者としてログインできませんでした。もう一度お試し頂くか、開発者モードを無効にして下さい。",
+            userchanged: "ログインは変更されました。",
+            successlogin: "ログインできました。.",
+            successaddeduser: "新規アカウントを追加しました。",
+            selectedplan: "すでにこのプランを選択しています。",
+            successdevlogin: "開発者として、ログインに成功しました。",
+            resetedworkouts: "ワークアウトは、リセットされました。",
+            language: "言語",
+            english: "英語",
+            german: "ドイツ語",
+            searchworkoutplans: "トレーニングプランを検索中です...",
+            workouts: "ワークアウト",
+            restartyourapp: "アプリを再起動して変更を確認して下さい。",
+            units: "単位",
+            now: "今",
+            pushenabled: "プッシュ通知は正常に有効化されました。",
+            confirmlogout: 'ログアウトしてよろしいですか？',
+            cancel: 'キャンセル',
+            ok: 'わかった',
+            attention: '皆様...',
+            confirmresetplans: 'ワークアウトワークアウトですか？',
+            languageswitched: "言語を切り替えました。"
+    };
+
     } else {
         var Messages = {
             home: "Home",
@@ -89,7 +180,7 @@ function translate_strings(key, value, value2) {
             close: "Close",
             developerlogin: "Developer Login",
             authboxtitle: "Brain-Muscle Training",
-            starttitle: "Ready for your training, ",
+            starttitle: ", ready for your training",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "View Your Activity",
             checkoutspotlights: "Check Out Spotlights",
@@ -117,7 +208,7 @@ function translate_strings(key, value, value2) {
             useroverviewintro: "Click on another username to change your current account or add some accounts.",
             currentuser: "Current user: ",
             adduser: "Add User",
-            passwordforget: "Password forget?",
+            passwordforget: "Forgot password?",
             registernewaccount: "Register new account",
             notrainingactivity: "No training has been completed in the last 30 days.",
             enablecamerasupport: "Please enable camera support in your settings for the DD App.",
@@ -133,6 +224,8 @@ function translate_strings(key, value, value2) {
             successlogin: "You are successfully logged in.",
             successaddeduser: "You have successfully added another account.",
             selectedplan: "You have already selected this plan.",
+            selectedplans: "Selected workouts",
+            selectedplanscopy: 'Here you can find all your active training plans. You can remove individual plans by swiping.',
             successdevlogin: "You are successfully logged in as a developer.",
             resetedworkouts: "Workouts were successfully reseted",
             language: "Language",
@@ -141,24 +234,36 @@ function translate_strings(key, value, value2) {
             searchworkoutplans: "Search training plans...",
             workouts: "Workouts",
             restartyourapp: "Please restart your app to see the changes.",
-            units: "units"
+            units: "units",
+            now: "now",
+            pushenabled: "Push notifications have been successfully activated.",
+            confirmlogout: "Are you sure you want to log out?",
+            cancel: "Cancel",
+            ok: "OK",
+            attention: 'Attention...',
+            confirmresetplans: 'Are you sure you want to reset your selected workouts?',
+            languageswitched: "Language successfully switched."
         };
     }
-    $('.translate').each(function () {
-        var stringtitle = $$(this).attr('data-string');
 
-        if($(this).is('[placeholder]')) {
-            $$(this).attr('placeholder', Messages[stringtitle]);
-        } else {
-            $$(this).html(Messages[stringtitle]);
-        }
-    });
 
     if(key) {
         return Messages[key];
+    } else {
+        $('.translate').each(function () {
+            var stringtitle = $$(this).attr('data-string');
+
+            if ($(this).is('[placeholder]')) {
+                $$(this).attr('placeholder', Messages[stringtitle]);
+            } else {
+                $$(this).html(Messages[stringtitle]);
+            }
+        });
+
+
+        var current_username = localStorage.getItem("username");
+        $('.insert-username').each(function () {
+            $$(this).html(current_username);
+        });
     }
-    var current_username = localStorage.getItem("username");
-    $('.insert-username').each(function () {
-        $$(this).html(current_username);
-    });
 }
