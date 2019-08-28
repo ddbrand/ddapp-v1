@@ -12,6 +12,11 @@ var app = new Framework7({
     touch: {
         tapHold: true //enable tap hold events
     },
+    dialog: {
+        title: translate_strings('attention'),
+        buttonOk: translate_strings('ok'),
+        buttonCancel: translate_strings('cancel'),
+    }
 });
 
 // Init/Create views
@@ -19,7 +24,8 @@ var homeView = app.views.create('#view-home', {
     url: '/',
     componentUrl: '/',
     domCache: false,
-    reloadPages: true
+    reloadPages: true,
+    reloadCurrent: true
 });
 var statsView = app.views.create('#view-stats', {
     url: '/stats/',
@@ -95,9 +101,14 @@ $$('#my-dev-login-screen .login-button').on('click', function () {
     app.loginScreen.close('#my-dev-login-screen');
 });
 
-
 $$(document).on('page:init', function (e) {
-
+    if (cordova.platformId == 'android') {
+        StatusBar.show();
+        StatusBar.styleLightContent();
+    } else {
+        StatusBar.styleDefault();
+        StatusBar.backgroundColorByName("black");
+    }
     devcheck();
     $("#view-stats").on('tab:show', function (event, ui) {
         // do whatever you want here, like alert a message!
