@@ -76,7 +76,7 @@ const Device = (function Device() {
   }
   if (ipod) {
     device.osVersion = ipod[3] ? ipod[3].replace(/_/g, '.') : null;
-    device.iphone = true;
+    device.ipod = true;
   }
   // iOS 8+ changed UA
   if (device.ios && device.osVersion && ua.indexOf('Version/') >= 0) {
@@ -120,6 +120,20 @@ const Device = (function Device() {
 
   // Pixel Ratio
   device.pixelRatio = window.devicePixelRatio || 1;
+
+  // Color Scheme
+  const DARK = '(prefers-color-scheme: dark)';
+  const LIGHT = '(prefers-color-scheme: light)';
+  device.prefersColorScheme = function prefersColorTheme() {
+    let theme;
+    if (window.matchMedia && window.matchMedia(LIGHT).matches) {
+      theme = 'light';
+    }
+    if (window.matchMedia && window.matchMedia(DARK).matches) {
+      theme = 'dark';
+    }
+    return theme;
+  };
 
   // Export object
   return device;
