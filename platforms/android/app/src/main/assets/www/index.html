@@ -12,6 +12,10 @@
         <link rel="stylesheet" href="fonts/fonts.css">
         <link rel="stylesheet" href="css/icons.css">
         <link rel="stylesheet" href="css/app.css">
+        <link rel="stylesheet" href="css/animations.css">
+        <!--[if lte IE 9]>
+            <link href='css/animations-ie-fix.css' rel='stylesheet'>
+        <![endif]-->
     </head>
     <body oncontextmenu="return false" ondragstart="return false" onselectstart="return false" class="color-theme-gray">
         <div id="app">
@@ -65,7 +69,7 @@
                                     </div>
                                 </div>
                                 <!-- Scrollable page content-->
-                                <div class="page-content startpage" style="background-image: url('img/pictures/slide1-jumper.jpg'); background-size: cover;">
+                                <div class="page-content startpage" style="background-image: url('https://ddrobotec.com/wp-content/uploads/2019/09/Robot_trains_human1.jpg'); background-size: cover; background-position: center center;">
                                     <h2 class="pagetitle"><span class="insert-username"></span><span data-string="starttitle" class="translate"></span>?</h2>
                                     <div class="seperator">
                                         <div class="blue"></div>
@@ -355,8 +359,7 @@
                                 <div class="list">
                                     <ul>
                                         <li>
-                                            <input type="submit" value="register" data-string="register"
-                                                   class="item-link list-button register-button translate"/>
+                                            <input type="submit" value="register" data-string="register" class="item-link list-button register-button translate"/>
                                         </li>
                                     </ul>
                                     <div class="block-footer"><a href="#" data-string="login" class="login_screen_open translate">Login</a><br/>
@@ -467,6 +470,10 @@
         <script src="framework7/js/framework7.bundle.min.js"></script>
         <!-- Functions library -->
         <script src="js/functions.js"></script>
+        <!-- Animate.css library -->
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+        <script src="js/css3-animate-it.js"></script>
         <!-- Language packages with translate function -->
         <script src="js/i18n.js"></script>
         <!-- App routes -->
