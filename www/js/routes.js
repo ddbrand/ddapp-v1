@@ -4,6 +4,7 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
+
                 navigator.globalization.getPreferredLanguage(
                     function (language) {
                         var lang = language.value;
@@ -860,6 +861,7 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+
                 var weightrange = app.range.create({
                     el: '.weightslider',
                     label: true,
@@ -1028,23 +1030,47 @@ routes = [
                     app.loginScreen.close('#my-login-add-screen');
                     app.loginScreen.open('#my-forget-screen');
                 });
+                /*var keys = Object.keys(localStorage);
+
+                keys.sort(function(a, b) { return obj[a] - obj[b] });*/
+
+                var sortedlocal = [];
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).startsWith("username_")) {
-                        let userkey = localStorage.key(i).split("_");
+                        var userkey = localStorage.key(i).substr(localStorage.key(i).indexOf('_')+1);
+                        //var userkey = localStorage.key(i).split(/_(.+)/, 1);
+                        // sortedlocal[userkey] = localStorage.getItem('username_' + userkey[1]);
+                        sortedlocal.push(localStorage.getItem('username_' + userkey));
+                    }
+                }
+
+                sortedlocal.sort(function (a, b) {
+                    if ( a.toLowerCase() < b.toLowerCase() ) {
+                        return -1;
+                    } else if ( a.toLowerCase() > b.toLowerCase() ) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                } );
+                $('.helper').html(JSON.stringify(localStorage));
+
+                for (var i = 0; i < sortedlocal.length; i++) {
+                        var userkey = localStorage.key(i).split("_");
                         $('.userchanger.list.media-list ul').append('<li class="swipeout">\n' +
-                            '                    <a href="#" class="item-link item-content swipeout-content changeme" data-user="' + userkey[1] + '">\n' +
+                            '                    <a href="#" class="item-link item-content swipeout-content changeme" data-user="' + sortedlocal[i] + '">\n' +
                             '                        <div class="item-media" style="padding-left: 8px;">' +
                             '                            <i class="icon f7-icons material-icons icon-ios-fill">person</i></div>\n' +
                             '                        <div class="item-inner">\n' +
                             '                            <div class="item-title-row">\n' +
-                            '                                <div class="item-title">' + localStorage.getItem('username_' + userkey[1]) + '</div>\n' +
+                            '                                <div class="item-title">' + sortedlocal[i] + '</div>\n' +
                             '                            </div>\n' +
                             '                        </div>\n' +
                             '                    </a><div class="swipeout-actions-right">\n' +
-                            '        <a href="#" data-storageattr="' + userkey[1] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
+                            '        <a href="#" data-storageattr="' + sortedlocal[i] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
                             '      </div>\n' +
                             '                </li>');
-                    }
+
                 }
                 $$('.userremove').on('click', function () {
                     var storageattr = $(this).attr('data-storageattr');
@@ -1072,9 +1098,14 @@ routes = [
                     localStorage.setItem('username', newuser);
                     localStorage.setItem('pass', newpass);
                     localStorage.setItem('email', newemail);
-                    localStorage.setItem('username_' + datakey, olduser);
-                    localStorage.setItem('pass_' + datakey, oldpass);
-                    localStorage.setItem('email_' + datakey, oldemail);
+                    localStorage.setItem('username_' + olduser, olduser);
+                    localStorage.setItem('pass_' + olduser, oldpass);
+                    localStorage.setItem('email_' + olduser, oldemail);
+
+                    localStorage.removeItem('username_' + datakey);
+                    localStorage.removeItem('email_' + datakey);
+                    localStorage.removeItem('pass_' + datakey);
+
                     var toastCenter = app.toast.create({
                         text: translate_strings('userchanged'),
                         position: 'top',

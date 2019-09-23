@@ -183,6 +183,17 @@ function dev_login(callback) {
     });
 }
 
+function SortLocalStorage(){
+    if(localStorage.length > 0){
+        var localStorageArray = new Array();
+        for (i=0;i<localStorage.length;i++){
+            localStorageArray[i] = localStorage.key(i)+localStorage.getItem(localStorage.key(i));
+        }
+    }
+    var sortedArray = localStorageArray.sort();
+    return sortedArray;
+}
+
 function displayContents(err, text) {
     if (err) {
         //alert(err);
