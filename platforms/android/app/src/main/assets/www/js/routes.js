@@ -247,7 +247,7 @@ routes = [
                 $('.navbar').slideToggle(700);
                 setTimeout(function () {
                     $('.loginoptions').slideToggle(700);
-                }, 6000);
+                }, 2000);
             }
         }
     },
@@ -1030,9 +1030,6 @@ routes = [
                     app.loginScreen.close('#my-login-add-screen');
                     app.loginScreen.open('#my-forget-screen');
                 });
-                /*var keys = Object.keys(localStorage);
-
-                keys.sort(function(a, b) { return obj[a] - obj[b] });*/
 
                 var sortedlocal = [];
                 for (var i = 0; i < localStorage.length; i++) {
@@ -1053,7 +1050,6 @@ routes = [
                         return 0;
                     }
                 } );
-                $('.helper').html(JSON.stringify(localStorage));
 
                 for (var i = 0; i < sortedlocal.length; i++) {
                         var userkey = localStorage.key(i).split("_");
@@ -1102,6 +1098,7 @@ routes = [
                     localStorage.setItem('pass_' + olduser, oldpass);
                     localStorage.setItem('email_' + olduser, oldemail);
 
+                    // Remove old Userstorage for changed User
                     localStorage.removeItem('username_' + datakey);
                     localStorage.removeItem('email_' + datakey);
                     localStorage.removeItem('pass_' + datakey);
