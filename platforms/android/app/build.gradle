@@ -90,9 +90,9 @@ ext {
 }
 
 // PLUGIN GRADLE EXTENSIONS START
+apply from: "../cordova-plugin-fcm-with-dependecy-updated/ddios-FCMPlugin.gradle"
 apply from: "../cordova-plugin-qrscanner/ddios-qrscanner.gradle"
 apply from: "../cordova-support-google-services/ddios-build.gradle"
-apply from: "../cordova-plugin-fcm-with-dependecy-updated/ddios-FCMPlugin.gradle"
 // PLUGIN GRADLE EXTENSIONS END
 
 def hasBuildExtras1 = file('build-extras.gradle').exists()
@@ -269,9 +269,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
-    implementation "com.android.support:support-v4:24.1.1+"
     implementation "com.google.firebase:firebase-core:10.+"
     implementation "com.google.firebase:firebase-messaging:10.+"
+    implementation "com.android.support:support-v4:24.1.1+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

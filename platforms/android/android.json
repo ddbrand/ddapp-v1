@@ -51,6 +51,10 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"FCMPlugin\"><param name=\"android-package\" value=\"com.gae.scaffolder.plugin.FCMPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"File\"><param name=\"android-package\" value=\"org.apache.cordova.file.FileUtils\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
@@ -59,11 +63,27 @@
               "count": 1
             },
             {
+              "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"Capture\"><param name=\"android-package\" value=\"org.apache.cordova.mediacapture.Capture\" /></feature>",
               "count": 1
             },
             {
+              "xml": "<feature name=\"NavigationBar\"><param name=\"android-package\" value=\"com.viniciusfagundes.cordova.plugin.navigationbar.NavigationBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
               "xml": "<feature name=\"QRScanner\"><param name=\"android-package\" value=\"com.bitpay.cordova.qrscanner.QRScanner\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
+              "count": 1
+            },
+            {
+              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
               "count": 1
             },
             {
@@ -73,33 +93,8 @@
             {
               "xml": "<feature name=\"SocialSharing\"><param name=\"android-package\" value=\"nl.xservices.plugins.SocialSharing\" /></feature>",
               "count": 1
-            },
-            {
-              "xml": "<feature name=\"Globalization\"><param name=\"android-package\" value=\"org.apache.cordova.globalization.Globalization\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"SplashScreen\"><param name=\"android-package\" value=\"org.apache.cordova.splashscreen.SplashScreen\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"NavigationBar\"><param name=\"android-package\" value=\"com.viniciusfagundes.cordova.plugin.navigationbar.NavigationBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"FCMPlugin\"><param name=\"android-package\" value=\"com.gae.scaffolder.plugin.FCMPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
-            },
-            {
-              "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
-              "count": 1
             }
           ]
-        }
-      },
-      "config.xml": {
-        "parents": {
-          "/*": []
         }
       }
     }
@@ -117,13 +112,28 @@
     "cordova-plugin-device-name": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-globalization": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-media-capture": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
+    "cordova-plugin-navigationbar-color": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-qrscanner": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-whitelist": {
@@ -140,21 +150,6 @@
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-support-google-services": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-globalization": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-navigationbar-color": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-fcm-with-dependecy-updated": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
@@ -182,6 +177,14 @@
       "pluginId": "cordova-plugin-device-name",
       "clobbers": [
         "cordova.plugins.deviceName"
+      ]
+    },
+    {
+      "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
+      "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
+      "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
+      "clobbers": [
+        "FCMPlugin"
       ]
     },
     {
@@ -358,6 +361,22 @@
       "runs": true
     },
     {
+      "id": "cordova-plugin-globalization.GlobalizationError",
+      "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+      "pluginId": "cordova-plugin-globalization",
+      "clobbers": [
+        "window.GlobalizationError"
+      ]
+    },
+    {
+      "id": "cordova-plugin-globalization.globalization",
+      "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+      "pluginId": "cordova-plugin-globalization",
+      "clobbers": [
+        "navigator.globalization"
+      ]
+    },
+    {
       "id": "cordova-plugin-media-capture.CaptureAudioOptions",
       "file": "plugins/cordova-plugin-media-capture/www/CaptureAudioOptions.js",
       "pluginId": "cordova-plugin-media-capture",
@@ -426,11 +445,35 @@
       "runs": true
     },
     {
+      "id": "cordova-plugin-navigationbar-color.navigationbar",
+      "file": "plugins/cordova-plugin-navigationbar-color/www/navigationbar.js",
+      "pluginId": "cordova-plugin-navigationbar-color",
+      "clobbers": [
+        "window.NavigationBar"
+      ]
+    },
+    {
       "id": "cordova-plugin-qrscanner.QRScanner",
       "file": "plugins/cordova-plugin-qrscanner/www/www.min.js",
       "pluginId": "cordova-plugin-qrscanner",
       "clobbers": [
         "QRScanner"
+      ]
+    },
+    {
+      "id": "cordova-plugin-splashscreen.SplashScreen",
+      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
+      "pluginId": "cordova-plugin-splashscreen",
+      "clobbers": [
+        "navigator.splashscreen"
+      ]
+    },
+    {
+      "id": "cordova-plugin-statusbar.statusbar",
+      "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+      "pluginId": "cordova-plugin-statusbar",
+      "clobbers": [
+        "window.StatusBar"
       ]
     },
     {
@@ -446,54 +489,6 @@
       "clobbers": [
         "window.plugins.socialsharing"
       ]
-    },
-    {
-      "id": "cordova-plugin-globalization.GlobalizationError",
-      "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
-      "pluginId": "cordova-plugin-globalization",
-      "clobbers": [
-        "window.GlobalizationError"
-      ]
-    },
-    {
-      "id": "cordova-plugin-globalization.globalization",
-      "file": "plugins/cordova-plugin-globalization/www/globalization.js",
-      "pluginId": "cordova-plugin-globalization",
-      "clobbers": [
-        "navigator.globalization"
-      ]
-    },
-    {
-      "id": "cordova-plugin-splashscreen.SplashScreen",
-      "file": "plugins/cordova-plugin-splashscreen/www/splashscreen.js",
-      "pluginId": "cordova-plugin-splashscreen",
-      "clobbers": [
-        "navigator.splashscreen"
-      ]
-    },
-    {
-      "id": "cordova-plugin-navigationbar-color.navigationbar",
-      "file": "plugins/cordova-plugin-navigationbar-color/www/navigationbar.js",
-      "pluginId": "cordova-plugin-navigationbar-color",
-      "clobbers": [
-        "window.NavigationBar"
-      ]
-    },
-    {
-      "id": "cordova-plugin-fcm-with-dependecy-updated.FCMPlugin",
-      "file": "plugins/cordova-plugin-fcm-with-dependecy-updated/www/FCMPlugin.js",
-      "pluginId": "cordova-plugin-fcm-with-dependecy-updated",
-      "clobbers": [
-        "FCMPlugin"
-      ]
-    },
-    {
-      "id": "cordova-plugin-statusbar.statusbar",
-      "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
-      "pluginId": "cordova-plugin-statusbar",
-      "clobbers": [
-        "window.StatusBar"
-      ]
     }
   ],
   "plugin_metadata": {
@@ -501,18 +496,18 @@
     "cordova-plugin-add-swift-support": "2.0.2",
     "cordova-plugin-device": "2.0.2",
     "cordova-plugin-device-name": "1.3.5",
+    "cordova-plugin-fcm-with-dependecy-updated": "2.4.0",
     "cordova-plugin-file": "4.3.3",
+    "cordova-plugin-globalization": "1.11.0",
     "cordova-plugin-media-capture": "1.4.1",
+    "cordova-plugin-navigationbar-color": "0.0.8",
     "cordova-plugin-qrscanner": "3.0.1",
+    "cordova-plugin-splashscreen": "5.0.2",
+    "cordova-plugin-statusbar": "2.4.3",
     "cordova-plugin-whitelist": "1.3.3",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "5.4.5",
     "cordova-support-android-plugin": "1.0.1",
-    "cordova-support-google-services": "1.3.1",
-    "cordova-plugin-globalization": "1.11.0",
-    "cordova-plugin-splashscreen": "5.0.2",
-    "cordova-plugin-navigationbar-color": "0.0.8",
-    "cordova-plugin-fcm-with-dependecy-updated": "2.4.0",
-    "cordova-plugin-statusbar": "2.4.3"
+    "cordova-support-google-services": "1.3.1"
   }
 }

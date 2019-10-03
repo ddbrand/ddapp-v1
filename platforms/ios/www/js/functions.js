@@ -183,6 +183,17 @@ function dev_login(callback) {
     });
 }
 
+function SortLocalStorage(){
+    if(localStorage.length > 0){
+        var localStorageArray = new Array();
+        for (i=0;i<localStorage.length;i++){
+            localStorageArray[i] = localStorage.key(i)+localStorage.getItem(localStorage.key(i));
+        }
+    }
+    var sortedArray = localStorageArray.sort();
+    return sortedArray;
+}
+
 function displayContents(err, text) {
     if (err) {
         //alert(err);
@@ -229,26 +240,30 @@ function displayContents(err, text) {
                 xhr.setRequestHeader("Cache-Control", "no-cache");
                 // Send payload
                 xhr.send(data);
-                var toastCenter = app.toast.create({
+                QRScanner.cancelScan(function (status) {
+
+                });
+                QRScanner.hide();
+                QRScanner.destroy();
+
+                app.popup.open('#success-scan-popup', true);
+                setTimeout(function() {
+                    QRScanner.hide();
+                    QRScanner.destroy();
+                    $('.circle-loader').toggleClass('load-complete');
+                    $('.checkmark').toggle();
+                }, 1000);
+                $$('.popup-close').on('click', function () {
+                    $('.toolbar-bottom').show();
+                    app.toolbar.show('.toolbar-bottom', true);
+                    homeView.router.navigate('/', {reloadAll: true, animate: true});
+                });
+                /*var toastCenter = app.toast.create({
                     text: translate_strings('successlogin'),
                     position: 'top',
                     closeTimeout: 4000,
                 });
-                toastCenter.open();
-                QRScanner.hide();
-                QRScanner.cancelScan(function (status) {
-                    QRScanner.hide();
-                    $$(".page, .page-content, .page-current, #scan-view, .view, #app, body, html").removeClass('nobg');
-                    // app.tab.show("#view-home", true);
-                    homeView.router.navigate('/', {reloadAll: true, animate: true});
-
-                    $('.toolbar-bottom').show();
-                    QRScanner.destroy();
-                    QRScanner.cancelScan();
-                    QRScanner.hide();
-                });
-                app.tab.show("#view-stats", true);
-                statsView.router.navigate('/stats/', {reloadAll: true, animate: true});
+                toastCenter.open();*/
             }
         } else {
             QRScanner.cancelScan(function (status) {
@@ -260,8 +275,9 @@ function displayContents(err, text) {
             app.popup.open('#failed-scan-popup', true);
 
             $$('.popup-close').on('click', function () {
-                QRScanner.scan(displayContents);
-                QRScanner.show();
+                $('.toolbar-bottom').show();
+                app.toolbar.show('.toolbar-bottom', true);
+                homeView.router.navigate('/', {reloadAll: true, animate: true});
             });
         }
     }

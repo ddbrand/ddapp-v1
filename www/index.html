@@ -111,6 +111,28 @@
                     </div>
                 </div>
             </div>
+            <div class="popup" id="success-scan-popup">
+                <div class="view">
+                    <div class="page">
+                        <div class="navbar">
+                            <div class="navbar-inner">
+                                <div data-string="qrcodescanfailed" class="title translate">QR Code login</div>
+                                <div class="right">
+                                    <a href="#" data-string="close" class="link popup-close translate">Close</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="page-content" style="color: black; text-align: center;">
+                            <div class="block">
+                                <h3 data-string="qrcodescansuccesscopy" class="translate">Login was successful</h3>
+                                <div class="circle-loader">
+                                    <div class="checkmark draw"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="popup" id="failed-scan-popup">
                 <div class="view">
                     <div class="page">
@@ -122,9 +144,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="page-content">
+                        <div class="page-content" style="color: black; text-align: center;">
                             <div class="block">
-                                <p data-string="qrcodescanfailedcopy" class="translate">The QR code you have scanned seems to be invalid. Close this popup and try it again.</p>
+                                <h3 data-string="qrcodescanfailedcopy" class="translate">The QR code you have scanned seems to be invalid. Close this popup and try it again.</h3>
+                                <svg class="cross__svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                                    <circle class="cross__circle" cx="26" cy="26" r="25" fill="none"/>
+                                    <path class="cross__path cross__path--right" fill="none" d="M16,16 l20,20" />
+                                    <path class="cross__path cross__path--right" fill="none" d="M16,36 l20,-20" />
+                                </svg>
                             </div>
                         </div>
                     </div>
@@ -246,7 +273,7 @@
                                             <div class="item-inner usernameerror">
                                                 <div class="item-title item-label">Username*</div>
                                                 <div class="item-input-wrap">
-                                                    <input type="text" id="registerusername" pattern="[^' ']+" name="registerusername" minlength="3" required validate data-error-message="Please fill in a username.">
+                                                    <input type="text" id="registerusername" pattern="^([a-zA-Z0-9_]+)$" name="registerusername" minlength="3" maxlength="24" required validate data-error-message="Please fill in a username.">
                                                     <span class="input-clear-button"></span>
                                                 </div>
                                             </div>
@@ -462,6 +489,8 @@
         <script src="cordova.js"></script>
         <!-- jQuery framework -->
         <script src="js/jquery.min.js"></script>
+        <!-- App routes -->
+        <script src="js/fastclick.js"></script>
         <!-- Framework7 library -->
         <script src="framework7/js/framework7.bundle.min.js"></script>
         <!-- Functions library -->

@@ -19,6 +19,7 @@
     <plugin name="cordova-plugin-navigationbar-color" spec="0.0.8" />
     <preference name="NavigationBarBackgroundColor" value="#000000" />
     <preference name="StatusBarOverlaysWebView" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
     <!-- <preference name="StatusBarStyle" value="default" /> -->
     <platform name="android">
         <preference name="AndroidPersistentFileLocation" value="Compatibility" />

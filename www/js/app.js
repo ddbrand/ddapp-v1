@@ -19,6 +19,10 @@ var app = new Framework7({
     }
 });
 
+$(function() {
+    FastClick.attach(document.body);
+});
+
 // Init/Create views
 var homeView = app.views.create('#view-home', {
     url: '/',

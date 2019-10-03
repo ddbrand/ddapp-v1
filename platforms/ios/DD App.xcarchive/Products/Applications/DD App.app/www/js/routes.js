@@ -4,22 +4,25 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
+
                 navigator.globalization.getPreferredLanguage(
                     function (language) {
                         var lang = language.value;
-                        if(localStorage.getItem('languages_i') === null){
+                        if (localStorage.getItem('languages_i') === null) {
                             localStorage.setItem('language', lang.slice(0, 2));
                         } else {
                             localStorage.setItem('language', localStorage.getItem('languages_i'));
                         }
-                        },
-                    function () { localStorage.setItem('language', 'en'); }
+                    },
+                    function () {
+                        localStorage.setItem('language', 'en');
+                    }
                 );
                 translate_strings();
 
 
                 // Firebase plugin after fatal error deinstalled
-                FCMPlugin.getToken(function(token){
+                FCMPlugin.getToken(function (token) {
 
                     var deviceName = cordova.plugins.deviceName;
                     // save this server-side and use it to push notifications to this device
@@ -91,7 +94,7 @@ routes = [
                     }
                 });
 
-                $$('#registerusername').blur(function() {
+                $$('#registerusername').blur(function () {
                     var username = $('#registerusername').val();
                     $.ajax({
                         method: "GET",
@@ -107,17 +110,17 @@ routes = [
                     });
                 });
 
-                $('input[name="registerrepassword"]').blur(function() {
+                $('input[name="registerrepassword"]').blur(function () {
                     var password = $('input[name="registerpassword"]').val();
                     var repassword = $('input[name="registerrepassword"]').val();
-                    if(password !== repassword) {
+                    if (password !== repassword) {
                         $('input[name="registerrepassword"]').next('.item-input-error-message').html('Your passwords don\'t match.');
                         $('input[name="registerrepassword"]').parents('.item-input').addClass('item-input-with-error-message').addClass('item-input-invalid');
                         $('input[name="registerrepassword"]').addClass('input-invalid');
                     }
                 });
 
-                $(".register-form").submit(function(e) {
+                $(".register-form").submit(function (e) {
                     var username = $('#registerusername').val();
                     var email = $('input[name="registeremail"]').val();
                     var pass = $('input[name="registerpassword"]').val();
@@ -131,12 +134,19 @@ routes = [
                             method: "POST",
                             url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=register",
                             data: {
-                                "UserName": username, "Email": email, "Pass": pass, "Weight": weight, "Height": height, "BirthDate": birthdate, "Gender": gender, "CacheName": ""
+                                "UserName": username,
+                                "Email": email,
+                                "Pass": pass,
+                                "Weight": weight,
+                                "Height": height,
+                                "BirthDate": birthdate,
+                                "Gender": gender,
+                                "CacheName": ""
                             }
-                        }).done(function( msg ) {
+                        }).done(function (msg) {
                             var response_obj = JSON.parse(msg);
 
-                            if(response_obj.success == false || pass !== repass) {
+                            if (response_obj.success == false || pass !== repass) {
                                 var toastCenter = app.toast.create({
                                     text: 'Please correct the register form errors.',
                                     position: 'top',
@@ -160,7 +170,7 @@ routes = [
                     e.preventDefault();
                 });
 
-                $(".forget-form").submit(function(e) {
+                $(".forget-form").submit(function (e) {
                     var Username = $('input[name="forgetusername"]').val();
                     var Email = $('input[name="forgetemail"]').val();
                     if (Username != null && Email != null) {
@@ -170,9 +180,9 @@ routes = [
                             data: {
                                 "Username": Username, "Email": Email
                             }
-                        }).done(function( msg ) {
+                        }).done(function (msg) {
                             var response_obj = JSON.parse(msg);
-                            if(response_obj.success == false) {
+                            if (response_obj.success == false) {
                                 var toastCenter = app.toast.create({
                                     text: 'Your user could not be reset. Please check your details and try again.',
                                     position: 'top',
@@ -237,7 +247,7 @@ routes = [
                 $('.navbar').slideToggle(700);
                 setTimeout(function () {
                     $('.loginoptions').slideToggle(700);
-                }, 6000);
+                }, 2000);
             }
         }
     },
@@ -281,7 +291,7 @@ routes = [
                     }
                 });
                 var $ptrContent = $$('.ptr-content');
-// Add 'refresh' listener on it
+                // Add 'refresh' listener on it
                 $ptrContent.on('ptr:refresh', function (e) {
                     var username = localStorage.getItem('username');
                     $.ajax({
@@ -339,7 +349,7 @@ routes = [
                     var maintitle = traintitle.split('[')[0];
                     var subtitle = traintitle.split('[').pop().split(']')[0]; // returns 'two'
                     $('.traintitle').html(maintitle);
-                    if(traintitle !== subtitle) {
+                    if (traintitle !== subtitle) {
                         $('.trainsubtitle').html(subtitle);
                     }
                     $('.detailoverview').html(result);
@@ -469,7 +479,7 @@ routes = [
                 var leaderboardfetch = localStorage.getItem('leaderboardfetch');
 
                 $('.traintitle').html(maintitle + ' ' + leaderboardfetch);
-                if(traintitle !== subtitle) {
+                if (traintitle !== subtitle) {
                     $('.trainsubtitle').html(subtitle);
                 }
 
@@ -559,25 +569,25 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
-                $$('select[name=languages]').on('change', function() {
+                $$('select[name=languages]').on('change', function () {
                     localStorage.setItem('languages_i', this.value);
 
-                        app.dialog.preloader();
-                        setTimeout(function () {
-                            app.tab.show("#view-home", true);
-                            translate_strings();
+                    app.dialog.preloader();
+                    setTimeout(function () {
+                        app.tab.show("#view-home", true);
+                        translate_strings();
 
-                            var toastCenter = app.toast.create({
-                                text: translate_strings('languageswitched'),
-                                position: 'top',
-                                closeTimeout: 4000,
-                            });
-                            toastCenter.open();
-                            app.dialog.close();
-                        }, 1200);
-                        homeView.router.navigate('/', {reloadAll: true, animate: true});
-                        homeView.router.refreshPage();
-                        userView.router.navigate('/user/', {reloadCurrent: true, ignoreCache: true});
+                        var toastCenter = app.toast.create({
+                            text: translate_strings('languageswitched'),
+                            position: 'top',
+                            closeTimeout: 4000,
+                        });
+                        toastCenter.open();
+                        app.dialog.close();
+                    }, 1200);
+                    homeView.router.navigate('/', {reloadAll: true, animate: true});
+                    homeView.router.refreshPage();
+                    userView.router.navigate('/user/', {reloadCurrent: true, ignoreCache: true});
 
                 });
                 $$('select[name=languages]').val(localStorage.getItem('language'));
@@ -595,7 +605,7 @@ routes = [
                         homeView.router.navigate('/authbox/', {reloadAll: true, animate: true});
                     });
 
-                    if(localStorage.getItem('theme') === 'theme-dark') {
+                    if (localStorage.getItem('theme') === 'theme-dark') {
                         $('.dialog').addClass('bg-color-black');
                         $('.dialog-title').addClass('text-color-gray');
                     }
@@ -616,7 +626,7 @@ routes = [
                         sendplans();
                     });
 
-                    if(localStorage.getItem('theme') === 'theme-dark') {
+                    if (localStorage.getItem('theme') === 'theme-dark') {
                         $('.dialog').addClass('bg-color-black');
                         $('.dialog-title').addClass('text-color-gray');
                     }
@@ -763,7 +773,7 @@ routes = [
                         }
                     }
                 });
-                $('.searchbar input').on('change', function() {
+                $('.searchbar input').on('change', function () {
                     if ($$('.searchbar input').val() === '') {
                         $$('.iwu ul').html('');
                         $('.iwu').hide();
@@ -851,6 +861,7 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+
                 var weightrange = app.range.create({
                     el: '.weightslider',
                     label: true,
@@ -868,7 +879,7 @@ routes = [
                     }
                 });
 
-                $$('#registerusername').blur(function() {
+                $$('#registerusername').blur(function () {
                     var username = $('#registerusername').val();
                     $.ajax({
                         method: "GET",
@@ -884,18 +895,18 @@ routes = [
                     });
                 });
 
-                $('input[name="registerrepassword"]').blur(function() {
+                $('input[name="registerrepassword"]').blur(function () {
                     var password = $('input[name="registerpassword"]').val();
                     var repassword = $('input[name="registerrepassword"]').val();
-                    if(password !== repassword) {
+                    if (password !== repassword) {
                         $('input[name="registerrepassword"]').next('.item-input-error-message').html('Your passwords don\'t match.');
                         $('input[name="registerrepassword"]').parents('.item-input').addClass('item-input-with-error-message').addClass('item-input-invalid');
                         $('input[name="registerrepassword"]').addClass('input-invalid');
                     }
                 });
 
-                $(".register-form").submit(function(e) {
-                    if($('.item-input-error-message').is(':visible')) {
+                $(".register-form").submit(function (e) {
+                    if ($('.item-input-error-message').is(':visible')) {
                         alert('hihi');
                     } else {
                         var username = $('#registerusername').val();
@@ -911,12 +922,19 @@ routes = [
                                 method: "POST",
                                 url: "https://ddrobotec.com/wp-content/themes/dd-trainings/api/ajax.php?function=register",
                                 data: {
-                                    "UserName": username, "Email": email, "Pass": pass, "Weight": weight, "Height": height, "BirthDate": birthdate, "Gender": gender, "CacheName": ""
+                                    "UserName": username,
+                                    "Email": email,
+                                    "Pass": pass,
+                                    "Weight": weight,
+                                    "Height": height,
+                                    "BirthDate": birthdate,
+                                    "Gender": gender,
+                                    "CacheName": ""
                                 }
-                            }).done(function( msg ) {
+                            }).done(function (msg) {
                                 var response_obj = JSON.parse(msg);
 
-                                if(response_obj.success == false || pass !== repass) {
+                                if (response_obj.success == false || pass !== repass) {
                                     var toastCenter = app.toast.create({
                                         text: 'Please correct the register form errors.',
                                         position: 'top',
@@ -936,14 +954,14 @@ routes = [
                                 }
                                 console.log(msg);
                             });
-                        } else if(/ /.test(username)) {
+                        } else if (/ /.test(username)) {
                             alert('Space detected');
                         }
                     }
                     e.preventDefault();
                 });
 
-                $(".forget-form").submit(function(e) {
+                $(".forget-form").submit(function (e) {
                     var Username = $('input[name="forgetusername"]').val();
                     var Email = $('input[name="forgetemail"]').val();
                     if (Username != null && Email != null) {
@@ -953,9 +971,9 @@ routes = [
                             data: {
                                 "Username": Username, "Email": Email
                             }
-                        }).done(function( msg ) {
+                        }).done(function (msg) {
                             var response_obj = JSON.parse(msg);
-                            if(response_obj.success == false) {
+                            if (response_obj.success == false) {
                                 var toastCenter = app.toast.create({
                                     text: 'Your user could not be reset. Please check your details and try again.',
                                     position: 'top',
@@ -1012,23 +1030,43 @@ routes = [
                     app.loginScreen.close('#my-login-add-screen');
                     app.loginScreen.open('#my-forget-screen');
                 });
+
+                var sortedlocal = [];
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).startsWith("username_")) {
-                        let userkey = localStorage.key(i).split("_");
+                        var userkey = localStorage.key(i).substr(localStorage.key(i).indexOf('_')+1);
+                        //var userkey = localStorage.key(i).split(/_(.+)/, 1);
+                        // sortedlocal[userkey] = localStorage.getItem('username_' + userkey[1]);
+                        sortedlocal.push(localStorage.getItem('username_' + userkey));
+                    }
+                }
+
+                sortedlocal.sort(function (a, b) {
+                    if ( a.toLowerCase() < b.toLowerCase() ) {
+                        return -1;
+                    } else if ( a.toLowerCase() > b.toLowerCase() ) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                } );
+
+                for (var i = 0; i < sortedlocal.length; i++) {
+                        var userkey = localStorage.key(i).split("_");
                         $('.userchanger.list.media-list ul').append('<li class="swipeout">\n' +
-                            '                    <a href="#" class="item-link item-content swipeout-content changeme" data-user="' + userkey[1] + '">\n' +
+                            '                    <a href="#" class="item-link item-content swipeout-content changeme" data-user="' + sortedlocal[i] + '">\n' +
                             '                        <div class="item-media" style="padding-left: 8px;">' +
                             '                            <i class="icon f7-icons material-icons icon-ios-fill">person</i></div>\n' +
                             '                        <div class="item-inner">\n' +
                             '                            <div class="item-title-row">\n' +
-                            '                                <div class="item-title">' + localStorage.getItem('username_' + userkey[1]) + '</div>\n' +
+                            '                                <div class="item-title">' + sortedlocal[i] + '</div>\n' +
                             '                            </div>\n' +
                             '                        </div>\n' +
                             '                    </a><div class="swipeout-actions-right">\n' +
-                            '        <a href="#" data-storageattr="' + userkey[1] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
+                            '        <a href="#" data-storageattr="' + sortedlocal[i] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
                             '      </div>\n' +
                             '                </li>');
-                    }
+
                 }
                 $$('.userremove').on('click', function () {
                     var storageattr = $(this).attr('data-storageattr');
@@ -1056,9 +1094,15 @@ routes = [
                     localStorage.setItem('username', newuser);
                     localStorage.setItem('pass', newpass);
                     localStorage.setItem('email', newemail);
-                    localStorage.setItem('username_' + datakey, olduser);
-                    localStorage.setItem('pass_' + datakey, oldpass);
-                    localStorage.setItem('email_' + datakey, oldemail);
+                    localStorage.setItem('username_' + olduser, olduser);
+                    localStorage.setItem('pass_' + olduser, oldpass);
+                    localStorage.setItem('email_' + olduser, oldemail);
+
+                    // Remove old Userstorage for changed User
+                    localStorage.removeItem('username_' + datakey);
+                    localStorage.removeItem('email_' + datakey);
+                    localStorage.removeItem('pass_' + datakey);
+
                     var toastCenter = app.toast.create({
                         text: translate_strings('userchanged'),
                         position: 'top',

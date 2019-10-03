@@ -16,10 +16,25 @@
     "cordova-plugin-device-name": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-globalization": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-media-capture": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
+    "cordova-plugin-navigationbar-color": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-qrscanner": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-plugin-whitelist": {
@@ -33,21 +48,6 @@
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
     "cordova-support-google-services": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-globalization": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-navigationbar-color": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-fcm-with-dependecy-updated": {
-      "PACKAGE_NAME": "com.ddrobotec.ddios"
-    },
-    "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
