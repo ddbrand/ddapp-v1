@@ -10,7 +10,8 @@ var app = new Framework7({
     // App routes
     routes: routes,
     touch: {
-        tapHold: true //enable tap hold events
+        tapHold: true,
+        fastClicks: true
     },
     dialog: {
         title: translate_strings('attention'),
@@ -19,9 +20,7 @@ var app = new Framework7({
     }
 });
 
-$(function() {
-    FastClick.attach(document.body);
-});
+
 
 // Init/Create views
 var homeView = app.views.create('#view-home', {
@@ -110,6 +109,7 @@ $$(document).on('page:init', function (e) {
         StatusBar.show();
         StatusBar.styleLightContent();
     } else {
+        //FastClick.attach(document.body);
         StatusBar.styleDefault();
         StatusBar.backgroundColorByName("black");
     }
