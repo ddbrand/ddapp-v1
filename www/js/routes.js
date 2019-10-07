@@ -42,6 +42,7 @@ routes = [
                 autologin(function (callback) {
                     if (callback === false) {
                         localStorage.setItem('theme', 'theme-dark');
+                        $('body').addClass('theme-dark');
                         homeView.router.navigate('/authbox/', {
                             reloadCurrent: true,
                             ignoreCache: true
