@@ -250,20 +250,17 @@ function displayContents(err, text) {
                 setTimeout(function() {
                     QRScanner.hide();
                     QRScanner.destroy();
-                    $('.circle-loader').toggleClass('load-complete');
-                    $('.checkmark').toggle();
+                    $('.circle-loader').addClass('load-complete');
+                    $('.checkmark').show();
                 }, 1000);
                 $$('.popup-close').on('click', function () {
+                    $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
                     $('.toolbar-bottom').show();
                     app.toolbar.show('.toolbar-bottom', true);
+                    $('.circle-loader').removeClass('load-complete');
+                    $('.checkmark').hide();
                     homeView.router.navigate('/', {reloadAll: true, animate: true});
                 });
-                /*var toastCenter = app.toast.create({
-                    text: translate_strings('successlogin'),
-                    position: 'top',
-                    closeTimeout: 4000,
-                });
-                toastCenter.open();*/
             }
         } else {
             QRScanner.cancelScan(function (status) {
@@ -273,8 +270,8 @@ function displayContents(err, text) {
             QRScanner.destroy();
 
             app.popup.open('#failed-scan-popup', true);
-
             $$('.popup-close').on('click', function () {
+                $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
                 $('.toolbar-bottom').show();
                 app.toolbar.show('.toolbar-bottom', true);
                 homeView.router.navigate('/', {reloadAll: true, animate: true});
