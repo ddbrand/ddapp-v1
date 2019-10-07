@@ -1,0 +1,65 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com.darktalker.cordova.screenshot": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-device-name": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-fcm-with-dependecy-updated": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-globalization": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-media-capture": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-navigationbar-color": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-qrscanner": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-x-socialsharing": {
+      "ANDROID_SUPPORT_V4_VERSION": "24.1.1+",
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-support-android-plugin": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-support-google-services": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-add-swift-support": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "es6-promise-plugin": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    }
+  }
+}
