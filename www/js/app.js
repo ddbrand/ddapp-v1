@@ -127,7 +127,9 @@ $$(document).on('page:init', function (e) {
         plansView.router.navigate('/plans/', {
             /*ignoreCache: true,
             reloadCurrent: true,*/
-        })
+        });
+
+        trainingplans();
     });
 
     var current_username = localStorage.getItem("username");
