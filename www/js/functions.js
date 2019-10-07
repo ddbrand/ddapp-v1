@@ -431,7 +431,7 @@ function pullalltrainings() {
                         } else {
                             $$('div.iwu ul').append('<li><div href="#" class="item-link item-checkbox item-content setplan" data-id="' + thisplan + '">\n' +
 
-                                '        <div class="item-inner">\n' +
+                                '        <div class="item-inner needsclick">\n' +
                                 '                                <div class="item-title-row">\n' +
                                 '                                <label class="checkbox"><input class="planselecter color-lightblue" type="checkbox" data-id="' + thisplan + '">' +
                                 '                                <i class="color-lightblue icon-checkbox"></i></label>&nbsp;' +
@@ -527,6 +527,7 @@ function trainingplans() {
             if(response_obj.success == false) {
                // $('.question').append('<p>An error has occurred. Please try again or contact our support team.</p>');
             } else {
+                $$('ul.trainingplans').html('');
                 var checkedcategories = [];
                 var valuearray = {};
                 var checkedsubcategories = [];
