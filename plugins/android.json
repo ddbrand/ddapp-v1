@@ -49,6 +49,9 @@
     },
     "cordova-support-google-services": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-fastclick": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
     }
   },
   "dependent_plugins": {

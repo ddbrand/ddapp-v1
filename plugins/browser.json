@@ -51,6 +51,9 @@
     },
     "cordova-plugin-statusbar": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
+    "cordova-plugin-fastclick": {
+      "PACKAGE_NAME": "io.cordova.hellocordova"
     }
   },
   "dependent_plugins": {
