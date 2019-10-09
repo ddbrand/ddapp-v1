@@ -67,6 +67,10 @@ export default {
       containerEl: null,
       openIn: 'popover', // or 'popover' or 'sheet' or 'popup' or 'page' or 'auto'
       openInPhone: 'popup', // or 'popover' or 'sheet' or 'popup' or 'page'
+      popupPush: false,
+      popupSwipeToClose: undefined,
+      sheetPush: false,
+      sheetSwipeToClose: undefined,
       formatValue: null,
       targetEl: null,
       targetElSetBackgroundColor: false,

@@ -88,6 +88,7 @@ class ColorPicker extends Framework7Class {
       self.open();
     }
     function onHtmlClick(e) {
+      if (self.destroyed || !self.params) return;
       if (self.params.openIn === 'page') return;
       const $clickTargetEl = $(e.target);
       if (!self.opened || self.closing) return;
@@ -400,6 +401,7 @@ class ColorPicker extends Framework7Class {
     const { openIn, navbarTitleText, navbarBackLinkText, navbarCloseText } = self.params;
     return `
     <div class="navbar">
+      <div class="navbar-bg"></div>
       <div class="navbar-inner sliding">
         ${openIn === 'page' ? `
         <div class="left">
@@ -547,7 +549,7 @@ class ColorPicker extends Framework7Class {
     self.attachEvents();
 
     params.modules.forEach((m) => {
-      if (typeof m === 'string' && modules[m] && modules[m].render) {
+      if (typeof m === 'string' && modules[m] && modules[m].init) {
         modules[m].init(self);
       } else if (m && m.init) {
         m.init(self);
@@ -587,10 +589,10 @@ class ColorPicker extends Framework7Class {
 
     // Trigger events
     if ($el) {
-      $el.trigger('colorpicker:open', self);
+      $el.trigger('colorpicker:open');
     }
     if ($inputEl) {
-      $inputEl.trigger('colorpicker:open', self);
+      $inputEl.trigger('colorpicker:open');
     }
     self.emit('local::open colorPickerOpen', self);
   }
@@ -599,10 +601,10 @@ class ColorPicker extends Framework7Class {
     const self = this;
     self.opening = false;
     if (self.$el) {
-      self.$el.trigger('colorpicker:opened', self);
+      self.$el.trigger('colorpicker:opened');
     }
     if (self.$inputEl) {
-      self.$inputEl.trigger('colorpicker:opened', self);
+      self.$inputEl.trigger('colorpicker:opened');
     }
     self.emit('local::opened colorPickerOpened', self);
   }
@@ -620,7 +622,7 @@ class ColorPicker extends Framework7Class {
       self.$inputEl.trigger('blur');
     }
     params.modules.forEach((m) => {
-      if (typeof m === 'string' && modules[m] && modules[m].update) {
+      if (typeof m === 'string' && modules[m] && modules[m].destroy) {
         modules[m].destroy(self);
       } else if (m && m.destroy) {
         m.destroy(self);
@@ -628,10 +630,10 @@ class ColorPicker extends Framework7Class {
     });
 
     if (self.$el) {
-      self.$el.trigger('colorpicker:close', self);
+      self.$el.trigger('colorpicker:close');
     }
     if (self.$inputEl) {
-      self.$inputEl.trigger('colorpicker:close', self);
+      self.$inputEl.trigger('colorpicker:close');
     }
     self.emit('local::close colorPickerClose', self);
   }
@@ -652,10 +654,10 @@ class ColorPicker extends Framework7Class {
       });
     }
     if (self.$el) {
-      self.$el.trigger('colorpicker:closed', self);
+      self.$el.trigger('colorpicker:closed');
     }
     if (self.$inputEl) {
-      self.$inputEl.trigger('colorpicker:closed', self);
+      self.$inputEl.trigger('colorpicker:closed');
     }
     self.emit('local::closed colorPickerClosed', self);
   }
@@ -736,6 +738,14 @@ class ColorPicker extends Framework7Class {
           },
         },
       };
+      if (modalType === 'popup') {
+        modalParams.push = params.popupPush;
+        modalParams.swipeToClose = params.popupSwipeToClose;
+      }
+      if (modalType === 'sheet') {
+        modalParams.push = params.sheetPush;
+        modalParams.swipeToClose = params.sheetSwipeToClose;
+      }
       if (params.routableModals) {
         self.view.router.navigate({
           url: self.url,
@@ -800,7 +810,7 @@ class ColorPicker extends Framework7Class {
     if (self.destroyed) return;
     const { $el } = self;
     self.emit('local::beforeDestroy colorPickerBeforeDestroy', self);
-    if ($el) $el.trigger('colorpicker:beforedestroy', self);
+    if ($el) $el.trigger('colorpicker:beforedestroy');
 
     self.close();
 

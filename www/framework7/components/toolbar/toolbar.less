@@ -7,14 +7,15 @@
   margin: 0;
   transform: translate3d(0,0,0);
   backface-visibility: hidden;
-  z-index: 500;
+  z-index: 600;
   box-sizing: border-box;
   left: 0;
   height: var(--f7-toolbar-height);
   background-image: var(--f7-toolbar-bg-image, var(--f7-bars-bg-image));
-  background-color: var(--f7-toolbar-bg-color, var(--f7-bars-bg-color, var(--f7-theme-color)));
+  background-color: var(--f7-toolbar-bg-color, var(--f7-bars-bg-color));
   color: var(--f7-toolbar-text-color, var(--f7-bars-text-color));
   font-size: var(--f7-toolbar-font-size);
+  .ios-translucent-bars(var(--f7-toolbar-bg-color-rgb, var(--f7-bars-bg-color-rgb)));
   b {
     font-weight: 600;
   }
@@ -26,7 +27,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
   }
-  a.link {
+  .link {
     display: flex;
     line-height: var(--f7-toolbar-link-line-height, var(--f7-toolbar-height));
     height: var(--f7-toolbar-link-height, var(--f7-toolbar-height));
@@ -118,14 +119,14 @@
   a {
     color: var(--f7-tabbar-link-inactive-color);
   }
-  a.tab-link:not(.tab-link-active) {
+  .tab-link:not(.tab-link-active) {
     background-color: var(--f7-tabbar-link-inactive-bg-color, transparent);
   }
-  a.link {
+  .link {
     line-height: 1.4;
   }
-  a.tab-link,
-  a.link {
+  .tab-link,
+  .link {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
@@ -150,8 +151,8 @@
 }
 .tabbar-labels {
   --f7-toolbar-height: var(--f7-tabbar-labels-height);
-  a.tab-link,
-  a.link {
+  .tab-link,
+  .link {
     height: 100%;
     justify-content: space-between;
     align-items: center;
@@ -169,7 +170,7 @@
     letter-spacing: var(--f7-tabbar-label-letter-spacing);
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 768px) and (min-height: 600px) {
   :root {
     --f7-tabbar-labels-height: var(--f7-tabbar-labels-tablet-height);
     --f7-tabbar-label-font-size: var(--f7-tabbar-label-tablet-font-size);
@@ -187,7 +188,8 @@
       opacity: 0 !important;
     }
   }
-  a.tab-link, a.link {
+  .tab-link,
+  .link {
     width: auto;
     flex-shrink: 0;
   }
@@ -240,22 +242,28 @@
 }
 
 .navbar ~ .toolbar-top,
+.navbars ~ .toolbar-top,
 .ios .navbar ~ .toolbar-top-ios,
+.ios .navbars ~ .toolbar-top-ios,
 .md .navbar ~ .toolbar-top-md,
 .aurora .navbar ~ .toolbar-top-aurora,
 .navbar ~ * .toolbar-top,
+.navbars ~ * .toolbar-top,
 .ios .navbar ~ * .toolbar-top-ios,
+.ios .navbars ~ * .toolbar-top-ios,
 .md .navbar ~ * .toolbar-top-md,
 .aurora .navbar ~ * .toolbar-top-aurora,
 .navbar ~ .page:not(.no-navbar) .toolbar-top,
+.navbars ~ .page:not(.no-navbar) .toolbar-top,
 .ios .navbar ~ .page:not(.no-navbar) .toolbar-top-ios,
+.ios .navbars ~ .page:not(.no-navbar) .toolbar-top-ios,
 .md .navbar ~ .page:not(.no-navbar) .toolbar-top-md,
 .aurora .navbar ~ .page:not(.no-navbar) .toolbar-top-aurora {
-  top: var(--f7-navbar-height);
+  top: calc(var(--f7-navbar-height) + var(--f7-safe-area-top));
   &.toolbar-hidden {
-    transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-toolbar-height))), 0);
+    transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-toolbar-height) + var(--f7-safe-area-top))), 0);
     &.tabbar-labels {
-      transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-tabbar-labels-height))), 0);
+      transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-tabbar-labels-height) + var(--f7-safe-area-top))), 0);
     }
   }
 }
@@ -267,7 +275,7 @@
 .ios .navbar-hidden ~ * .toolbar-top-ios:not(.toolbar-hidden),
 .md .navbar-hidden ~ * .toolbar-top-md:not(.toolbar-hidden),
 .aurora .navbar-hidden ~ * .toolbar-top-aurora:not(.toolbar-hidden) {
-  transform: translate3d(0, calc(-1 * var(--f7-navbar-height)), 0);
+  transform: translate3d(0, calc(0px - var(--f7-navbar-height)), 0);
 }
 .navbar-large-hidden + .toolbar-top:not(.toolbar-hidden),
 .ios .navbar-large-hidden + .toolbar-top-ios:not(.toolbar-hidden),
@@ -276,7 +284,7 @@
 .ios .navbar-large-hidden ~ * .toolbar-top-ios:not(.toolbar-hidden),
 .md .navbar-large-hidden ~ * .toolbar-top-md:not(.toolbar-hidden),
 .aurora .navbar-large-hidden ~ * .toolbar-top-aurora:not(.toolbar-hidden) {
-  transform: translate3d(0, calc(-1 * (var(--f7-navbar-height) + var(--f7-navbar-large-title-height))), 0);
+  transform: translate3d(0, calc(0px - var(--f7-navbar-height) - var(--f7-navbar-large-title-height)), 0);
 }
 
 .if-ios-theme({

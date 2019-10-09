@@ -39,7 +39,8 @@ class Autocomplete extends Framework7Class {
     if (ac.params.view) {
       view = ac.params.view;
     } else if ($openerEl || $inputEl) {
-      view = app.views.get($openerEl || $inputEl);
+      const $el = $openerEl || $inputEl;
+      view = $el.closest('.view').length && $el.closest('.view')[0].f7View;
     }
     if (!view) view = app.views.main;
 
@@ -560,6 +561,7 @@ class Autocomplete extends Framework7Class {
       `;
     const navbarHtml = `
       <div class="navbar ${ac.params.navbarColorTheme ? `color-${ac.params.navbarColorTheme}` : ''}">
+        <div class="navbar-bg"></div>
         <div class="navbar-inner ${ac.params.navbarColorTheme ? `color-${ac.params.navbarColorTheme}` : ''}">
           ${navbarLeft}
           ${pageTitle ? `<div class="title sliding">${pageTitle}</div>` : ''}
@@ -764,6 +766,8 @@ class Autocomplete extends Framework7Class {
     const popupParams = {
       content: popupHtml,
       animate: ac.params.animate,
+      push: ac.params.popupPush,
+      swipeToClose: ac.params.popupSwipeToClose,
       on: {
         popupOpen(popup) {
           ac.onOpen('popup', popup.el);
@@ -840,6 +844,7 @@ class Autocomplete extends Framework7Class {
     } else {
       ac.modal.once('modalClosed', () => {
         Utils.nextTick(() => {
+          if (ac.destroyed) return;
           ac.modal.destroy();
           delete ac.modal;
         });

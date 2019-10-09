@@ -30,10 +30,6 @@
   }
 
   .router-transition-forward {
-    .page-next,
-    .page-current {
-      will-change: transform;
-    }
     .page-next {
       animation: ios-page-next-to-current var(--f7-page-transition-duration) forwards;
       &:before {
@@ -53,10 +49,6 @@
     }
   }
   .router-transition-backward {
-    .page-previous,
-    .page-current {
-      will-change: transform;
-    }
     .page-previous {
       // From previous to current
       animation: ios-page-previous-to-current var(--f7-page-transition-duration) forwards;
@@ -73,19 +65,6 @@
         .page-fake-shadow();
         animation: ios-page-element-fade-out var(--f7-page-transition-duration) forwards;
       }
-    }
-  }
-
-  .router-dynamic-navbar-inside {
-    .page-shadow-effect,
-    .page-opacity-effect {
-      top: var(--f7-navbar-height);
-    }
-    .page-next:before,
-    .page-current:after,
-    .page-current:before,
-    .page-previous:after {
-      top: var(--f7-navbar-height);
     }
   }
 }

@@ -5,6 +5,7 @@ import { Device } from '../../utils/device';
 import { Request } from '../../utils/request';
 import { Support } from '../../utils/support';
 import { Utils } from '../../utils/utils';
+import { ComponentClass, ComponentOptions } from '../../modules/component/component';
 
 // Css Selector string is an option on many F7 methods
 // Giving this alias makes the typename show in the intellisense
@@ -64,6 +65,10 @@ export interface Framework7Params {
   init? : boolean
   /** If automatic initialization is enabled with init: true parameter and app is running under cordova environment then it will be initialized on deviceready event.. (default true) */
   initOnDeviceReady? : boolean
+  /** Enable translucent effect (blur background) on navigation bars for iOS theme (on iOS devices) (by default enabled) */
+  iosTranslucentBars? : boolean
+  /** Enable translucent effect (blur background) on modals (Dialog, Popover, Actions) for iOS theme (on iOS devices) (by default enabled) */
+  iosTranslucentModals? : boolean
   /** Object with events handlers.. (default {}) */
   on?: {
     [event in keyof Framework7Events]? : Framework7Events[event]
@@ -166,6 +171,11 @@ declare class Framework7 implements Framework7 {
   static support: Support;
   static utils: Utils;
   static Events: Events;
+  static Component: ComponentClass;
+  /** Regiter custom component */
+  static registerComponent(tagName: string, component: ComponentOptions | ComponentClass): void;
+  /** Register component mixin */
+  static registerComponentMixin(mixinName: string, mixin: ComponentOptions): void
 }
 
 export default Framework7;

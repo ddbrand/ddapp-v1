@@ -5,6 +5,8 @@ import { Searchbar } from '../searchbar/searchbar';
 
 export namespace SmartSelect {
   interface Events {
+    /** Event will be triggered before Smart Select open. As second argument it receives "prevent" function that can be called to prevent Smart Select from opening */
+    beforeOpen: (smartSelect: SmartSelect, prevent: () => void) => void
     /** Event will be triggered when Smart Select starts its opening animation. As an argument event handler receives smart select instance */
     open: (smartSelect : SmartSelect) => void
     /** Event will be triggered when Smart Select completes its opening animation. As an argument event handler receives smart select instance */
@@ -23,8 +25,20 @@ export namespace SmartSelect {
     view?: View.View
     /** Visual element where to insert selected value. If not passed then it will look for <div class="item-after"> element */
     valueEl?: HTMLElement | CSSSelector
+    /** When enabled then smart select will automaticall insert value text into "valueEl" in format returned by "formatValueText"  */
+    setValueText?: boolean
+    /** Custom function to format smart select text value that appears on list item */
+    formatValueText?: (values: any[]) => string,
     /** Defines how to open Smart Select. Can be page or popup or popover or sheet (default is "page") */
     openIn?: 'page' | 'popup' | 'popover' | 'sheet'
+    /** Enables smart select popup to push view/s behind on open (default false) */
+    popupPush?: boolean
+    /** Enables ability to close smart select popup with swipe (default undefined) */
+    popupSwipeToClose?: boolean | undefined
+    /** Enables smart select sheet to push view/s behind on open (default false) */
+    sheetPush?: boolean
+    /** Enables ability to close smart select sheet with swipe (default undefined) */
+    sheetSwipeToClose?: boolean | undefined
     /** Smart select page title. If not passed then it will be the <div class="item-title"> text */
     pageTitle?: string
     /** Smart select Page back link text (default 'Back') */
@@ -110,6 +124,8 @@ export namespace SmartSelect {
     scrollToSelectedItem(): SmartSelect
     /** Set new smart select value. In case of select is multiple it must be an array with new values */
     setValue(value: string | number | any[]): SmartSelect
+    /** Unset smart select value */
+    unsetValue(): SmartSelect
     /** Returns smart select value. In case of select is multiple it returns array with selected values */
     getValue(): string | number | any[]
     /** Open smart select. */
@@ -120,6 +136,8 @@ export namespace SmartSelect {
     destroy() : void
   }
   interface DomEvents {
+    /** Event will be triggered before Smart Select open. event.detail.prevent is a function that can be called to prevent Smart Select from opening */
+    'smartselect:before' : () => void
     /** Event will be triggered when Smart Select starts its opening animation */
     'smartselect:open' : () => void
     /** Event will be triggered after Smart Select completes its opening animation */
@@ -150,6 +168,8 @@ export namespace SmartSelect {
     smartSelect?: Parameters | undefined
   }
   interface AppEvents {
+    /** Event will be triggered before Smart Select open. As second argument it receives "prevent" function that can be called to prevent Smart Select from opening */
+    smartSelectBeforeOpen: (smartSelect : SmartSelect, prevent: () => void) => void
     /** Event will be triggered when Smart Select starts its opening animation. As an argument event handler receives smart select instance */
     smartSelectOpen: (smartSelect : SmartSelect) => void
     /** Event will be triggered when Smart Select completes its opening animation. As an argument event handler receives smart select instance */

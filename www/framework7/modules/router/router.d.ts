@@ -1,46 +1,17 @@
 import Framework7, { Framework7EventsClass, Framework7Plugin, CSSSelector } from '../../components/app/app-class';
-import { Dom7Instance } from 'dom7';
+import { Dom7, Dom7Instance } from 'dom7';
 import { View } from '../../components/view/view';
 
+import { ComponentClass, ComponentOptions } from '../../modules/component/component';
 import { Actions } from '../../components/actions/actions';
-import { Popup } from 'framework7/components/popup/popup';
-import { LoginScreen } from 'framework7/components/login-screen/login-screen';
-import { Popover } from 'framework7/components/popover/popover';
-import { Modal } from 'framework7/components/modal/modal';
-import { Sheet } from 'framework7/components/sheet/sheet';
-import { Panel } from 'framework7/components/panel/panel';
+import { Popup } from '../../components/popup/popup';
+import { LoginScreen } from '../../components/login-screen/login-screen';
+import { Popover } from '../../components/popover/popover';
+import { Modal } from '../../components/modal/modal';
+import { Sheet } from '../../components/sheet/sheet';
+import { Panel } from '../../components/panel/panel';
 
 export namespace Router {
-
-  interface Component {
-    /** Template7 template string. Will be compiled as Template7 template */
-    template? : string
-    /** Render function to render component. Must return full html string or HTMLElement */
-    render? : () => string | HTMLElement
-    /** Component data, function must return component context data */
-    data? : () => any
-    /** Component CSS styles. Styles will be added to the document after component will be mounted (added to DOM), and removed after component will be destroyed (removed from the DOM) */
-    style? : string
-    /** Object with additional component methods which extend component context */
-    methods? : { [name : string] : (...args: any) => any }
-    /** Object with page events handlers */
-    on? : { [event : string] : (e: Event, page: any) => void }
-
-    /** Called synchronously immediately after the component has been initialized, before data and event/watcher setup. */
-    beforeCreate? : () => void
-    /** Called synchronously after the component is created, context data and methods are available and component element $el is also created and available */
-    created? : () => void
-    /** Called right before component will be added to DOM */
-    beforeMount? : () => void
-    /** Called right after component was be added to DOM */
-    mounted? : () => void
-    /** Called right after component VDOM has been patched */
-    updated? : () => void
-    /** Called right before component will be destoyed */
-    beforeDestroy? : () => void
-    /** Called when component destroyed */
-    destroyed? : () => void
-  }
 
   interface ModalRouteParameters {
     /** Creates dynamic page from specified content string */
@@ -52,11 +23,13 @@ export namespace Router {
     /** Load page content from url via Ajax, and compile it using Template7 */
     templateUrl?: string
     /** Load page from passed Framework7 Router Component */
-    component?: Component
+    component?: ComponentOptions | ComponentClass | Function
     /** load pages as a component via Ajax */
     componentUrl?: string
     /** Do required asynchronous manipulation and the return required route content and options */
     async?(routeTo: Route, routeFrom: Route, resolve: Function, reject: Function): void
+    /** Function that should return Promise resolved with Component or ES module with `.default` property containing Component */
+    asyncComponent?(): Promise<any>
   }
 
   // interface AP extends Actions.Parameters{}
@@ -66,6 +39,8 @@ export namespace Router {
     name?: string
     /** Route path. Means this route will be loaded when we click link that match to this path, or can be loaded by this path using API */
     path: string
+    /** View name where this route will be forced to load */
+    viewName?: string
     /** Object with additional route options (optional) */
     options?: RouteOptions
     /** Array with nested routes */
@@ -85,11 +60,13 @@ export namespace Router {
     /** Load page content from url via Ajax, and compile it using Template7 */
     templateUrl?: string
     /** Load page from passed Framework7 Router Component */
-    component?: Component
+    component?: ComponentOptions | ComponentClass | Function
     /** load pages as a component via Ajax */
     componentUrl?: string
     /** Do required asynchronous manipulation and the return required route content and options */
     async?(routeTo: Route, routeFrom: Route, resolve: Function, reject: Function): void
+    /** Function that should return Promise resolved with Component or ES module with `.default` property containing Component */
+    asyncComponent?(): Promise<any>
 
     /** tab id */
     id?: string
@@ -148,6 +125,8 @@ export namespace Router {
     force?: boolean
     /** pass React/Vue component props */
     props?: object
+    /** custom page transition name */
+    transition?: string
   }
   interface NavigateParameters {
     query?: { [ queryParameter : string ] : number | string | undefined }
@@ -237,8 +216,6 @@ export namespace Router {
     back(url?: string, options?: RouteOptions): Router
     /** Refresh/reload current page */
     refreshPage(): Router
-    /** Remove all previous pages from DOM */
-    clearPreviousPages(): Router
     /** Clear router previous pages history and remove all previous pages from DOM */
     clearPreviousHistory(): Router
     /** Updates current route url, and updates `router.currentRoute` properties (query, params, hash, etc.) based on passed url. This method doesn't load or reload any content. It just changes current route url */

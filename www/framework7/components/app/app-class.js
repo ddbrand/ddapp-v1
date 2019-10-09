@@ -36,6 +36,8 @@ class Framework7 extends Framework7Class {
       initOnDeviceReady: true,
       init: true,
       autoDarkTheme: false,
+      iosTranslucentBars: true,
+      iosTranslucentModals: true,
     };
 
     // Extend defaults with modules params
@@ -72,6 +74,7 @@ class Framework7 extends Framework7Class {
       }()),
       // Initially passed parameters
       passedParams,
+      online: window.navigator.onLine,
     });
 
     // Save Root
@@ -179,11 +182,31 @@ class Framework7 extends Framework7Class {
       app.enableAutoDarkTheme();
     }
 
+    // Watch for online/offline state
+    window.addEventListener('offline', () => {
+      app.online = false;
+      app.emit('offline');
+      app.emit('connection', false);
+    });
+    window.addEventListener('online', () => {
+      app.online = true;
+      app.emit('online');
+      app.emit('connection', true);
+    });
+
     // Root class
     app.root.addClass('framework7-root');
 
     // Theme class
-    $('html').removeClass('ios md').addClass(app.theme);
+    $('html').removeClass('ios md aurora').addClass(app.theme);
+
+    // iOS Translucent
+    if (app.params.iosTranslucentBars && app.theme === 'ios' && Device.ios) {
+      $('html').addClass('ios-translucent-bars');
+    }
+    if (app.params.iosTranslucentModals && app.theme === 'ios' && Device.ios) {
+      $('html').addClass('ios-translucent-modals');
+    }
 
     // Init class
     Utils.nextFrame(() => {

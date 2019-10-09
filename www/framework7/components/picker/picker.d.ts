@@ -34,7 +34,7 @@ export namespace Picker {
     params : Parameters
 
     /** Set new picker value. values is array where each item represents value for each column. duration - transition duration in ms */
-    setValue(values : unknown[], duration : number) : void
+    setValue(values : unknown[], duration? : number) : void
     /** Returns current picker value */
     getValue() : unknown
     /** Adds value to the values array. Useful in case if multiple selection is enabled (with multiple: true parameter) */
@@ -62,7 +62,7 @@ export namespace Picker {
     activeIndex: number
 
     /** Set new value for current column. value is a new value, duration - transition duration in ms */
-    setValue(value : unknown, duration: number) : void
+    setValue(value : unknown, duration?: number) : void
     /** Replace column values and displayValues with new ones */
     replaceValues(values : unknown[], displayValues : unknown[]) : void
   }
@@ -117,6 +117,10 @@ export namespace Picker {
     containerEl?: HTMLElement | CSSSelector
     /** Can be auto, popover (to open picker in popover), sheet (to open in sheet modal). In case of auto will open in sheet modal on small screens and in popover on large screens.. (default auto) */
     openIn?: string
+    /** Enables Picker sheet to push view/s behind on open (default false) */
+    sheetPush?: boolean
+    /** Enables ability to close Picker sheet with swipe (default false) */
+    sheetSwipeToClose?: boolean | undefined
     /** String with CSS selector or HTMLElement with related input element. */
     inputEl?: HTMLElement | CSSSelector
     /** Scroll viewport (page-content) to input when picker opened. (default true) */

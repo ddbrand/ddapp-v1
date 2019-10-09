@@ -28,11 +28,11 @@ class PullToRefresh extends Framework7Class {
     ptr.done = function done() {
       const $transitionTarget = isMaterial ? $preloaderEl : $el;
       $transitionTarget.transitionEnd(() => {
-        $el.removeClass('ptr-transitioning ptr-pull-up ptr-pull-down');
+        $el.removeClass('ptr-transitioning ptr-pull-up ptr-pull-down ptr-closing');
         $el.trigger('ptr:done');
         ptr.emit('local::done ptrDone', $el[0]);
       });
-      $el.removeClass('ptr-refreshing').addClass('ptr-transitioning');
+      $el.removeClass('ptr-refreshing').addClass('ptr-transitioning ptr-closing');
       return ptr;
     };
 
@@ -70,8 +70,14 @@ class PullToRefresh extends Framework7Class {
     let maxScrollTop;
     const $pageEl = $el.parents('.page');
 
-    if ($pageEl.find('.navbar').length > 0 || $pageEl.parents('.view').children('.navbar').length > 0) hasNavbar = true;
+    if ($pageEl.find('.navbar').length > 0 || $pageEl.parents('.view').children('.navbars').length > 0) hasNavbar = true;
     if ($pageEl.hasClass('no-navbar')) hasNavbar = false;
+    if (!ptr.bottom && $pageEl.hasClass('page-with-navbar-large')) {
+      const pageNavbarEl = app.navbar.getElByPage($pageEl[0]);
+      if (pageNavbarEl && $(pageNavbarEl).hasClass('navbar-large-transparent')) {
+        $el.addClass('ptr-with-navbar-large-transparent');
+      }
+    }
     if (!hasNavbar && !ptr.bottom) $el.addClass('ptr-no-navbar');
 
     // Define trigger distance
@@ -498,7 +504,7 @@ class PullToRefresh extends Framework7Class {
   destroy() {
     let ptr = this;
     ptr.emit('local::beforeDestroy ptrBeforeDestroy', ptr);
-    ptr.$el.trigger('ptr:beforedestroy', ptr);
+    ptr.$el.trigger('ptr:beforedestroy');
     delete ptr.el.f7PullToRefresh;
     ptr.detachEvents();
     Utils.deleteProps(ptr);

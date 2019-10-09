@@ -34,11 +34,17 @@ export default {
             },
           }
         );
-        const createdComponent = app.component.create(componentOptions, extendContext);
-        resolve(createdComponent.el);
+        app.component.create(componentOptions, extendContext)
+          .then((createdComponent) => {
+            resolve(createdComponent.el);
+          })
+          .catch((err) => {
+            reject();
+            throw new Error(err);
+          });
       }
       let cachedComponent;
-      if (compiledUrl) {
+      if (compiledUrl && router.params.componentCache) {
         router.cache.components.forEach((cached) => {
           if (cached.url === compiledUrl) cachedComponent = cached.component;
         });
@@ -55,10 +61,12 @@ export default {
           .xhrRequest(url, options)
           .then((loadedComponent) => {
             const parsedComponent = app.component.parse(loadedComponent);
-            router.cache.components.push({
-              url: compiledUrl,
-              component: parsedComponent,
-            });
+            if (router.params.componentCache) {
+              router.cache.components.push({
+                url: compiledUrl,
+                component: parsedComponent,
+              });
+            }
             compile(parsedComponent);
           })
           .catch((err) => {

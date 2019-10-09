@@ -86,8 +86,8 @@ class Tooltip extends Framework7Class {
         app.on('touchmove', handleTouchMove);
         app.on('touchend:passive', handleTouchEnd);
       } else {
-        $targetEl.on('mouseenter', handleMouseEnter);
-        $targetEl.on('mouseleave', handleMouseLeave);
+        $targetEl.on((Support.pointerEvents ? 'pointerenter' : 'mouseenter'), handleMouseEnter);
+        $targetEl.on((Support.pointerEvents ? 'pointerleave' : 'mouseleave'), handleMouseLeave);
       }
     };
     tooltip.detachEvents = function detachEvents() {
@@ -98,8 +98,8 @@ class Tooltip extends Framework7Class {
         app.off('touchmove', handleTouchMove);
         app.off('touchend:passive', handleTouchEnd);
       } else {
-        $targetEl.off('mouseenter', handleMouseEnter);
-        $targetEl.off('mouseleave', handleMouseLeave);
+        $targetEl.off((Support.pointerEvents ? 'pointerenter' : 'mouseenter'), handleMouseEnter);
+        $targetEl.off((Support.pointerEvents ? 'pointerleave' : 'mouseleave'), handleMouseLeave);
       }
     };
 
@@ -186,10 +186,10 @@ class Tooltip extends Framework7Class {
     const $aroundEl = $(aroundEl);
     tooltip.visible = true;
     tooltip.opened = true;
-    $targetEl.trigger('tooltip:show', tooltip);
-    $el.trigger('tooltip:show', tooltip);
+    $targetEl.trigger('tooltip:show');
+    $el.trigger('tooltip:show');
     if ($aroundEl.length && $aroundEl[0] !== $targetEl[0]) {
-      $aroundEl.trigger('tooltip:show', tooltip);
+      $aroundEl.trigger('tooltip:show');
     }
     tooltip.emit('local::show tooltipShow', tooltip);
     $el.removeClass('tooltip-out').addClass('tooltip-in');
@@ -201,8 +201,8 @@ class Tooltip extends Framework7Class {
     const { $el, $targetEl } = tooltip;
     tooltip.visible = false;
     tooltip.opened = false;
-    $targetEl.trigger('tooltip:hide', tooltip);
-    $el.trigger('tooltip:hide', tooltip);
+    $targetEl.trigger('tooltip:hide');
+    $el.trigger('tooltip:hide');
     tooltip.emit('local::hide tooltipHide', tooltip);
     $el.addClass('tooltip-out').removeClass('tooltip-in');
     return tooltip;
@@ -243,7 +243,7 @@ class Tooltip extends Framework7Class {
   destroy() {
     const tooltip = this;
     if (!tooltip.$targetEl || tooltip.destroyed) return;
-    tooltip.$targetEl.trigger('tooltip:beforedestroy', tooltip);
+    tooltip.$targetEl.trigger('tooltip:beforedestroy');
     tooltip.emit('local::beforeDestroy tooltipBeforeDestroy', tooltip);
     tooltip.$el.remove();
     delete tooltip.$targetEl[0].f7Tooltip;
