@@ -9,8 +9,10 @@ var app = new Framework7({
     theme: 'auto',
     routes: routes,
     touch: {
-        tapHold: true,
-        fastClicks: true
+        tapHold: true
+    },
+    statusbar: {
+        iosBackgroundColor: '#000000'
     },
     dialog: {
         title: translate_strings('attention'),
