@@ -108,6 +108,7 @@
         <splash src="res/screen/ios/Default@3x~iphone~comany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~anyany.png" />
         <splash src="res/screen/ios/Default@2x~ipad~comany.png" />
+        <splash src="res/screen/ios/Default@2x~universal~anyany.png" />
         <config-file mode="replace" parent="NSPhotoLibraryUsageDescription" platform="ios">
             <string>App would like to access the camera.</string>
         </config-file>
