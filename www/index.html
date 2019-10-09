@@ -2,7 +2,9 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+        <!--<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">-->
+        <meta name="viewport" content="viewport-fit=cover, initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+        <meta name="apple-mobile-web-app-capable" content="no">
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="theme-color" content="#82bec8">
         <meta name="format-detection" content="telephone=no">
@@ -319,10 +321,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="block-title item-label display-flex justify-content-space-between">Weight* <span class="user-weight" style="display:inline-block; margin-right: 30px;">65 kg</span></div>
-                                <div class="list simple-list">
-                                    <ul>
-                                        <li>
+                                <div class="list">
+                                    <div class="block-title item-label display-flex justify-content-space-between" style="padding-right: 25px; padding-left: 15px;">Weight* <span class="user-weight" style="display:inline-block; margin-right: 30px;">65 kg</span></div>
+                                    <div class="list simple-list">
+                                        <ul>
+                                            <li>
                                             <div class="range-slider weightslider color-orange" data-value="10">
                                                 <input type="range" class="weight" value="65" max="250" min="35"/>
                                             </div>
@@ -337,8 +340,9 @@
                                             <div class="range-slider heightslider color-orange" data-value="10">
                                                 <input type="range" class="height" value="160" max="210" min="45"/>
                                             </div>
-                                        </li>
-                                    </ul>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <div class="list">
                                     <ul>
