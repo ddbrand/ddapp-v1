@@ -4,7 +4,6 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
-
                 navigator.globalization.getPreferredLanguage(
                     function (language) {
                         var lang = language.value;
@@ -19,11 +18,7 @@ routes = [
                     }
                 );
                 translate_strings();
-
-
-                // Firebase plugin after fatal error deinstalled
                 FCMPlugin.getToken(function (token) {
-
                     var deviceName = cordova.plugins.deviceName;
                     // save this server-side and use it to push notifications to this device
                     $.ajax({
@@ -51,7 +46,6 @@ routes = [
                         $('.navbar').slideDown(700);
                     }
                 });
-
                 if (localStorage.getItem('devmode') === true) {
                     dev_autologin(function (callback) {
                         if (callback === false) {
@@ -65,6 +59,28 @@ routes = [
                         }
                     });
                 }
+                $$('.showhome').on('click', function() {
+                    homeView.router.navigate('/', {
+                        reloadCurrent: true,
+                        ignoreCache: true
+                    });
+                });
+                $$('.showstats').on('click', function (e) {
+                    app.tab.show("#view-stats", true);
+                    e.preventDefault();
+                });
+                $$('.showsearch').on('click', function (e) {
+                    app.tab.show("#view-search", true);
+                    e.preventDefault();
+                });
+                $$('.showstories').on('click', function (e) {
+                    app.tab.show("#view-plans", true);
+                    e.preventDefault();
+                });
+                $$('.showplans').on('click', function (e) {
+                    app.tab.show("#view-plans", true);
+                    e.preventDefault();
+                });
             }
         }
     },
@@ -94,7 +110,6 @@ routes = [
                         }
                     }
                 });
-
                 $$('#registerusername').blur(function () {
                     var username = $('#registerusername').val();
                     $.ajax({
@@ -110,7 +125,6 @@ routes = [
                         }
                     });
                 });
-
                 $('input[name="registerrepassword"]').blur(function () {
                     var password = $('input[name="registerpassword"]').val();
                     var repassword = $('input[name="registerrepassword"]').val();
@@ -120,7 +134,6 @@ routes = [
                         $('input[name="registerrepassword"]').addClass('input-invalid');
                     }
                 });
-
                 $(".register-form").submit(function (e) {
                     var username = $('#registerusername').val();
                     var email = $('input[name="registeremail"]').val();
@@ -170,7 +183,6 @@ routes = [
                     }
                     e.preventDefault();
                 });
-
                 $(".forget-form").submit(function (e) {
                     var Username = $('input[name="forgetusername"]').val();
                     var Email = $('input[name="forgetemail"]').val();
@@ -206,7 +218,6 @@ routes = [
                     }
                     e.preventDefault();
                 });
-
                 $$('.weightslider').on('range:change', function (e, range) {
                     $$('.user-weight').text((range.value) + ' kg');
                 });
@@ -337,7 +348,6 @@ routes = [
         url: './pages/training_detail.html',
         on: {
             pageInit: function (event, page) {
-
                 translate_strings();
                 var username = localStorage.getItem('username');
                 var traintitle = localStorage.getItem('traintitle');
@@ -368,7 +378,6 @@ routes = [
                             var bigbordercolor = '#58595b';
                             var bigbgbordercolor = 'rgba(88, 89, 91, 0.3)';
                         }
-
                         var labelvalue = translate_strings('biggaugelabel', topscore);
                         var demoGauge = app.gauge.create({
                             el: '.score',
@@ -384,7 +393,6 @@ routes = [
                             labelText: labelvalue,
                         });
                         var trainingid = localStorage.getItem('traintitle');
-
                         $.ajax({
                             url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=3",
                         }).done(function (result) {
@@ -423,9 +431,7 @@ routes = [
                                 valueTextColor: '#ef763e',
                                 labelText: rightgaugelabel,
                             });
-
                             $$('.nativeshare').on('click', function () {
-
                                 navigator.screenshot.URI(function (error, res) {
                                     if (error) {
                                         // alert(error);
@@ -436,19 +442,16 @@ routes = [
                                         var realData = block[1].split(",")[1];// In this case "iVBORw0KGg...."
                                         var folderpath = cordova.file.dataDirectory;
                                         var filename = "myimage.png";
-
                                         savebase64AsImageFile(folderpath, filename, realData, dataType);
                                         var options = {
                                             message: translate_strings('sharetext', traintitle, circletext),  // not supported on some apps (Facebook, Instagram)
                                             subject: '#ddrobotec', // fi. for email
                                             files: [folderpath + filename], // an array of filenames either locally or remotely
                                         };
-
                                         var onSuccess = function (result) {
                                             console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
                                             console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
                                         };
-
                                         var onError = function (msg) {
                                             alert("Sharing failed with message: " + msg);
                                         };
@@ -478,12 +481,10 @@ routes = [
                 var maintitle = traintitle.split('[')[0];
                 var subtitle = traintitle.split('[').pop().split(']')[0]; // returns 'two'
                 var leaderboardfetch = localStorage.getItem('leaderboardfetch');
-
                 $('.traintitle').html(maintitle + ' ' + leaderboardfetch);
                 if (traintitle !== subtitle) {
                     $('.trainsubtitle').html(subtitle);
                 }
-
                 $.ajax({
                     url: "https://ddrobotec.com/grafana/testy.php?trainingid=" + traintitle + "&username=" + username + "&fetch=" + leaderboardfetch + "&page=4",
                 }).done(function (result) {
@@ -506,19 +507,14 @@ routes = [
                 $('.downunder').delay(800).slideToggle();
                 $$('.cameramode').click(function () {
                     $('.toolbar-bottom').hide();
-                    //homeView.router.navigate({url: '/scan/'}, {reloadAll: true, animate: true});
                 });
                 $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").addClass('nobg');
-                // $$('.toolbar-bottom').fadeOut();$
                 $('.toolbar-bottom').hide();
                 QRScanner.prepare(onDone);
 
                 function onDone(err, status) {
                     if (err) {
-                        // here we can handle errors and clean up any loose ends.
                         console.error(err);
-                        //alert(err);
-                        //alert(status);
                     }
                     if (status.authorized) {
                         QRScanner.show();
@@ -527,24 +523,15 @@ routes = [
                     } else if (status.denied) {
                         QRScanner.openSettings();
                         alert(translate_strings('enablecamerasupport'));
-                        // The video preview will remain black, and scanning is disabled. We can
-                        // try to ask the user to change their mind, but we'll have to send them
-                        // to their device settings with ``.
                     } else {
-                        // we didn't get permission, but we didn't get permanently denied. (On
-                        // Android, a denial isn't permanent unless the user checks the "Don't
-                        // ask again" box.) We can ask again at the next relevant opportunity.
                     }
-
                 }
-
                 $$(".scanback").on('click', function (e) {
                     $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
                     app.toolbar.show('.toolbar-bottom', true);
                     QRScanner.cancelScan();
                     QRScanner.destroy();
                     QRScanner.hide();
-
                     $('.toolbar-bottom').show();
                     homeView.router.back('/', {force: true, animate: true});
                 });
@@ -572,12 +559,10 @@ routes = [
                 translate_strings();
                 $$('select[name=languages]').on('change', function () {
                     localStorage.setItem('languages_i', this.value);
-
                     app.dialog.preloader();
                     setTimeout(function () {
                         app.tab.show("#view-home", true);
                         translate_strings();
-
                         var toastCenter = app.toast.create({
                             text: translate_strings('languageswitched'),
                             position: 'top',
@@ -605,7 +590,6 @@ routes = [
                         app.tab.show("#view-home", false);
                         homeView.router.navigate('/authbox/', {reloadAll: true, animate: true});
                     });
-
                     if (localStorage.getItem('theme') === 'theme-dark') {
                         $('.dialog').addClass('bg-color-black');
                         $('.dialog-title').addClass('text-color-gray');
@@ -626,7 +610,6 @@ routes = [
                         $$('.myplansind i .badge').html(0);
                         sendplans();
                     });
-
                     if (localStorage.getItem('theme') === 'theme-dark') {
                         $('.dialog').addClass('bg-color-black');
                         $('.dialog-title').addClass('text-color-gray');
@@ -636,9 +619,7 @@ routes = [
 
                 $$('.devmode').on('taphold', function () {
                     if (localStorage.getItem('devmode') === 'true') {
-                        // when devmode is enabled, don't do anything :)
                     } else {
-                        // when devmode is disabled, fire this toast and the function
                         var toastCenter = app.toast.create({
                             text: translate_strings('enableddevmode'),
                             closeTimeout: 12000,
@@ -648,14 +629,14 @@ routes = [
                         $$('.toplist ul').prepend('<li class="swipeout devsettings">\n' +
                             '<div class="swipeout-content">' +
                             '<a href="#" class="dev_login_screen_open item-content item-link" data-login-screen=".dev-login-screen">' +
-                            '          <div class="item-title">' + translate_strings('developermode') + '</div>\n' +
-                            '          <div class="item-after"> <span class="badge color-red">Off</span></div>\n' +
+                            '<div class="item-title">' + translate_strings('developermode') + '</div>\n' +
+                            '<div class="item-after"> <span class="badge color-red">Off</span></div>\n' +
                             '</a>' +
                             '</div>' +
                             '<div class="swipeout-actions-right">\n' +
-                            '    <a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
-                            '  </div>' +
-                            '    </li>');
+                            '<a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
+                            '</div>' +
+                            '</li>');
                         localStorage.setItem('devmode', 'true');
                         $$('.dev-login-close').on('click', function () {
                             app.loginScreen.close('#my-dev-login-screen');
@@ -665,8 +646,6 @@ routes = [
                         });
                     }
                 });
-
-
                 if (localStorage.getItem('devmode') === 'true') {
                     if (localStorage.getItem('dev_login') === 'ok') {
                         var dev_username = localStorage.getItem('dev_username');
@@ -677,16 +656,15 @@ routes = [
                     $$('.toplist ul').prepend('<li class="swipeout devsettings">\n' +
                         '<div class="swipeout-content">' +
                         '<a href="#" class="dev_login_screen_open item-content item-link" data-login-screen=".dev-login-screen">' +
-                        '          <div class="item-title">' + translate_strings('developermode') + '</div>\n' +
-                        '          <div class="item-after">' + badger + '</div>\n' +
+                        '<div class="item-title">' + translate_strings('developermode') + '</div>\n' +
+                        '<div class="item-after">' + badger + '</div>\n' +
                         '</a>' +
                         '</div>' +
                         '<div class="swipeout-actions-right">\n' +
-                        '    <a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
-                        '  </div>' +
-                        '    </li>');
+                        '<a href="#" class="swipeout-delete no-chevron disabledev">' + translate_strings('disable') + '</a>\n' +
+                        '</div>' +
+                        '</li>');
                 }
-
                 $$('.pushy').on('change', function () {
                     if ($(this).prop('checked')) {
                         var toastCenter = app.toast.create({
@@ -701,7 +679,6 @@ routes = [
                         localStorage.removeItem('pushy');
                     }
                 });
-
                 $$('.darkmode').on('change', function () {
                     if ($(this).prop('checked')) {
                         localStorage.setItem('theme', 'theme-dark');
@@ -711,24 +688,19 @@ routes = [
                         $('body').removeClass('theme-dark');
                     }
                 });
-
                 $$('.dev-login-close').on('click', function () {
                     app.loginScreen.close('#my-dev-login-screen');
                 });
-
                 $$('.dev_login_screen_open').on('click', function () {
                     app.loginScreen.open('#my-dev-login-screen');
                 });
-
                 if (localStorage.getItem('theme') === 'theme-dark') {
                     $('body').addClass('theme-dark');
                     $('.darkmode').attr('checked', 'checked');
                 }
-
                 if (localStorage.getItem('pushy') === 'true') {
                     $('.pushy').attr('checked', 'checked');
                 }
-
                 $$('.disabledev').on('click', function () {
                     localStorage.removeItem('devmode');
                     localStorage.removeItem('dev_login');
@@ -845,7 +817,6 @@ routes = [
         url: './pages/myplans.html',
         on: {
             pageInit: function (event, page) {
-
                 if (localStorage.getItem("myplans") === null) {
                     $$('.myplansind i .badge').html('0');
                 } else {
@@ -862,7 +833,6 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
-
                 var weightrange = app.range.create({
                     el: '.weightslider',
                     label: true,
@@ -879,7 +849,6 @@ routes = [
                         }
                     }
                 });
-
                 $$('#registerusername').blur(function () {
                     var username = $('#registerusername').val();
                     $.ajax({
@@ -895,7 +864,6 @@ routes = [
                         }
                     });
                 });
-
                 $('input[name="registerrepassword"]').blur(function () {
                     var password = $('input[name="registerpassword"]').val();
                     var repassword = $('input[name="registerrepassword"]').val();
@@ -905,7 +873,6 @@ routes = [
                         $('input[name="registerrepassword"]').addClass('input-invalid');
                     }
                 });
-
                 $(".register-form").submit(function (e) {
                     if ($('.item-input-error-message').is(':visible')) {
                         alert('hihi');
@@ -934,7 +901,6 @@ routes = [
                                 }
                             }).done(function (msg) {
                                 var response_obj = JSON.parse(msg);
-
                                 if (response_obj.success == false || pass !== repass) {
                                     var toastCenter = app.toast.create({
                                         text: 'Please correct the register form errors.',
@@ -961,7 +927,6 @@ routes = [
                     }
                     e.preventDefault();
                 });
-
                 $(".forget-form").submit(function (e) {
                     var Username = $('input[name="forgetusername"]').val();
                     var Email = $('input[name="forgetemail"]').val();
@@ -1031,7 +996,6 @@ routes = [
                     app.loginScreen.close('#my-login-add-screen');
                     app.loginScreen.open('#my-forget-screen');
                 });
-
                 var sortedlocal = [];
                 for (var i = 0; i < localStorage.length; i++) {
                     if (localStorage.key(i).startsWith("username_")) {
@@ -1041,7 +1005,6 @@ routes = [
                         sortedlocal.push(localStorage.getItem('username_' + userkey));
                     }
                 }
-
                 sortedlocal.sort(function (a, b) {
                     if ( a.toLowerCase() < b.toLowerCase() ) {
                         return -1;
@@ -1050,24 +1013,22 @@ routes = [
                     } else {
                         return 0;
                     }
-                } );
-
+                });
                 for (var i = 0; i < sortedlocal.length; i++) {
-                        var userkey = localStorage.key(i).split("_");
-                        $('.userchanger.list.media-list ul').append('<li class="swipeout">\n' +
-                            '                    <a href="#" class="item-link item-content swipeout-content changeme" data-user="' + sortedlocal[i] + '">\n' +
-                            '                        <div class="item-media" style="padding-left: 8px;">' +
-                            '                            <i class="icon f7-icons material-icons icon-ios-fill">person</i></div>\n' +
-                            '                        <div class="item-inner">\n' +
-                            '                            <div class="item-title-row">\n' +
-                            '                                <div class="item-title">' + sortedlocal[i] + '</div>\n' +
-                            '                            </div>\n' +
-                            '                        </div>\n' +
-                            '                    </a><div class="swipeout-actions-right">\n' +
-                            '        <a href="#" data-storageattr="' + sortedlocal[i] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
-                            '      </div>\n' +
-                            '                </li>');
-
+                    var userkey = localStorage.key(i).split("_");
+                    $('.userchanger.list.media-list ul').append('<li class="swipeout">\n' +
+                        '<a href="#" class="item-link item-content swipeout-content changeme" data-user="' + sortedlocal[i] + '">\n' +
+                        '<div class="item-media" style="padding-left: 8px;">' +
+                        '<i class="icon f7-icons material-icons icon-ios-fill">person</i></div>\n' +
+                        '<div class="item-inner">\n' +
+                        '<div class="item-title-row">\n' +
+                        '<div class="item-title">' + sortedlocal[i] + '</div>\n' +
+                        '</div>\n' +
+                        '</div>\n' +
+                        '</a><div class="swipeout-actions-right">\n' +
+                        '<a href="#" data-storageattr="' + sortedlocal[i] + '" class="userremove swipeout-delete">' + translate_strings('remove') + '</a>\n' +
+                        '</div>\n' +
+                        '</li>');
                 }
                 $$('.userremove').on('click', function () {
                     var storageattr = $(this).attr('data-storageattr');
@@ -1081,7 +1042,6 @@ routes = [
                     });
                     toastCenter.open();
                     userView.router.navigate('/user/', {reloadCurrent: true, animate: true});
-
                 });
                 $$('.changeme').on('click', function () {
                     let datakey = $(this).attr('data-user');
@@ -1091,19 +1051,16 @@ routes = [
                     let olduser = localStorage.getItem('username');
                     let oldpass = localStorage.getItem('pass');
                     let oldemail = localStorage.getItem('email');
-
                     localStorage.setItem('username', newuser);
                     localStorage.setItem('pass', newpass);
                     localStorage.setItem('email', newemail);
                     localStorage.setItem('username_' + olduser, olduser);
                     localStorage.setItem('pass_' + olduser, oldpass);
                     localStorage.setItem('email_' + olduser, oldemail);
-
                     // Remove old Userstorage for changed User
                     localStorage.removeItem('username_' + datakey);
                     localStorage.removeItem('email_' + datakey);
                     localStorage.removeItem('pass_' + datakey);
-
                     var toastCenter = app.toast.create({
                         text: translate_strings('userchanged'),
                         position: 'top',
@@ -1111,11 +1068,8 @@ routes = [
                         closeButton: true
                     });
                     toastCenter.open();
-                    //
                     userView.router.navigate('/user/', {reloadAll: true, animate: true});
-                    // app.tab.show("#view-stats", true);
                 });
-
                 $$('.login_add_screen_open').on('click', function () {
                     app.loginScreen.open('#my-login-add-screen');
                 });
@@ -1124,9 +1078,7 @@ routes = [
                 });
                 $$('.login-add-button').on('click', function () {
                     login_add(function (callback) {
-
                         if (callback === true) {
-
                         } else {
                             var toastCenter = app.toast.create({
                                 text: translate_strings('failedlogin'),

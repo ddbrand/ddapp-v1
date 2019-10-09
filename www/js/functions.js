@@ -313,27 +313,20 @@ function login_add(callback) {
 function b64toBlob(b64Data, contentType, sliceSize) {
     contentType = contentType || '';
     sliceSize = sliceSize || 512;
-
     var byteCharacters = atob(b64Data);
     var byteArrays = [];
-
     for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
         var slice = byteCharacters.slice(offset, offset + sliceSize);
-
         var byteNumbers = new Array(slice.length);
         for (var i = 0; i < slice.length; i++) {
             byteNumbers[i] = slice.charCodeAt(i);
         }
-
         var byteArray = new Uint8Array(byteNumbers);
-
         byteArrays.push(byteArray);
     }
-
     var blob = new Blob(byteArrays, {type: contentType});
     return blob;
 }
-
 
 function savebase64AsImageFile(folderpath,filename,content,contentType){
     var DataBlob = b64toBlob(content,contentType);
@@ -351,7 +344,6 @@ function savebase64AsImageFile(folderpath,filename,content,contentType){
     });
 }
 
-
 function isplanselected(planid) {
     var currentplans = JSON.parse(localStorage.getItem("myplans"));
     var myplans = [];
@@ -362,7 +354,6 @@ function isplanselected(planid) {
         $('.planselecter[data-id="' + planid + '"]').prop('checked', false);
     }
 }
-
 
 function pullalltrainings() {
     var xhr = new XMLHttpRequest();
@@ -404,7 +395,6 @@ function pullalltrainings() {
                         isplanselected(thisplan);
                     }
                 }
-
                 $('div.iwu ul input.planselecter').on('change', function(e) {
                     if (e.target.checked) {
                         $(this).prop('checked', true);
@@ -472,7 +462,6 @@ function pullalltrainings() {
     xhr.send();
 }
 
-
 function trainingplans() {
     var xhr = new XMLHttpRequest();
     xhr.withCredentials = true;
@@ -493,8 +482,8 @@ function trainingplans() {
                     if ($.inArray(thiscategory, checkedcategories) !== -1) {
                     } else {
                         $$('ul.trainingplans').append('<li>\n' +
-                            '      <div class="item-title" data-category="' + thiscategory + '"><a href="/plan_subcat/">' + thiscategory + '</a></div>\n' +
-                            '    </li>');
+                            '<div class="item-title" data-category="' + thiscategory + '"><a href="/plan_subcat/">' + thiscategory + '</a></div>\n' +
+                            '</li>');
                         checkedcategories.push(thiscategory);
                     }
                     checkedsubcategories.push(thissubcategory);
@@ -529,7 +518,6 @@ function trainingplans() {
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
 }
-
 
 function subcat() {
     var xhr = new XMLHttpRequest();
@@ -589,7 +577,6 @@ function subcat() {
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
 }
-
 
 function sendplans() {
     var localplans = JSON.parse(localStorage.getItem("myplans"));
@@ -666,7 +653,6 @@ function sendplans() {
         });
     }
 }
-
 
 function planchoice() {
     var xhr = new XMLHttpRequest();
@@ -775,7 +761,6 @@ function planchoice() {
     xhr.setRequestHeader("Cache-Control", "no-cache");
     xhr.send();
 }
-
 
 function showmyplans() {
     var xhr = new XMLHttpRequest();
