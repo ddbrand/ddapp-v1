@@ -467,6 +467,10 @@ routes = [
                     localStorage.setItem('leaderboardfetch', fetcher);
                     statsView.router.navigate('/leaderboard/', {force: true, animate: true});
                 });
+                // back arrow on statsview tab. Returns the user to the main page in statsview on click.
+                $$('.trainback').on('click', function () {
+                    statsView.router.back('/stats/', {reloadAll: true, animate: true});
+                });
             }
         }
     },
