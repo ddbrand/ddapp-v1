@@ -2,7 +2,7 @@
   font-family: 'Noto Sans', sans-serif;
 }
 a {
-  color: #58595b;
+  color: var(--f7-text-color);
 }
 
 html {
@@ -30,6 +30,9 @@ div.setleft {
   opacity: 0.5;
   font-size: 16px;
 }
+.navbar .back, .navbar .icon {
+  color: var(--f7-text-color) !important;
+}
 .devmode {
   -moz-user-select: none;
   -webkit-user-select: none;
@@ -42,6 +45,9 @@ div.setleft {
   font-size: 22px;
   font-weight: normal;
   margin-top: 0px;
+}
+.theme-dark .navbar {
+  color:white;
 }
 .iwu {
   display: none;

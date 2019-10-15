@@ -4,6 +4,19 @@ routes = [
         url: './index.html',
         on: {
             pageInit: function (event, page) {
+                if(window.StatusBar) {
+                    // org.apache.cordova.statusbar required
+                    StatusBar.styleDefault();
+                    StatusBar.overlaysWebView(false);
+                    StatusBar.styleLightContent();
+                    StatusBar.backgroundColorByName("black");
+                }
+                setTimeout(function() {
+                    StatusBar.styleDefault();
+                    StatusBar.overlaysWebView(false);
+                    StatusBar.styleLightContent();
+                    StatusBar.backgroundColorByName("black");
+                }, 2000);
                 navigator.globalization.getPreferredLanguage(
                     function (language) {
                         var lang = language.value;
@@ -38,6 +51,12 @@ routes = [
                     if (callback === false) {
                         localStorage.setItem('theme', 'theme-dark');
                         $('body').addClass('theme-dark');
+                        setTimeout(function() {
+                            StatusBar.styleDefault();
+                            StatusBar.overlaysWebView(false);
+                            StatusBar.styleLightContent();
+                            StatusBar.backgroundColorByName("black");
+                        }, 2000);
                         homeView.router.navigate('/authbox/', {
                             reloadCurrent: true,
                             ignoreCache: true
@@ -93,6 +112,7 @@ routes = [
         url: './pages/authbox.html',
         on: {
             pageAfterIn: function (event, page) {
+                trainingplans();
                 translate_strings();
                 var weightrange = app.range.create({
                     el: '.weightslider',
@@ -302,9 +322,8 @@ routes = [
                         });
                     }
                 });
-                var $ptrContent = $$('.ptr-content');
                 // Add 'refresh' listener on it
-                $ptrContent.on('ptr:refresh', function (e) {
+                $$('.refreshstats').on('click', function() {
                     var username = localStorage.getItem('username');
                     $.ajax({
                         url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
@@ -336,7 +355,6 @@ routes = [
                                 });
                             });
                         }
-                        app.ptr.done();
                         e.detail();
                     });
                 });
@@ -353,6 +371,7 @@ routes = [
                 var traintitle = localStorage.getItem('traintitle');
                 var clickedid = localStorage.getItem('detail_train_id');
                 var clickedscore = localStorage.getItem('detail_train_score');
+
                 $.ajax({
                     url: "https://ddrobotec.com/grafana/detail_pull_report.php?username=" + username + "&title=" + traintitle + "&dataid=" + clickedid,
                 }).done(function (result) {
@@ -378,6 +397,7 @@ routes = [
                             var bigbordercolor = '#58595b';
                             var bigbgbordercolor = 'rgba(88, 89, 91, 0.3)';
                         }
+
                         var labelvalue = translate_strings('biggaugelabel', topscore);
                         var demoGauge = app.gauge.create({
                             el: '.score',
@@ -494,6 +514,9 @@ routes = [
                 }).done(function (result) {
                     $$('.leaderboard').html(result);
                 });
+                $$('.back').on('click', function() {
+                    statsView.router.navigate('/training_detail/', {reloadCurrent: true, ignoreCache: true});
+                });
             }
         }
     },
@@ -577,8 +600,6 @@ routes = [
                     }, 1200);
                     homeView.router.navigate('/', {reloadAll: true, animate: true});
                     homeView.router.refreshPage();
-                    userView.router.navigate('/user/', {reloadCurrent: true, ignoreCache: true});
-
                 });
                 $$('select[name=languages]').val(localStorage.getItem('language'));
                 $$('.open-confirm-logout').on('click', function () {
@@ -687,6 +708,11 @@ routes = [
                     if ($(this).prop('checked')) {
                         localStorage.setItem('theme', 'theme-dark');
                         $('body').addClass('theme-dark');
+                        setTimeout(function() {
+                            StatusBar.overlaysWebView(false);
+                            StatusBar.styleLightContent();
+                            StatusBar.backgroundColorByName("black");
+                        }, 500);
                     } else {
                         localStorage.removeItem('theme');
                         $('body').removeClass('theme-dark');
@@ -739,7 +765,6 @@ routes = [
         url: './pages/plan.html',
         on: {
             pageInit: function (event, page) {
-                trainingplans();
                 var searchbar = app.searchbar.create({
                     el: '.searchbar',
                     searchContainer: '.iwu',
@@ -750,6 +775,8 @@ routes = [
                         }
                     }
                 });
+                trainingplans();
+                app.init();
                 $('.searchbar input').on('change', function () {
                     if ($$('.searchbar input').val() === '') {
                         $$('.iwu ul').html('');
@@ -796,6 +823,9 @@ routes = [
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
                 }
                 subcat();
+                $$('.back').on('click', function() {
+                    plansView.router.navigate('/plans/', {animate: true});
+                });
             }
         }
     },
@@ -813,6 +843,9 @@ routes = [
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
                 }
                 planchoice();
+                $$('.back').on('click', function() {
+                    plansView.router.navigate('/plan_subcat/', { animate: true});
+                });
             }
         }
     },
@@ -828,6 +861,9 @@ routes = [
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
                 }
                 showmyplans();
+                $$('.back').on('click', function() {
+                    plansView.router.navigate('/plans/', {animate: true});
+                });
             }
         }
     },
@@ -966,7 +1002,9 @@ routes = [
                     }
                     e.preventDefault();
                 });
-
+                $$('.back').on('click', function() {
+                    userView.router.navigate('/user/', {animate: true});
+                });
                 $$('.weightslider').on('range:change', function (e, range) {
                     $$('.user-weight').text((range.value) + ' kg');
                 });
