@@ -135,10 +135,6 @@ $$(document).on('page:init', function () {
     $("#view-stats").on('tab:show', function (event, ui) {
         statsView.router.navigate('/stats/');
     });
-    /*$("#view-plans").on('tab:show', function (event, ui) {
-        // load trainingplans on first planview load.
-        plansView.router.navigate('/plans/');
-    });*/
 
 
     // apply the currently loggedin username to all elements with class .insert-username in html value.

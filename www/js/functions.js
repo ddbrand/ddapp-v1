@@ -197,14 +197,14 @@ function displayContents(err, text) {
                 xhr.withCredentials = true;
                 xhr.addEventListener("readystatechange", function () {
                     if (this.readyState == 4) {
-                        QRScanner.cancelScan(function(status){
+                        QRScanner.cancelScan(function (status) {
                             $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
                             QRScanner.hide();
-                            homeView.router.navigate('/', {reloadAll: true, animate: true});
                             $('.toolbar-bottom').show();
                             app.toolbar.show('.toolbar-bottom', true);
                             QRScanner.destroy();
                             QRScanner.cancelScan();
+                            homeView.router.navigate('/', {reloadAll: true, animate: true});
                         });
                     }
                 });
