@@ -810,6 +810,15 @@ routes = [
         }
     },
     {
+        path: '/workouts/',
+        url: './pages/workouts.html',
+        on: {
+            pageInit: function (event, page) {
+
+            }
+        }
+    },
+    {
         path: '/plan_subcat/',
         url: './pages/plan_subcat.html',
         on: {
