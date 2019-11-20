@@ -16,6 +16,9 @@
     "cordova-plugin-device-name": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },
+    "cordova-plugin-fastclick": {
+      "PACKAGE_NAME": "com.ddrobotec.ddios"
+    },
     "cordova-plugin-fcm-with-dependecy-updated": {
       "PACKAGE_NAME": "com.ddrobotec.ddios"
     },

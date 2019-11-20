@@ -1,0 +1,58 @@
+{
+  "_args": [
+    [
+      "cordova-plugin-fastclick@1.0.0",
+      "D:\\Cordova\\ddapp-v1"
+    ]
+  ],
+  "_from": "cordova-plugin-fastclick@1.0.0",
+  "_id": "cordova-plugin-fastclick@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-3eOw2lrm95ytwO4elAOk16tQO14=",
+  "_location": "/cordova-plugin-fastclick",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-plugin-fastclick@1.0.0",
+    "name": "cordova-plugin-fastclick",
+    "escapedName": "cordova-plugin-fastclick",
+    "rawSpec": "1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "1.0.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-fastclick/-/cordova-plugin-fastclick-1.0.0.tgz",
+  "_spec": "1.0.0",
+  "_where": "D:\\Cordova\\ddapp-v1",
+  "author": {
+    "name": "Maksim Chemerisuk"
+  },
+  "bugs": {
+    "url": "https://github.com/chemerisuk/cordova-plugin-fastclick/issues"
+  },
+  "cordova": {
+    "id": "cordova-plugin-fastclick",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "description": "Cordova plugin to remove click delays on browsers with touch UIs.",
+  "engines": {
+    "cordova": ">=3.0.0"
+  },
+  "homepage": "https://github.com/chemerisuk/cordova-plugin-fastclick#readme",
+  "keywords": [
+    "fastclick",
+    "polyfill"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-fastclick",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chemerisuk/cordova-plugin-fastclick.git"
+  },
+  "version": "1.0.0"
+}
