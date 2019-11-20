@@ -8,6 +8,7 @@
 - Autologin function timeout increased from 25000ms to 60000ms after latency problems
 - Added external fastclick library for preventing 300ms delay from WebKit Browsers on iOS
 
+
 ## Known fixes 
 ### Android
 #### Plugin cordova-plugin-support-google-services
