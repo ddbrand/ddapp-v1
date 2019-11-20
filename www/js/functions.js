@@ -33,8 +33,8 @@ function autologin(callback) {
             }
         },
         error: function (errMsg) {
-            localStorage.removeItem("username");
-            localStorage.removeItem("pass");
+            /*localStorage.removeItem("username");
+            localStorage.removeItem("pass");*/
             localStorage.setItem('theme', 'theme-dark');
             callback(false);
         }

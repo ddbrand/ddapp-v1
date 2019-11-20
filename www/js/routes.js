@@ -2,6 +2,7 @@ routes = [
     {
         path: '/',
         url: './index.html',
+        asyncComponent: () => import('./js/workouts.js'),
         on: {
             pageInit: function (event, page) {
                 if(window.StatusBar) {
@@ -812,6 +813,7 @@ routes = [
     {
         path: '/workouts/',
         url: './pages/workouts.html',
+        asyncComponent: () => import('./js/workouts.js'),
         on: {
             pageInit: function (event, page) {
 

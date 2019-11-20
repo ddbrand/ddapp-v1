@@ -174,10 +174,10 @@
     }
 
     /**
-    * Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
-    *
-    * @type boolean
-    */
+     * Windows Phone 8.1 fakes user agent string to look like Android and iPhone.
+     *
+     * @type boolean
+     */
     var deviceIsWindowsPhone = navigator.userAgent.indexOf("Windows Phone") >= 0;
 
     /**
@@ -227,27 +227,27 @@
     FastClick.prototype.needsClick = function(target) {
         switch (target.nodeName.toLowerCase()) {
 
-        // Don't send a synthetic click to disabled inputs (issue #62)
-        case 'button':
-        case 'select':
-        case 'textarea':
-            if (target.disabled) {
+            // Don't send a synthetic click to disabled inputs (issue #62)
+            case 'button':
+            case 'select':
+            case 'textarea':
+                if (target.disabled) {
+                    return true;
+                }
+
+                break;
+            case 'input':
+
+                // File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
+                if ((deviceIsIOS && target.type === 'file') || target.disabled) {
+                    return true;
+                }
+
+                break;
+            case 'label':
+            case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
+            case 'video':
                 return true;
-            }
-
-            break;
-        case 'input':
-
-            // File inputs need real clicks on iOS 6 due to a browser bug (issue #68)
-            if ((deviceIsIOS && target.type === 'file') || target.disabled) {
-                return true;
-            }
-
-            break;
-        case 'label':
-        case 'iframe': // iOS8 homescreen apps can prevent events bubbling into frames
-        case 'video':
-            return true;
         }
 
         return (/\bneedsclick\b/).test(target.className);
@@ -262,25 +262,25 @@
      */
     FastClick.prototype.needsFocus = function(target) {
         switch (target.nodeName.toLowerCase()) {
-        case 'textarea':
-            return true;
-        case 'select':
-            return !deviceIsAndroid;
-        case 'input':
-            switch (target.type) {
-            case 'button':
-            case 'checkbox':
-            case 'file':
-            case 'image':
-            case 'radio':
-            case 'submit':
-                return false;
-            }
+            case 'textarea':
+                return true;
+            case 'select':
+                return !deviceIsAndroid;
+            case 'input':
+                switch (target.type) {
+                    case 'button':
+                    case 'checkbox':
+                    case 'file':
+                    case 'image':
+                    case 'radio':
+                    case 'submit':
+                        return false;
+                }
 
-            // No point in attempting to focus disabled inputs
-            return !target.disabled && !target.readOnly;
-        default:
-            return (/\bneedsfocus\b/).test(target.className);
+                // No point in attempting to focus disabled inputs
+                return !target.disabled && !target.readOnly;
+            default:
+                return (/\bneedsfocus\b/).test(target.className);
         }
     };
 
@@ -326,7 +326,7 @@
         var length;
 
         // Issue #160: on iOS 7, some input elements (e.g. date datetime month) throw a vague TypeError on setSelectionRange. These elements don't have an integer value for the selectionStart and selectionEnd properties, but unfortunately that can't be used for detection because accessing the properties also throws a TypeError. Just check the type instead. Filed as Apple bug #15122724.
-        if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month') {
+        if (deviceIsIOS && targetElement.setSelectionRange && targetElement.type.indexOf('date') !== 0 && targetElement.type !== 'time' && targetElement.type !== 'month' && targetElement.type !== 'email') {
             length = targetElement.value.length;
             targetElement.setSelectionRange(length, length);
         } else {
@@ -600,7 +600,7 @@
         }
 
         // Prevent the actual click from going though - unless the target node is marked as requiring
-        // real clicks or if it is in the whitelist in which case only non-programmatic clicks are permitted.
+        // real clicks or if it is in the allowlist in which case only non-programmatic clicks are permitted.
         if (!this.needsClick(targetElement)) {
             event.preventDefault();
             this.sendClick(targetElement, event);
@@ -761,7 +761,7 @@
                     }
                 }
 
-            // Chrome desktop doesn't need FastClick (issue #15)
+                // Chrome desktop doesn't need FastClick (issue #15)
             } else {
                 return true;
             }
@@ -825,5 +825,17 @@
         return new FastClick(layer, options);
     };
 
-    module.exports = FastClick;
+
+    if (typeof define === 'function' && typeof define.amd === 'object' && define.amd) {
+
+        // AMD. Register as an anonymous module.
+        define(function() {
+            return FastClick;
+        });
+    } else if (typeof module !== 'undefined' && module.exports) {
+        module.exports = FastClick.attach;
+        module.exports.FastClick = FastClick;
+    } else {
+        window.FastClick = FastClick;
+    }
 }());

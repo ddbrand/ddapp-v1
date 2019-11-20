@@ -9,10 +9,15 @@ var app = new Framework7({
     theme: 'auto',
     routes: routes,
     touch: {
-        tapHold: true
+        tapHold: true,
     },
     statusbar: {
         iosBackgroundColor: '#000000'
+    },
+    sheet: {
+        swipeToClose: true,
+        swipeToStep: true,
+        backdrop: true,
     },
     dialog: {
         title: translate_strings('attention'),
@@ -21,6 +26,9 @@ var app = new Framework7({
     }
 });
 
+$(function() {
+    FastClick.attach(document.body);
+});
 
 /*** Initialize and create the webview for tab navigation
  * @version 1.0.0 **/
@@ -62,6 +70,7 @@ $$('#my-login-screen .login-button').on('click', function () {
             trainingplans();
             homeView.router.navigate('/', {
                 reloadCurrent: true,
+                reloadAll: true,
                 ignoreCache: true
             });
         } else {
@@ -135,7 +144,6 @@ $$(document).on('page:init', function () {
     $("#view-stats").on('tab:show', function (event, ui) {
         statsView.router.navigate('/stats/');
     });
-
 
     // apply the currently loggedin username to all elements with class .insert-username in html value.
     var current_username = localStorage.getItem("username");
