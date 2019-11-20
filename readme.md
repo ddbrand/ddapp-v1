@@ -5,7 +5,8 @@
     - added /workouts/ route incl. workouts html template
     - added new structure for embedded javascript files
 - Code customization for function-based separation of all views for non-rendering blocking
-
+- Autologin function timeout increased from 25000ms to 60000ms after latency problems
+- Added external fastclick library for preventing 300ms delay from WebKit Browsers on iOS
 
 ## Known fixes 
 ### Android
@@ -22,6 +23,8 @@ Replace `mavenCentral()` with
 
 This fixes the Jetbrains Kotlin bug. Additionally, the Google Service Library should be downgraded to prevent compatibility problems: 
 
+
+##### Attention: This should be fixed. Stay by 4.2.0
 Find `classpath 'com.google.gms:google-services:4.2.0'` and replace to
 `classpath 'com.google.gms:google-services:4.1.0'`
 
