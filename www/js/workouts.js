@@ -23,10 +23,6 @@ function html_fst_level( name ) {
         "                <div class=\"treeview-item-root\">\n" +
         "                    <div class=\"treeview-toggle\"></div>\n" +
         "                    <div class=\"treeview-item-content\">\n" +
-        "                        <label class=\"needsclick checkbox\">\n" +
-        "                            <input type=\"checkbox\" class='needsclick'>\n" +
-        "                            <i class=\"needsclick icon-checkbox\"></i>\n" +
-        "                        </label>\n" +
         "                        <div class=\"treeview-item-label\">" + name + "</div>\n" +
         "                    </div>\n" +
         "                </div>" +
@@ -34,24 +30,6 @@ function html_fst_level( name ) {
     return markup;
 }
 /** E generating first level HTML markup for Treeview menu **/
-
-/** S generating second level HTML markup for Treeview menu **/
-function html_scd_level( name ) {
-    var markup = "<div class=\"treeview-item\" data-sub-slug=\"" + string_to_slug(name) + "\">\n" +
-        "             <div class=\"treeview-item-root\">\n" +
-        "                 <div class=\"treeview-item-content\">\n" +
-        "                     <label class=\"checkbox\">\n" +
-        "                         <input type=\"checkbox\">\n" +
-        "                         <i class=\"icon-checkbox\"></i>\n" +
-        "                     </label>\n" +
-        "                     <i class=\"icon f7-icons\">folder_fill</i>\n" +
-        "                     <div class=\"treeview-item-label\">" + name + "</div>\n" +
-        "                 </div>\n" +
-        "             </div>\n" +
-        "         </div>";
-    return markup;
-}
-/** E generating second level HTML markup for Treeview menu **/
 
 /** S generating third level HTML markup for Treeview menu **/
 function html_thd_level( name, planid ) {
@@ -73,22 +51,21 @@ function sheet_markup(thisplanname, plandescription, planunits, planduration, pl
     var markup = '<div class="sheet-modal sheet-' + string_to_slug(thisplanname) + ' my-sheet-swipe-to-step" style="height:auto;">\n' +
         '    <div class="sheet-modal-inner">\n' +
         '      <div class="sheet-modal-swipe-step">\n' +
-        '        <div class="display-flex padding">\n' +
-        ' <label class=\"checkbox\" style="padding: 5px 10px 10px 10px;">\n' +
+        '        <div class="display-flex padding justify-content-space-between">\n' +
+        ' <div class="float-left padding-right padding-top-half padding-left-half"><label class=\"checkbox\">\n' +
         '                         <input type=\"checkbox\">\n' +
         '                         <i class=\"icon-checkbox\"></i>\n' +
         '                     </label>\n' +
-        '          <div style="font-size: 18px"><b>' + thisplanname + '</b></div>\n' +
+        '          <b class="padding-top-half padding-left-half">' + thisplanname + '</b>' +
+        '           </div><div class="padding-top-half float-right" style="text-align: right;">' + planunits + ' units</div>\n' +
         '        </div>\n' +
         '        <div class="padding-horizontal padding-bottom">\n' +
-        '         <div class="row"><div class="col-100" style="text-align: center;">' + planunits + ' units</div></div>' +
         '          <div class="margin-top text-align-center">Swipe up for more details</div>\n' +
         '        </div>\n' +
         '      </div>\n' +
-        '      <div class="block-title block-title-medium margin-top">Description</div>\n' +
         '       <div class="card">\n' +
         '  <div class="card-content card-content-padding">' + plandescription + '</div></div>' +
-        '      <div class="block-title block-title-medium margin-top">Author</div>\n' +
+        '      <div class="block-title block-title padding-top padding-bottom-half padding-left-half margin-top">Created by</div>\n' +
         '       <div class="card">\n' +
         '  <div class="card-content card-content-padding">' + planauthor + '</div></div>' +
         '    </div>\n' +
@@ -98,6 +75,12 @@ function sheet_markup(thisplanname, plandescription, planunits, planduration, pl
 
 // MAIN FUNCTION
 $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
+    $$('.toggletree').on('click', function() {
+        $('.treeview-item').each(function(index) {
+            app.treeview.toggle(this);
+        });
+    });
+
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
