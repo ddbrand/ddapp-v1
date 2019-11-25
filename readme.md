@@ -4,10 +4,12 @@
 - structural change of the workout plans, simplification of the layout
     - added /workouts/ route incl. workouts html template
     - added new structure for embedded javascript files
+- Workouts select optimized server push, fixed -1 error
 - Code customization for function-based separation of all views for non-rendering blocking
 - Autologin function timeout increased from 25000ms to 60000ms after latency problems
 - Added external fastclick library for preventing 300ms delay from WebKit Browsers on iOS
 
+_Testflight publish: Mo, 25.10.2019 / 19:38_
 
 ## Known fixes 
 ### Android
