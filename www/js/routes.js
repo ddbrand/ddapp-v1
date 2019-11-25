@@ -855,7 +855,7 @@ routes = [
                 }
                 planchoice();
                 $$('.back').on('click', function() {
-                    plansView.router.navigate('/plan_subcat/', { animate: true});
+                    plansView.router.navigate('/workouts/', { animate: true});
                 });
             }
         }
@@ -873,7 +873,7 @@ routes = [
                 }
                 showmyplans();
                 $$('.back').on('click', function() {
-                    plansView.router.navigate('/plans/', {animate: true});
+                    plansView.router.navigate('/workouts/', {animate: true});
                 });
             }
         }

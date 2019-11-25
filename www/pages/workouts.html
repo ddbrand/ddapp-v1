@@ -5,6 +5,10 @@
             </div>
             <div class="title">#ddrobotec</div>
             <div class="right">
+                <a class="link icon-only searchbar-enable" data-searchbar=".searchbar">
+                    <i class="icon f7-icons if-not-md">search</i>
+                    <i class="icon material-icons md-only">search</i>
+                </a>
                 <a class="link icon-only toggletree" href="#">
                     <i class="icon f7-icons">layers</i>
                 </a>
@@ -13,19 +17,16 @@
                     <i class="icon material-icons md-only">collection<span class="badge color-lightblue">0</span></i>
                 </a>
             </div>
-            <!--  <div class="subnavbar">
-                 Searchbar with auto init -->
-                <!-- <form class="searchbar">
-                    <div class="searchbar-inner">
-                        <div class="searchbar-input-wrap">
-                            <input data-string="searchworkoutplans" type="search" class="translate" placeholder="Search training plans...">
-                            <i class="searchbar-icon"></i>
-                            <span class="input-clear-button"></span>
-                        </div>
-                        <span class="searchbar-disable-button if-not-aurora">Cancel</span>
+            <form class="searchbar searchbar-expandable">
+                <div class="searchbar-inner">
+                    <div class="searchbar-input-wrap">
+                        <input type="search" placeholder="Search"/>
+                        <i class="searchbar-icon"></i>
+                        <span class="input-clear-button"></span>
                     </div>
-                </form>
-            </div>-->
+                    <span class="searchbar-disable-button">Cancel</span>
+                </div>
+            </form>
         </div>
     </div>
     <div class="page-content">
@@ -34,6 +35,12 @@
             <div class="blue"></div>
             <div class="red"></div>
         </div>
+        <div class="searchbar-backdrop"></div>
+        <!-- hide-on-search element -->
+        <div class="block searchbar-hide-on-search">
+            <p>Choose your training workouts. As soon as you log in, your selected workouts will be displayed on the robotic personal trainer.</p>
+        </div>
+        <div id="test"></div>
         <div class="workoutset">
             <div class="treeview">
             </div>
