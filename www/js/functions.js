@@ -222,42 +222,54 @@ function displayContents(err, text) {
         var compid = urlParts[1];
         if (compid !== undefined) {
             login_checker(function (callback) {
-                if (callback !== false) {
+                if (callback === false) {
                     var toastCenter = app.toast.create({
-                        text: 'Your username or password has been changed or is incorrect. Try logging in again.',
+                        text: 'Your credentials has been changed. Try logging in again.',
                         position: 'bottom',
                         closeButton: true,
-                        closeTimeout: 3000,
+                        closeTimeout: 30000,
+                        on: {
+                            close: function () {
+                                $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
+                                app.toolbar.show('.toolbar-bottom', true);
+                                QRScanner.cancelScan();
+                                QRScanner.destroy();
+                                QRScanner.hide();
+                                $('.toolbar-bottom').show();
+                                app.tab.show("#view-user", true);
+                                userView.router.navigate('/user/', {animate: true});
+                            },
+                        }
                     });
                     toastCenter.open();
                 } else {
                     var username = localStorage.getItem("username");
                     var email = '';
                     var pass = localStorage.getItem("pass");
-            if (username !== null && pass !== null) {
-                var data = JSON.stringify({
-                    "CompId": compid,
-                    "UserName": username,
-                    "Pass": pass,
-                    "CacheName": ""
-                });
-                var xhr = new XMLHttpRequest();
-                xhr.withCredentials = true;
-                xhr.addEventListener("readystatechange", function () {
-                    if (this.readyState == 4) {
-                        QRScanner.cancelScan(function (status) {
-                            $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
-                            QRScanner.hide();
-                            $('.toolbar-bottom').show();
-                            app.toolbar.show('.toolbar-bottom', true);
-                            QRScanner.destroy();
-                            QRScanner.cancelScan();
-                            homeView.router.navigate('/', {reloadAll: true, animate: true});
+                    if (username !== null && pass !== null) {
+                        var data = JSON.stringify({
+                            "CompId": compid,
+                            "UserName": username,
+                            "Pass": pass,
+                            "CacheName": ""
                         });
-                    }
-                });
-                xhr.open("POST", urlParts[0] + "/api/login/");
-                xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+                        var xhr = new XMLHttpRequest();
+                        xhr.withCredentials = true;
+                        xhr.addEventListener("readystatechange", function () {
+                            if (this.readyState == 4) {
+                                QRScanner.cancelScan(function (status) {
+                                    $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
+                                    QRScanner.hide();
+                                    $('.toolbar-bottom').show();
+                                    app.toolbar.show('.toolbar-bottom', true);
+                                    QRScanner.destroy();
+                                    QRScanner.cancelScan();
+                                    homeView.router.navigate('/', {reloadAll: true, animate: true});
+                                });
+                            }
+                        });
+                        xhr.open("POST", urlParts[0] + "/api/login/");
+                        xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
                         xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
                         xhr.setRequestHeader("Cache-Control", "no-cache");
                         xhr.send(data);
@@ -270,14 +282,14 @@ function displayContents(err, text) {
                             QRScanner.hide();
                             QRScanner.destroy();
                             $('.circle-loader').addClass('load-complete');
-                    $('.checkmark').show();
-                }, 1000);
-                $$('.popup-close').on('click', function () {
-                    $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
-                    $('.toolbar-bottom').show();
-                    app.toolbar.show('.toolbar-bottom', true);
-                    $('.circle-loader').removeClass('load-complete');
-                    $('.checkmark').hide();
+                            $('.checkmark').show();
+                        }, 1000);
+                        $$('.popup-close').on('click', function () {
+                            $$(".page, .page-content, .page-current, #home-view, .view, #app, body, html").removeClass('nobg');
+                            $('.toolbar-bottom').show();
+                            app.toolbar.show('.toolbar-bottom', true);
+                            $('.circle-loader').removeClass('load-complete');
+                            $('.checkmark').hide();
                             homeView.router.navigate('/', {reloadAll: true, animate: true});
                         });
                     }
