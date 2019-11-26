@@ -290,74 +290,10 @@ routes = [
         on: {
             pageAfterIn: function (event, page) {
                 translate_strings();
-                var username = localStorage.getItem('username');
-                $.ajax({
-                    url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
-                }).done(function (result) {
-                    if (result === '') {
-                        $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
-                    } else {
-                        $$('.pullreport').html('');
-                        $$('.pullreport').html(result);
-                        $('.detailreport').each(function () {
-                            var trainingid = $(this).attr('data-title');
-                            var rowid = $(this).attr('data-id');
-                            var score = $(this).attr('data-score');
-                            $$(this).on('click', function () {
-                                var clicktitle = $(this).attr('data-title');
-                                var clickeditem = $(this).attr('data-id');
-                                var clickedscore = $(this).attr('data-score');
-                                localStorage.setItem('traintitle', clicktitle);
-                                localStorage.setItem('detail_train_id', clickeditem);
-                                localStorage.setItem('detail_train_score', clickedscore);
-                                statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
-                            });
-                            $.ajax({
-                                url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=2",
-                            }).done(function (result) {
-                                if (result == 'true') {
-                                    $$('.highscore_' + rowid).html('<i class="icon f7-icons icon-ios-fill material-icons">graph_round_fill</i>&nbsp;&nbsp;');
-                                }
-                            });
-
-                        });
-                    }
-                });
+                refresh_stats();
                 // Add 'refresh' listener on it
                 $$('.refreshstats').on('click', function() {
-                    var username = localStorage.getItem('username');
-                    $.ajax({
-                        url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
-                    }).done(function (result) {
-                        if (result === '') {
-                            $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
-                        } else {
-                            $$('.pullreport').html('');
-                            $$('.pullreport').html(result);
-                            $('.detailreport').each(function () {
-                                var trainingid = $(this).attr('data-title');
-                                var rowid = $(this).attr('data-id');
-                                var score = $(this).attr('data-score');
-                                $$(this).on('click', function () {
-                                    var clicktitle = $(this).attr('data-title');
-                                    var clickeditem = $(this).attr('data-id');
-                                    var clickedscore = $(this).attr('data-score');
-                                    localStorage.setItem('traintitle', clicktitle);
-                                    localStorage.setItem('detail_train_id', clickeditem);
-                                    localStorage.setItem('detail_train_score', clickedscore);
-                                    statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
-                                });
-                                $.ajax({
-                                    url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=2",
-                                }).done(function (result) {
-                                    if (result == 'true') {
-                                        $$('.highscore_' + rowid).html('<i class="icon f7-icons icon-ios-fill material-icons">graph_round_fill</i>&nbsp;&nbsp;');
-                                    }
-                                });
-                            });
-                        }
-                        e.detail();
-                    });
+                    refresh_stats();
                 });
             }
         }
@@ -415,7 +351,7 @@ routes = [
                         });
                         var trainingid = localStorage.getItem('traintitle');
                         $.ajax({
-                            url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=3",
+                            url: "https://ddrobotec.com/grafana/grafanapull.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=3",
                         }).done(function (result) {
                             $$('.detailoverview').append(result);
                             var myrank = $$('.rank').attr('data-myrank');
@@ -511,7 +447,7 @@ routes = [
                     $('.trainsubtitle').html(subtitle);
                 }
                 $.ajax({
-                    url: "https://ddrobotec.com/grafana/testy.php?trainingid=" + traintitle + "&username=" + username + "&fetch=" + leaderboardfetch + "&page=4",
+                    url: "https://ddrobotec.com/grafana/grafanapull.php?trainingid=" + traintitle + "&username=" + username + "&fetch=" + leaderboardfetch + "&page=4",
                 }).done(function (result) {
                     $$('.leaderboard').html(result);
                 });
@@ -1121,39 +1057,7 @@ routes = [
                         closeButton: true
                     });
                     toastCenter.open();
-                    var username = localStorage.getItem('username');
-                    $.ajax({
-                        url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
-                    }).done(function (result) {
-                        if (result === '') {
-                            $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
-                        } else {
-                            $$('.pullreport').html('');
-                            $$('.pullreport').html(result);
-                            $('.detailreport').each(function () {
-                                var trainingid = $(this).attr('data-title');
-                                var rowid = $(this).attr('data-id');
-                                var score = $(this).attr('data-score');
-                                $$(this).on('click', function () {
-                                    var clicktitle = $(this).attr('data-title');
-                                    var clickeditem = $(this).attr('data-id');
-                                    var clickedscore = $(this).attr('data-score');
-                                    localStorage.setItem('traintitle', clicktitle);
-                                    localStorage.setItem('detail_train_id', clickeditem);
-                                    localStorage.setItem('detail_train_score', clickedscore);
-                                    statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
-                                });
-                                $.ajax({
-                                    url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=2",
-                                }).done(function (result) {
-                                    if (result == 'true') {
-                                        $$('.highscore_' + rowid).html('<i class="icon f7-icons icon-ios-fill material-icons">graph_round_fill</i>&nbsp;&nbsp;');
-                                    }
-                                });
-                            });
-                        }
-                        e.detail();
-                    });
+                    refresh_stats();
                     userView.router.navigate('/user/', {reloadAll: true, animate: true});
                 });
                 $$('.login_add_screen_open').on('click', function () {

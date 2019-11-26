@@ -904,10 +904,14 @@ function showmyplans() {
 function refresh_stats() {
     var username = localStorage.getItem('username');
     $.ajax({
-        url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&page=1",
+        beforeSend: function() {
+            $('.loader').fadeIn(300);
+        },
+        url: "https://ddrobotec.com/grafana/grafanapull.php?username=" + username + "&page=1",
     }).done(function (result) {
         if (result === '') {
-            $$('.pullreport').html('<p style="padding: 25px;">' + translate_strings('notrainingactivity') + '</p>')
+            $('.loader').fadeOut(300);
+            $$('.pullreport').html('<p class="block text-align-center" style="font-size: 14px; opacity: 0.5;">' + translate_strings('notrainingactivity') + '</p>')
         } else {
             $$('.pullreport').html('');
             $$('.pullreport').html(result);
@@ -925,8 +929,12 @@ function refresh_stats() {
                     statsView.router.navigate('/training_detail/', {reloadAll: true, animate: true});
                 });
                 $.ajax({
-                    url: "https://ddrobotec.com/grafana/testy.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=2",
+                    url: "https://ddrobotec.com/grafana/grafanapull.php?username=" + username + "&trainingid=" + trainingid + "&score=" + score + "&page=2",
+                    beforeSend: function() {
+                        $('.loader').fadeIn(300);
+                    },
                 }).done(function (result) {
+                    $('.loader').fadeOut(300);
                     if (result == 'true') {
                         $$('.highscore_' + rowid).html('<i class="icon f7-icons icon-ios-fill material-icons">graph_round_fill</i>&nbsp;&nbsp;');
                     }
