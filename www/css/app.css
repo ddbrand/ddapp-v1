@@ -261,7 +261,7 @@ h2.pagetitle {
   background-color: rgba(0, 0, 0, 0.6);
   margin: 15px auto 25px auto;
   border-radius: 6px;
-  border: 1px solid white;
+  border-color: transparent;
   max-width: 90%;
   color: white;
   padding: 15px;
@@ -528,6 +528,10 @@ h2.pagetitle {
   right: 25px;
   z-index: 20000;
   display: none;
+}
+
+.block {
+  font-size: 16px;
 }
 
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }
