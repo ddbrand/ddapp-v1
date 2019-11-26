@@ -1,6 +1,7 @@
 function autologin(callback) {
     var username_cookie = localStorage.getItem("username");
     var password_cookie = localStorage.getItem("pass");
+    var ajaxTime= new Date().getTime();
     $.ajax({
         type: "POST",
         xhrFields: {
@@ -20,6 +21,8 @@ function autologin(callback) {
         dataType: "json",
         timeout: 60000,
         success: function (data) {
+            var totalTime = new Date().getTime()-ajaxTime;
+            debug_sql("AutoLogin Response for " + username_cookie, totalTime);
             if (data.success === false) {
                 var toastCenter = app.toast.create({
                     text: translate_strings('failedlogin'),
@@ -37,6 +40,17 @@ function autologin(callback) {
             localStorage.removeItem("pass");*/
             localStorage.setItem('theme', 'theme-dark');
             callback(false);
+        }
+    });
+}
+
+function debug_sql(key, value) {
+    var sec = value / 1000;
+    $.ajax({
+        type: "GET",
+        url: "https://ddrobotec.com/grafana/debugger.php?key=" + key + "&value=" + value,
+        dataType: "html",
+        success: function (data) {
         }
     });
 }
