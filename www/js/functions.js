@@ -80,6 +80,44 @@ function login(callback) {
     });
 }
 
+function login_checker(callback) {
+    var username_cookie = localStorage.getItem("username");
+    var password_cookie = localStorage.getItem("pass");
+    $.ajax({
+        type: "POST",
+        xhrFields: {
+            withCredentials: true
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(username_cookie + ':' + password_cookie));
+        },
+        url: "https://data-manager-1.dd-brain.com/api/login",
+        data: JSON.stringify({
+            "CompId": "",
+            "Username": username_cookie,
+            "Pass": password_cookie,
+            "CacheName": ""
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            if (data.success === false) {
+                callback(false);
+            } else {
+                localStorage.setItem("username", username_cookie);
+                localStorage.setItem("pass", password_cookie);
+                callback(true);
+            }
+        },
+        error: function (errMsg) {
+            localStorage.removeItem("username");
+            localStorage.removeItem("pass");
+            callback(false);
+        }
+    });
+}
+
 
 function dev_autologin(callback) {
     var username_cookie = localStorage.getItem("dev_username");
@@ -183,9 +221,19 @@ function displayContents(err, text) {
         var urlParts = text.split("/?compid=");
         var compid = urlParts[1];
         if (compid !== undefined) {
-            var username = localStorage.getItem("username");
-            var email = '';
-            var pass = localStorage.getItem("pass");
+            login_checker(function (callback) {
+                if (callback !== false) {
+                    var toastCenter = app.toast.create({
+                        text: 'Your username or password has been changed or is incorrect. Try logging in again.',
+                        position: 'bottom',
+                        closeButton: true,
+                        closeTimeout: 3000,
+                    });
+                    toastCenter.open();
+                } else {
+                    var username = localStorage.getItem("username");
+                    var email = '';
+                    var pass = localStorage.getItem("pass");
             if (username !== null && pass !== null) {
                 var data = JSON.stringify({
                     "CompId": compid,
@@ -210,17 +258,18 @@ function displayContents(err, text) {
                 });
                 xhr.open("POST", urlParts[0] + "/api/login/");
                 xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
-                xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-                xhr.setRequestHeader("Cache-Control", "no-cache");
-                xhr.send(data);
-                QRScanner.cancelScan(function (status) { });
-                QRScanner.hide();
-                QRScanner.destroy();
-                app.popup.open('#success-scan-popup', true);
-                setTimeout(function() {
-                    QRScanner.hide();
-                    QRScanner.destroy();
-                    $('.circle-loader').addClass('load-complete');
+                        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+                        xhr.setRequestHeader("Cache-Control", "no-cache");
+                        xhr.send(data);
+                        QRScanner.cancelScan(function (status) {
+                        });
+                        QRScanner.hide();
+                        QRScanner.destroy();
+                        app.popup.open('#success-scan-popup', true);
+                        setTimeout(function () {
+                            QRScanner.hide();
+                            QRScanner.destroy();
+                            $('.circle-loader').addClass('load-complete');
                     $('.checkmark').show();
                 }, 1000);
                 $$('.popup-close').on('click', function () {
@@ -229,9 +278,11 @@ function displayContents(err, text) {
                     app.toolbar.show('.toolbar-bottom', true);
                     $('.circle-loader').removeClass('load-complete');
                     $('.checkmark').hide();
-                    homeView.router.navigate('/', {reloadAll: true, animate: true});
+                            homeView.router.navigate('/', {reloadAll: true, animate: true});
+                        });
+                    }
+                }
                 });
-            }
         } else {
             QRScanner.cancelScan(function (status) { });
             QRScanner.hide();
