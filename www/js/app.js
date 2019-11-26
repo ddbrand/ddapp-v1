@@ -27,6 +27,8 @@ var app = new Framework7({
 });
 
 $(function() {
+    /*** Initialize FastClick lib for remove 300ms delay on click from iOS
+     * @version 1.2.12 **/
     FastClick.attach(document.body);
 });
 
@@ -34,9 +36,7 @@ $(function() {
  * @version 1.0.0 **/
 var homeView = app.views.create('#view-home', {
     url: '/',
-    domCache: false,
-    reloadPages: true,
-    reloadCurrent: true
+    reloadPages: true
 });
 var statsView = app.views.create('#view-stats', {
     url: '/stats/',

@@ -2,7 +2,6 @@ routes = [
     {
         path: '/',
         url: './index.html',
-        asyncComponent: () => import('./js/workouts.js'),
         on: {
             pageInit: function (event, page) {
                 if(window.StatusBar) {
@@ -12,12 +11,6 @@ routes = [
                     StatusBar.styleLightContent();
                     StatusBar.backgroundColorByName("black");
                 }
-                setTimeout(function() {
-                    StatusBar.styleDefault();
-                    StatusBar.overlaysWebView(false);
-                    StatusBar.styleLightContent();
-                    StatusBar.backgroundColorByName("black");
-                }, 2000);
                 navigator.globalization.getPreferredLanguage(
                     function (language) {
                         var lang = language.value;
@@ -48,16 +41,15 @@ routes = [
                 }, function (error) {
                     console.error(error);
                 });
+                setTimeout(function() {
+                    StatusBar.overlaysWebView(false);
+                    StatusBar.styleLightContent();
+                    StatusBar.backgroundColorByName("black");
+                }, 2000);
                 autologin(function (callback) {
                     if (callback === false) {
                         localStorage.setItem('theme', 'theme-dark');
                         $('body').addClass('theme-dark');
-                        setTimeout(function() {
-                            StatusBar.styleDefault();
-                            StatusBar.overlaysWebView(false);
-                            StatusBar.styleLightContent();
-                            StatusBar.backgroundColorByName("black");
-                        }, 2000);
                         homeView.router.navigate('/authbox/', {
                             reloadCurrent: true,
                             ignoreCache: true
@@ -79,11 +71,10 @@ routes = [
                         }
                     });
                 }
-                $$('.showhome').on('click', function() {
-                    homeView.router.navigate('/', {
-                        reloadCurrent: true,
-                        ignoreCache: true
-                    });
+                $$('.showhome').on('click', function(e) {
+                    app.tab.show("#view-home", true);
+                    homeView.router.navigate('/');
+                    e.preventDefault();
                 });
                 $$('.showstats').on('click', function (e) {
                     app.tab.show("#view-stats", true);
@@ -103,10 +94,6 @@ routes = [
                 });
             }
         }
-    },
-    {
-        path: '/about/',
-        url: './pages/about.html',
     },
     {
         path: '/authbox/',
