@@ -510,6 +510,7 @@ routes = [
                 translate_strings();
                 $$('select[name=languages]').on('change', function () {
                     localStorage.setItem('languages_i', this.value);
+                    app.smartSelect.close();
                     app.dialog.preloader();
                     setTimeout(function () {
                         app.tab.show("#view-home", true);

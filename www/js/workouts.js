@@ -97,10 +97,8 @@ function check_selected_boxes() {
     var localplans = JSON.parse(localStorage.getItem("myplans"));
     $('input.checkbox').prop('checked', false);
     $.each(localplans, function(index, item) {
-
-               $('input.checkbox[data-id="' + item + '"]').prop('checked', true);
-
-        });
+        $('input.checkbox[data-id="' + item + '"]').prop('checked', true);
+    });
 }
 
 /** S generating first level HTML markup for Treeview menu **/
@@ -135,32 +133,40 @@ function html_thd_level(name, planid) {
 }
 
 /** E generating third level HTML markup for Treeview menu **/
-function sheet_markup(thisplanname, plandescription, planunits, planduration, planauthor, thisplan) {
-    var minutesduration = planduration / 60;
-    var roundedString = minutesduration.toFixed(2);
-    var rounded = Number(roundedString);
+function sheet_markup(thisplanname, plandescription, planunits, planduration, planauthor, thisplan, thisgoals) {
+    var minutesduration = Math.floor(planduration / 60);
+    var seconds = planduration - minutesduration * 60;
+
     var markup = '<div class="sheet-modal sheet-' + string_to_slug(thisplanname) + ' my-sheet-swipe-to-step" style="height:auto;">\n' +
-        '    <div class="sheet-modal-inner">\n' +
-        '      <div class="sheet-modal-swipe-step">\n' +
-        '        <div class="display-flex padding">\n' +
-        '<label class=\"checkbox margin-top-half\">\n' +
-        '                         <input class="needsclick checkbox" type=\"checkbox\"  data-id="' + thisplan + '">\n' +
-        '                         <i class=\"icon-checkbox\"></i>\n' +
-        '                     </label>\n' +
-        '          <b class="padding-left-half display-inline-block align-content-center" style="padding: 8px; font-size: 16px;">' + thisplanname + '</b>' +
-        '        </div><div class="display-flex padding-left padding-right justify-content-center"><div class="hey margin-right"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">info</i><b>&nbsp;' + planunits + ' units</b></div><div class="margin-left"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">access_time</i><b>&nbsp;' + rounded + ' minutes</b></div></div>\n' +
-        '        <div class="padding-horizontal padding-bottom">\n' +
-        '          <div class="margin-top text-align-center">Swipe up for more details</div>\n' +
-        '        </div>\n' +
-        '      </div>\n' +
-        '       <div class="card">\n' +
-        '  <div class="card-content card-content-padding">' + plandescription + '</div></div>' +
-        '      <div class="block-title block-title padding-top padding-bottom-half padding-left-half margin-top">Created by</div>\n' +
-        '       <div class="card">\n' +
-        '  <div class="card-content card-content-padding">' + planauthor + '</div></div>' +
-        '    </div>\n' +
-        '  </div>';
+        '            <div class="sheet-modal-inner">\n' +
+        '               <div class="sheet-modal-swipe-step">\n' +
+        '                   <div class="display-flex padding">\n' +
+        '                       <label class=\"checkbox margin-top-half\">\n' +
+        '                           <input class="needsclick checkbox" type=\"checkbox\"  data-id="' + thisplan + '">\n' +
+        '                           <i class=\"icon-checkbox\"></i>\n' +
+        '                       </label>\n' +
+        '                       <b class="padding-left-half display-inline-block align-content-center" style="padding: 8px; font-size: 16px;">' + thisplanname + '</b>' +
+        '                   </div><div class="display-flex padding-left padding-right justify-content-center"><div class="hey margin-right"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">info</i><b>&nbsp;' + planunits + ' training units</b></div><div class="margin-left"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">access_time</i><b>&nbsp;' + minutesduration + ' mins &nbsp;' + seconds + ' secs</b></div></div>\n' +
+        '               <div class="padding-horizontal padding-bottom">\n' +
+        '                   <div class="margin-top text-align-center">Swipe up for more details</div>\n' +
+        '               </div>\n' +
+        '           </div>\n' +
+        '           <div class="card">\n' +
+        '               <div class="card-content card-content-padding"><ul class="goals"></ul></div>' +
+        '           </div>\n' +
+        '           <div class="card">\n' +
+        '               <div class="card-content card-content-padding">' + plandescription + '</div>' +
+        '           </div></div>\n' +
+        '       </div>';
+
     return markup;
+}
+
+function setgoals(thisplanname, goals) {
+    var i;
+    for (i = 0; i < goals.length; i++) {
+        $('.sheet-' + string_to_slug(thisplanname) + ' ul.goals').append('<li>' + goals[i] + '</li>');
+    }
 }
 
 // MAIN FUNCTION
@@ -254,6 +260,11 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
                 var allsubcats = [];
                 var i;
                 for (i = 0; i < response_obj.value.length; i++) {
+                    response_obj.value.sort(function(a, b){
+                        if(a.name < b.name) { return -1; }
+                        if(a.name > b.name) { return 1; }
+                        return 0;
+                    });
                     var thiscategory = response_obj.value[i]['category'];
                     var thissubcategory = response_obj.value[i]['subcategory'];
                     var thisplan = response_obj.value[i]['id'];
@@ -262,6 +273,8 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
                     var thisplanunits = response_obj.value[i]['numunits'];
                     var thisplanduration = response_obj.value[i]['duration'];
                     var thisplandescription = response_obj.value[i]['description'];
+                    var thisgoals = response_obj.value[i]['goals'];
+                    $('#test').html(thisgoals[0] + ' ' + thisgoals[1]);
                     if (!allcats.includes(thiscategory)) {
                         // collected main category name in array
                         allcats.push(thiscategory);
@@ -270,8 +283,8 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
                     }
                     $('.workoutset .treeview div.treeview-item[data-slug=' + string_to_slug(thiscategory) + '] div.treeview-item-children[data-children-slug=' + string_to_slug(thiscategory) + ']').append(html_thd_level(thisplanname, thisplan));
 
-                    $('.modalsheets').append(sheet_markup(thisplanname, thisplandescription, thisplanunits, thisplanduration, thisplanauthor, thisplan));
-
+                    $('.modalsheets').append(sheet_markup(thisplanname, thisplandescription, thisplanunits, thisplanduration, thisplanauthor, thisplan, thisgoals));
+setgoals(thisplanname, thisgoals);
                     $$('.dynamic-sheet').on('click', function () {
 
                         // Close inline sheet before

@@ -117,10 +117,6 @@ $$('#my-dev-login-screen .login-button').on('click', function () {
     app.loginScreen.close('#my-dev-login-screen');
 });
 
-if (StatusBar.isVisible) {
-    StatusBar.show();
-}
-
 $$(document).on('page:init', function () {
     /*** Check the current viewers platform (iOS or android) to append custom settings for the device specific
      * statusbar on top.

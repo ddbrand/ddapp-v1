@@ -1,5 +1,17 @@
 # Official DD App
 ## Changelog
+### 1.2.19 - 26.11.2019
+- Bug fixed for issue #15; QR Login went ok with false credentials
+- On userchange activity page refresh instant preventing false statistics and errors in calculating
+- Added loading animation for activities during refresh
+- General font size increased
+- General bug fixes
+- Statusbar flickering for home has been removed (Android) 
+- Autologin tracker to track how long the server takes to respond and why it recognizes some times logged out.
+- Workouts sorted planname row alphabetically
+- Renewed language select
+
+_Testflight publish: None_
 ### 1.2.18 - 20.11.2019
 - structural change of the workout plans, simplification of the layout
     - added /workouts/ route incl. workouts html template
@@ -7,7 +19,7 @@
 - Workouts select optimized server push, fixed -1 error
 - Code customization for function-based separation of all views for non-rendering blocking
 - Autologin function timeout increased from 25000ms to 60000ms after latency problems
-- Added external fastclick library for preventing 300ms delay from WebKit Browsers on iOS
+- Added external fastclick library for preventing 300ms delay from WebKit Browsers (iOS)
 
 _Testflight publish: Mo, 25.10.2019 / 19:38_
 
