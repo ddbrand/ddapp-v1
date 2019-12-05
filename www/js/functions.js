@@ -955,7 +955,6 @@ function refresh_stats() {
                 });
             });
         }
-        e.detail();
     });
 }
 refresh_stats();

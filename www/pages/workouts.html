@@ -9,8 +9,8 @@
                     <i class="icon f7-icons if-not-md">search</i>
                     <i class="icon material-icons md-only">search</i>
                 </a>
-                <a class="link icon-only toggletree" href="#">
-                    <i class="icon f7-icons">layers</i>
+                <a class="link icon-only filter-open" href="#">
+                    <i class="icon f7-icons">filter</i>
                 </a>
                 <a class="link icon-only myplansind" href="/myplans/">
                     <i class="icon f7-icons">collection_fill<span class="badge color-lightblue">0</span></i>
@@ -41,10 +41,45 @@
             <p>Choose your workout plans. The selected workouts will be displayed on the robotic personal trainer at login.</p>
         </div>
         <div class="workoutset">
-            <div class="treeview">
+            <div class="list media-list">
+                <ul></ul>
             </div>
         </div>
         <div class="modalsheets"></div>
+        <div class="sheet-modal sheet-modal-top" style="height: auto">
+            <div class="sheet-modal-inner">
+                <div class="block filterbuttons">
+                    <h3>Filters</h3>
+                    <div class="display-flex justify-content-space-between">Duration filter <span class="price-value">1 min - 100 min</span></div>
+                    <div class="list simple-list">
+                        <ul>
+                            <li class="item-row">
+                                <div class="item-cell">
+                                    <!-- Dual range slider with all the parameters passed via data- attributes -->
+                                    <div
+                                            id="price-filter"
+                                            class="range-slider range-slider-init color-lightblue"
+                                            data-label="true"
+                                            data-dual="true"
+                                            data-min="0"
+                                            data-max="100"
+                                            data-step="1"
+                                            data-value-left="0"
+                                            data-value-right="100"
+                                    ></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <br />
+                    <h3>Categories</h3>
+                    <div class="categoriesfilter">
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <br /><br /><br />
     </div>
 </div>

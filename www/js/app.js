@@ -43,12 +43,10 @@ var statsView = app.views.create('#view-stats', {
     reloadPages: true,
 });
 var plansView = app.views.create('#view-plans', {
-    url: '/workouts/',
-    reloadPages: true,
+    url: '/workouts/'
 });
 var userView = app.views.create('#view-user', {
-    url: '/user/',
-    reloadPages: true,
+    url: '/user/'
 });
 
 

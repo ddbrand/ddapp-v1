@@ -1,5 +1,9 @@
 # Official DD App
 ## Changelog
+### 1.2.20 - 02.12.2019
+- Changed back trainingplansstyle
+
+_Testflight publish: 01.12.2019 / 20:14_
 ### 1.2.19 - 26.11.2019
 - Bug fixed for issue #15; QR Login went ok with false credentials
 - On userchange activity page refresh instant preventing false statistics and errors in calculating
@@ -11,7 +15,7 @@
 - Workouts sorted planname row alphabetically
 - Renewed language select
 
-_Testflight publish: None_
+_Testflight publish: 01.12.2019 / 20:14_
 ### 1.2.18 - 20.11.2019
 - structural change of the workout plans, simplification of the layout
     - added /workouts/ route incl. workouts html template

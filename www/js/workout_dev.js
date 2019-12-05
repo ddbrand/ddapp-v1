@@ -117,7 +117,23 @@ function html_fst_level(name) {
 /** E generating first level HTML markup for Treeview menu **/
 
 /** S generating third level HTML markup for Treeview menu **/
-function html_thd_level(name, planid) {
+function html_thd_level(name, planid, planauthor, planduration, plandescription, planunits, plancat) {
+    var minutesduration = Math.floor(planduration / 60);
+    var markup = '<li data-element-slug="' + string_to_slug(name) + '" data-show-cat="' + string_to_slug(plancat) + '" data-minutes="' + minutesduration + '" class="child-pace sheeter-open" data-sheet=".sheet-' + string_to_slug(name) + '">\n' +
+        '<label class="needsclick item-checkbox item-content"><input class="needsclick checkbox" type="checkbox" data-id="' + planid + '">' +
+        '        <i class="needsclick icon-checkbox"></i>' +
+        '        <div class="item-inner">\n' +
+        '          <div class="item-title-row">\n' +
+        '            <div class="item-title">' +
+        '        <div class="display-inline vertical-align-middle">' + name + '</div></div>\n' +
+        '            <div class="item-after">' + planunits + ' units</div>\n' +
+        '          </div>\n' +
+
+        '        </label>\n' +
+        '          <div class="item-subtitle">by ' + planauthor + '</div>\n' +
+        '          <div class="item-text">' + plandescription + '</div>\n' +
+        '        </div>\n' +
+        '    </li>';/*
     var markup = "<div class=\"treeview-item child-pace\" data-element-slug=\"" + string_to_slug(name) + "\" >\n" +
         "             <div class=\"treeview-item-root\">\n" +
         "                 <div class=\"treeview-item-content\">\n" +
@@ -128,7 +144,7 @@ function html_thd_level(name, planid) {
         "                     <div class=\"sheet-open treeview-item-label\" data-sheet=\".sheet-" + string_to_slug(name) + "\">" + name + "</div>\n" +
         "                 </div>\n" +
         "             </div>\n" +
-        "         </div>";
+        "         </div>";*/
     return markup;
 }
 
@@ -169,37 +185,43 @@ function setgoals(thisplanname, goals) {
 }
 
 // MAIN FUNCTION
+
 $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
     $$('.toggletree').on('click', function () {
         $('.treeview-item').each(function (index) {
             app.treeview.toggle(this);
         });
     });
+
     var searchbar = app.searchbar.create({
         el: '.searchbar',
-        searchContainer: '.treeview',
-        searchIn: '.sheet-open',
+        searchContainer: '.workoutset',
+        searchIn: '.list ul .item-title .display-inline',
         on: {
             search(sb, query, previousQuery) {
-                $$('.sheet-open').each(function (index) {
-                    var searchtitle = $(this).html();
-                    if (searchtitle.search(query) !== -1) {
+                $$('.list ul .sheeter-open').each(function (index) {
+                    var searchtitle = $$(this).html();
+                    console.log(searchtitle, query);
+                    if (searchtitle.toLowerCase().search(query.toLowerCase()) !== -1) {
+                        console.log('found');
+                        $$(this).show();
                     } else {
-                        $(this).parents('.child-pace').hide();
+                        console.log('not found');
+                        $$(this).hide();
                     }
                 });
             },
             enable: function () {
-                $('.treeview-item').each(function (index) {
-                    app.treeview.open(this);
-                });
             },
             disable: function () {
-                $$('.sheet-open').each(function (index) {
+                $('.sheeter-open').each(function (index) {
                     $(this).parents('.child-pace').show();
                 });
             }
         }
+    });
+    $$('.filter-open').on('click', function () {
+        app.sheet.open('.sheet-modal-top');
     });
 
     $$('body').on('change', 'input.checkbox', function(e) {
@@ -238,6 +260,194 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
         }
         check_selected_boxes();
     });
+    /*
+    $$('.sheet-open').on('taphold', function(e){
+        var sheetel = $(this).attr('data-sheet');
+        app.sheet.open(sheetel);
+        alert('asd');
+        console.log('test');
+    });*/
+
+    $(document).on("taphold", '.sheeter-open', function(e) {
+            var sheetel = $(this).attr('data-sheet');
+            app.sheet.open(sheetel);
+        e.preventDefault();
+    });
+
+
+    $$('#price-filter').on('range:change', function (e) {
+        var range = app.range.get(e.target);
+        $('.sheeter-open').each(function(index) {
+            var plandur = $(this).attr('data-minutes');
+            var datacat = $(this).attr('data-show-cat');
+            if(range.value[0] < plandur && range.value[1] > plandur) {
+                filtercats = [];
+                $('.categoriesfilter button.button-fill').each(function (index) {
+                    var selected_cats = $(this).attr('data-cat');
+                    filtercats.push(selected_cats);
+                });
+                if(filtercats.includes(datacat)) {
+                    $(this).show();
+                } else if(filtercats.length === 0) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            } else {
+                $(this).hide();
+            }
+        });
+        $$('.price-value').text((range.value[0])+' min - '+(range.value[1]) + ' min');
+    });
+
+    $('.categoriesfilter').on('click', 'button', function() {
+        $(this).toggleClass('button-fill');
+        $(this).toggleClass('catchoice');
+
+        var filtercats = [];
+        var i6;
+        var range = app.range.get('#price-filter');
+            $('.button-fill').each(function(index) {
+                var selected_cats = $(this).attr('data-cat');
+                filtercats.push(selected_cats);
+            });
+
+            for (i6 = 0; i6 < filtercats.length; i6++) {
+                $('.sheeter-open').each(function (index) {
+                    if($(this).attr('data-show-cat') === filtercats[i6]) {
+                        $(this).addClass('checker');
+                    } else {
+                    }
+                });
+            }
+
+            $('.sheeter-open:not(.checker)').each(function() {
+                $(this).hide();
+            });
+
+            $('.checker').each(function() {
+                var plandur = $(this).attr('data-minutes');
+                if (range.value[0] < plandur && range.value[1] > plandur) {
+                    $(this).show();
+                    $(this).removeClass('checker');
+                } else {
+                    $(this).hide();
+                    $(this).removeClass('checker');
+                }
+            });
+
+            $('.nopechecker').each(function() {
+                $(this).hide();
+                $(this).removeClass('nopechecker');
+            });
+        if(filtercats.length === 0) {
+            $('.sheeter-open').each(function (index) {
+                var plandur = $(this).attr('data-minutes');
+                if (range.value[0] < plandur && range.value[1] > plandur) {
+                    $(this).show();
+                    $(this).removeClass('checker');
+                }
+            });
+        }
+        // push all cats in filtercats[]
+
+
+
+        /*
+            for (i6 = 0; i6 < filtercats.length; i6++) {
+                $('.sheeter-open[data-show-cat="' + filtercats[i6] + '"]').each(function(index) {
+                    $(this).addClass('checker');
+                });
+                console.log('check for ' + filtercats[i6]);
+                $('.checker').each(function () {
+                        var plandur = $(this).attr('data-minutes');
+                        if (range.value[0] < plandur && range.value[1] > plandur) {
+                            $(this).show();
+                            $(this).removeClass('checker');
+                        } else {
+                            $(this).hide();
+                            $(this).removeClass('checker');
+                        }
+
+                });
+            }
+*/
+
+
+
+/*
+        $('.catchoice').each(function() {
+            var selected_cats = $(this).attr('data-cat');
+            filtercats2.push(selected_cats);
+            $('.sheeter-open').each(function() {
+                var plandur = $(this).attr('data-minutes');
+                if($(this).attr('data-show-cat') !== selected_cats) {
+                    if(range.value[0] < plandur && range.value[1] > plandur) {
+
+                        $(this).show();
+                    }
+                } else {
+                        $(this).show();
+
+                }
+            });
+        });
+/*
+
+
+                var cat = $(this).attr('data-cat');
+                console.log(cat, filtercats);
+                if (filtercats.includes(cat)) {
+                    $('.sheeter-open[data-show-cat=' + cat + ']').hide();
+                    for (i6 = 0; i6 < filtercats.length; i6++) {
+                        var range = app.range.get('#price-filter');
+                        if(range.value[0] < plandur && range.value[1] > plandur) {
+                            $('.sheeter-open[data-show-cat=' + filtercats[i6] + ']').show();
+                        }
+                    }
+                } else if(filtercats.length === 0) {
+                    var range = app.range.get('#price-filter');
+                    $('.sheeter-open').each(function(index) {
+                        var plandur = $(this).attr('data-minutes');
+                        if(range.value[0] < plandur && range.value[1] > plandur) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                }*/
+        });
+
+/*
+        var numItems2 = $('.button-fill').length;
+        if(numItems2 !== 0) {
+        $('.catchoice').each(function() {
+            var range = app.range.get('#price-filter');
+            var datacase = $(this).attr('data-cat');
+            $('.sheeter-open[data-show-cat=' + datacase + ']').each(function(index) {
+                $(this).hide();
+
+                var plandur = $(this).attr('data-minutes');
+                var opener = $(this).attr('data-show-cat');
+                if(range.value[0] < plandur && range.value[1] > plandur && datacase == opener) {
+                    $(this).hide();
+                }
+            });
+        });
+        } else {
+            var range = app.range.get('#price-filter');
+            $('.sheeter-open').each(function(index) {
+                var plandur = $(this).attr('data-minutes');
+                if(range.value[0] < plandur && range.value[1] > plandur) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        }
+    });*/
+
+
 
     if (localStorage.getItem("myplans") === null) {
         $$('.myplansind i .badge').html('0');
@@ -277,13 +487,13 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
                     if (!allcats.includes(thiscategory)) {
                         // collected main category name in array
                         allcats.push(thiscategory);
-                        $('.workoutset .treeview').append(html_fst_level(thiscategory));
+                        //$('.workoutset .treeview').append(html_fst_level(thiscategory));
                         $('.workoutset .treeview div.treeview-item[data-slug=' + string_to_slug(thiscategory) + ']').append('<div class="treeview-item-children" data-children-slug="' + string_to_slug(thiscategory) + '"></div>');
                     }
-                    $('.workoutset .treeview div.treeview-item[data-slug=' + string_to_slug(thiscategory) + '] div.treeview-item-children[data-children-slug=' + string_to_slug(thiscategory) + ']').append(html_thd_level(thisplanname, thisplan));
+                    $('.list.media-list ul').append(html_thd_level(thisplanname, thisplan, thisplanauthor, thisplanduration, thisplandescription, thisplanunits, thiscategory));
 
                     $('.modalsheets').append(sheet_markup(thisplanname, thisplandescription, thisplanunits, thisplanduration, thisplanauthor, thisplan, thisgoals));
-setgoals(thisplanname, thisgoals);
+                    setgoals(thisplanname, thisgoals);
                     $$('.dynamic-sheet').on('click', function () {
 
                         // Close inline sheet before
@@ -292,6 +502,10 @@ setgoals(thisplanname, thisgoals);
                         // Open dynamic sheet
                         app.sheet.open('.sheet-' + string_to_slug(thisplanname));
                     });
+                }
+                console.log(allcats);
+                for (i4 = 0; i4 < allcats.length; i4++) {
+                    $('.categoriesfilter').append('<button class="button button-outline display-inline-block width-auto catchoice" data-cat="' + string_to_slug(allcats[i4]) + '">' + allcats[i4] + '</button>');
                 }
             }
         }
@@ -328,5 +542,6 @@ setgoals(thisplanname, thisgoals);
     xhr.send();
     setTimeout(function() {
         check_selected_boxes();
-    }, 1000)
+    }, 1000);
+
 });
