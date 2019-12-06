@@ -1,7 +1,11 @@
 # Official DD App
 ## Changelog
-### 1.2.20 - 02.12.2019
-- Changed back trainingplansstyle
+### 1.2.20 - 03.12.2019
+- Workouts
+    - Reversed liststyle
+    - New filter functions (button on top)
+    - search optimized engine
+    
 
 _Testflight publish: 01.12.2019 / 20:14_
 ### 1.2.19 - 26.11.2019
