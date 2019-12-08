@@ -1,5 +1,13 @@
 # Official DD App
 ## Changelog
+### 1.2.21 - 06.12.2019
+- Workouts
+    - Reversed liststyle
+    - New filter functions (button on top)
+    - search optimized engine
+    
+
+_Testflight publish: 08.12.2019 / 00:44
 ### 1.2.20 - 03.12.2019
 - Workouts
     - Reversed liststyle
@@ -7,7 +15,7 @@
     - search optimized engine
     
 
-_Testflight publish: 01.12.2019 / 20:14_
+_Testflight publish: 06.12.2019 / 00:44
 ### 1.2.19 - 26.11.2019
 - Bug fixed for issue #15; QR Login went ok with false credentials
 - On userchange activity page refresh instant preventing false statistics and errors in calculating

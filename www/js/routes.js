@@ -522,6 +522,7 @@ routes = [
                         });
                         toastCenter.open();
                         app.dialog.close();
+                        $$('.pullreport').html('<p class="block text-align-center" style="font-size: 14px; opacity: 0.5;">' + translate_strings('notrainingactivity') + '</p>');
                     }, 1200);
                     homeView.router.navigate('/', {reloadAll: true, animate: true});
                     homeView.router.refreshPage();
@@ -737,10 +738,9 @@ routes = [
     {
         path: '/workouts/',
         url: './pages/workouts.html',
-        asyncComponent: () => import('./js/workouts.js'),
         on: {
             pageInit: function (event, page) {
-
+                translate_strings();
             }
         }
     },
@@ -789,6 +789,7 @@ routes = [
         url: './pages/myplans.html',
         on: {
             pageInit: function (event, page) {
+                translate_strings();
                 if (localStorage.getItem("myplans") === null) {
                     $$('.myplansind i .badge').html('0');
                 } else {

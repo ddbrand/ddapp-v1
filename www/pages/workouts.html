@@ -37,45 +37,50 @@
         </div>
         <div class="searchbar-backdrop"></div>
         <!-- hide-on-search element -->
-        <div class="block searchbar-hide-on-search">
-            <p>Choose your workout plans. The selected workouts will be displayed on the robotic personal trainer at login.</p>
+        <div class="block searchbar-hide-on-search text-align-center">
+            <p class="translate" data-string="planintro">Choose your workout plans. The selected workouts will be displayed on the robotic personal trainer at login.</p>
         </div>
         <div class="workoutset">
+            <div class="block text-align-right">
+                <p class="workout_counter" style="font-style:italic; opacity: 0.5; font-size: 13px; margin-bottom: -25px;"></p>
+            </div>
             <div class="list media-list">
                 <ul></ul>
+            </div>
+            <div class="block text-align-right">
+                <p class="workout_counter" style="font-style:italic; opacity: 0.5; font-size: 13px; margin-top: -25px;"></p>
             </div>
         </div>
         <div class="modalsheets"></div>
         <div class="sheet-modal sheet-modal-top" style="height: auto">
             <div class="sheet-modal-inner">
                 <div class="block filterbuttons">
-                    <h3>Filters</h3>
-                    <div class="display-flex justify-content-space-between">Duration filter <span class="price-value">1 min - 100 min</span></div>
-                    <div class="list simple-list">
-                        <ul>
-                            <li class="item-row">
-                                <div class="item-cell">
-                                    <!-- Dual range slider with all the parameters passed via data- attributes -->
-                                    <div
-                                            id="price-filter"
-                                            class="range-slider range-slider-init color-lightblue"
-                                            data-label="true"
-                                            data-dual="true"
-                                            data-min="0"
-                                            data-max="100"
-                                            data-step="1"
-                                            data-value-left="0"
-                                            data-value-right="100"
-                                    ></div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
+                    <h3 style="margin-bottom: 12px;" class="translate float-left" data-string="filter">Filters</h3>
+                    <p class="float-right"><a href="#">Reset filter</a></p>
+                    <br class="float-none" />
+                    <div style="margin-bottom: -15px;" class="display-flex justify-content-space-between"><span class="translate" data-string="duration">Duration</span> <span class="price-value">1 min - 100 min</span></div>
+                </div>
+                <div class="list simple-list">
+                    <ul>
+                        <li>
+                            <div
+                                    id="price-filter"
+                                    class="range-slider range-slider-init color-deeporange"
+                                    data-label="true"
+                                    data-dual="true"
+                                    data-value-left="3"
+                                    data-value-right="33"
+                                    data-step="1"
+                            ></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="block filterbuttons">
 
-                    <br />
-                    <h3>Categories</h3>
+                    <h3 class="translate" data-string="categories">Categories</h3>
                     <div class="categoriesfilter">
                     </div>
+                </div>
                 </div>
             </div>
         </div>

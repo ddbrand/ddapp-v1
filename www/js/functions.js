@@ -854,7 +854,11 @@ function showmyplans() {
                 var checkedplans = [];
                 var checkedplantitles = [];
                 var i;
+                if(localStorage.getItem("myplans") === '[null]') {
+                    $('.myworkouts').html('<p class="block text-align-center" style="font-size: 14px; opacity: 0.5;">' + translate_strings('noplansselected') + '</p>')
+                }
                 for (i = 0; i < response_obj.value.length; i++) {
+                    console.log('MY PLANS ARRAY', localStorage.getItem("myplans"));
                     if($.inArray(response_obj.value[i]['id'], JSON.parse(localStorage.getItem("myplans"))) !== -1) {
                         var thiscategory = response_obj.value[i]['category'];
                         var thissubcategory = response_obj.value[i]['subcategory'];
@@ -877,10 +881,12 @@ function showmyplans() {
                             '</div></li>');
                     }
                 }
-                $$('.swipeout-delete').on('click', function() {
+                $$('.swipeout-delete').on('click', function(e) {
                     var dataid = $$(this).attr('data-id');
+                    $('input.checkbox[data-id="' + dataid + '"]').prop('checked', false);
                     var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
                     removedIndx = myplansindicator.indexOf(dataid);
+                    console.log('here it is ' + removedIndx);
                     while(removedIndx > -1) {
                         myplansindicator.splice(removedIndx, 1);
                         removedIndx = myplansindicator.indexOf(dataid);
@@ -888,12 +894,16 @@ function showmyplans() {
                     localStorage.setItem("myplans", JSON.stringify(myplansindicator));
                     $$('.myplansind i .badge').html(myplansindicator.length - 1);
                     sendplans();
+                    if(localStorage.getItem("myplans") === '[null]') {
+                        $('.myworkouts').html('<p class="block text-align-center" style="font-size: 14px; opacity: 0.5;">' + translate_strings('noplansselected') + '</p>')
+                    }
+                    e.preventDefault();
                 });
             }
         }
     });
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de') {
+    if(localStorage.getItem('language') === 'de') {
         if(localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
             xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));

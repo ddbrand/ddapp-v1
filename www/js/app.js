@@ -16,7 +16,6 @@ var app = new Framework7({
     },
     sheet: {
         swipeToClose: true,
-        swipeToStep: true,
         backdrop: true,
     },
     dialog: {
