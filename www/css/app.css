@@ -557,4 +557,8 @@ h2.pagetitle {
   font-size: 16px;
 }
 
+.dialog-buttons span {
+  color: #5ac8fa !important;
+}
+
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }
