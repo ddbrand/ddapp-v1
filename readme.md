@@ -1,13 +1,23 @@
 # Official DD App
 ## Changelog
-### 1.2.21 - 06.12.2019
+### 1.2.22 - 08.12.2019
+- General
+    - Color theme for modals updated from deepblue to lightblue
 - Workouts
-    - Reversed liststyle
-    - New filter functions (button on top)
-    - search optimized engine
+    - Added reset button for filter
     
 
-_Testflight publish: 08.12.2019 / 00:44
+_Testflight publish: n/A_
+### 1.2.21 - 06.12.2019
+- General
+    - Text new aligned center
+- Workouts
+    - Bug fixing for plan selector and remover
+    - Added translations for DE and EN
+    - Renew filter variables for clean markup
+    
+
+_Testflight publish: 08.12.2019 / 22:35
 ### 1.2.20 - 03.12.2019
 - Workouts
     - Reversed liststyle
@@ -15,7 +25,7 @@ _Testflight publish: 08.12.2019 / 00:44
     - search optimized engine
     
 
-_Testflight publish: 06.12.2019 / 00:44
+_Testflight publish: 06.12.2019 / 00:44_
 ### 1.2.19 - 26.11.2019
 - Bug fixed for issue #15; QR Login went ok with false credentials
 - On userchange activity page refresh instant preventing false statistics and errors in calculating
