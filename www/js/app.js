@@ -38,7 +38,7 @@ var homeView = app.views.create('#view-home', {
     reloadPages: true
 });
 var statsView = app.views.create('#view-stats', {
-    url: '/stats/',
+    url: '/activities/',
     reloadPages: true,
 });
 var plansView = app.views.create('#view-plans', {
@@ -132,11 +132,6 @@ $$(document).on('page:init', function () {
 
     // check if the developermode currently active or inactive.
     devcheck();
-
-    // reload router to the first page from tab for refreshed tabcontent after view is initilizing.
-    $("#view-stats").on('tab:show', function (event, ui) {
-        statsView.router.navigate('/stats/');
-    });
 
     // apply the currently loggedin username to all elements with class .insert-username in html value.
     var current_username = localStorage.getItem("username");

@@ -736,6 +736,15 @@ routes = [
         }
     },
     {
+        path: '/activities/',
+        url: './pages/activities.html',
+        on: {
+            pageInit: function (event, page) {
+                translate_strings();
+            }
+        }
+    },
+    {
         path: '/workouts/',
         url: './pages/workouts.html',
         on: {
