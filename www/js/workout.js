@@ -380,7 +380,7 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
                         //$('.workoutset .treeview').append(html_fst_level(thiscategory));
                         $('.workoutset .treeview div.treeview-item[data-slug=' + string_to_slug(thiscategory) + ']').append('<div class="treeview-item-children" data-children-slug="' + string_to_slug(thiscategory) + '"></div>');
                     }
-                    $('.list.media-list ul').append(html_thd_level(thisplanname, thisplan, thisplanauthor, thisplanduration, thisplandescription, thisplanunits, thiscategory));
+                    $('.workoutset .list.media-list ul').append(html_thd_level(thisplanname, thisplan, thisplanauthor, thisplanduration, thisplandescription, thisplanunits, thiscategory));
 
                     $('.modalsheets').append(sheet_markup(thisplanname, thisplandescription, thisplanunits, thisplanduration, thisplanauthor, thisplan, thisgoals));
                     setgoals(thisplanname, thisgoals);
@@ -445,7 +445,7 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
     xhr.send();
     setTimeout(function() {
         check_selected_boxes();
-        var countlist = $('.sheeter-open:visible').length;
+        var countlist = $('.workoutset .sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     }, 1000);
 
