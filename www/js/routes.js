@@ -2,6 +2,9 @@ routes = [
     {
         path: '/',
         url: './index.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 if(window.StatusBar) {
@@ -98,6 +101,9 @@ routes = [
     {
         path: '/authbox/',
         url: './pages/authbox.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageAfterIn: function (event, page) {
                 trainingplans();
@@ -274,6 +280,9 @@ routes = [
     {
         path: '/stats/',
         url: './pages/stats.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageAfterIn: function (event, page) {
                 translate_strings();
@@ -288,6 +297,9 @@ routes = [
     {
         path: '/training_detail/',
         url: './pages/training_detail.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -421,6 +433,9 @@ routes = [
     {
         path: '/leaderboard/',
         url: './pages/leaderboard.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -445,13 +460,11 @@ routes = [
         }
     },
     {
-        path: '/search/',
-        url: './pages/search.html',
-        componentUrl: './pages/search.html',
-    },
-    {
         path: '/scan/',
         url: './pages/scan.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -492,6 +505,9 @@ routes = [
     {
         path: '/stories/',
         url: './pages/stories.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 $.ajax({
@@ -505,6 +521,9 @@ routes = [
     {
         path: '/user/',
         url: './pages/user.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -675,20 +694,15 @@ routes = [
         }
     },
     {
-        path: '/settings/',
-        url: './pages/settings.html',
-    },
-    {
-        path: '/timeline/',
-        url: './pages/timeline.html',
-    },
-    {
         path: '/register/',
         url: './pages/register.html',
     },
     {
         path: '/plans/',
         url: './pages/plan.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 var searchbar = app.searchbar.create({
@@ -738,6 +752,18 @@ routes = [
     {
         path: '/activities/',
         url: './pages/activities.html',
+        options: {
+            transition: 'f7-dive',
+        },
+        on: {
+            pageInit: function (event, page) {
+                translate_strings();
+            }
+        }
+    },
+    {
+        path: '/activities/highscore/:id',
+        url: './pages/activities/highscore.html',
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -747,6 +773,9 @@ routes = [
     {
         path: '/workouts/',
         url: './pages/workouts.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -756,6 +785,9 @@ routes = [
     {
         path: '/plan_subcat/',
         url: './pages/plan_subcat.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 $$('.plansbreadcrumb').html(localStorage.getItem('category') + ' > ' + localStorage.getItem('subcategory'));
@@ -776,6 +808,9 @@ routes = [
     {
         path: '/plan_choice/',
         url: './pages/plan_choice.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 $$('.plansbreadcrumb').html(localStorage.getItem('category') + ' > ' + localStorage.getItem('subcategory'));
@@ -796,6 +831,9 @@ routes = [
     {
         path: '/myplans/',
         url: './pages/myplans.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -815,6 +853,9 @@ routes = [
     {
         path: '/changeuser/',
         url: './pages/changeuser.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
@@ -907,7 +948,7 @@ routes = [
                                 console.log(msg);
                             });
                         } else if (/ /.test(username)) {
-                            alert('Space detected');
+                            console.log('Space detected');
                         }
                     }
                     e.preventDefault();

@@ -151,4 +151,8 @@ $$(document).on('page:init', function () {
         }
         statsView.router.back('/training_detail/', {force: true, ignoreCache: true, animate: true})
     });
+
+    $$('.back').on('click', function() {
+        app.router.back();
+    });
 });
