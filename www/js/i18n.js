@@ -86,7 +86,8 @@ function translate_strings(key, value, value2) {
             ok: 'OK',
             attention: 'Achtung...',
             confirmresetplans: 'Möchten Sie wirklich Ihre gewählten Workouts zurücksetzen?',
-            languageswitched: "Sprache erfolgreich geändert."
+            languageswitched: "Sprache erfolgreich geändert.",
+            calculating: 'wird berrechnet...'
         };
     } else if (localStorage.getItem('language') === 'ja') {
         var Messages = {
@@ -173,7 +174,8 @@ function translate_strings(key, value, value2) {
             ok: 'わかった',
             attention: '皆様...',
             confirmresetplans: 'ワークアウトワークアウトですか？',
-            languageswitched: "言語を切り替えました。"
+            languageswitched: "言語を切り替えました。",
+            calculating: 'calculating...'
     };
 
     } else {
@@ -263,7 +265,8 @@ function translate_strings(key, value, value2) {
             ok: "OK",
             attention: 'Attention...',
             confirmresetplans: 'Are you sure you want to reset your selected workouts?',
-            languageswitched: "Language successfully switched."
+            languageswitched: "Language successfully switched.",
+            calculating: 'calculating...'
         };
     }
 

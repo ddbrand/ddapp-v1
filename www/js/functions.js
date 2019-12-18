@@ -691,7 +691,7 @@ function sendplans() {
                 } else { }
             },
             error: function (errMsg) {
-                alert(JSON.stringify(errMsg));
+                // alert(JSON.stringify(errMsg));
             }
         });
     } else {
@@ -725,7 +725,7 @@ function sendplans() {
                 } else { }
             },
             error: function (errMsg) {
-                alert(JSON.stringify(errMsg));
+                // alert(JSON.stringify(errMsg));
             }
         });
     }

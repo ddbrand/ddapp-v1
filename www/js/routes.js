@@ -752,21 +752,27 @@ routes = [
     {
         path: '/activities/',
         url: './pages/activities.html',
+
         options: {
             transition: 'f7-dive',
         },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+                pullmytrainings();
             }
         }
     },
     {
-        path: '/activities/highscore/:id',
+        path: '/activities/highscore/',
         url: './pages/activities/highscore.html',
+        options: {
+            transition: 'f7-dive',
+        },
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+
             }
         }
     },

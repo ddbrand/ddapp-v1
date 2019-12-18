@@ -38,8 +38,7 @@ var homeView = app.views.create('#view-home', {
     reloadPages: true
 });
 var statsView = app.views.create('#view-stats', {
-    url: '/activities/',
-    reloadPages: true,
+    url: '/activities/'
 });
 var plansView = app.views.create('#view-plans', {
     url: '/workouts/'
@@ -150,9 +149,5 @@ $$(document).on('page:init', function () {
             $('.trainsubtitle').html(subtitle);
         }
         statsView.router.back('/training_detail/', {force: true, ignoreCache: true, animate: true})
-    });
-
-    $$('.back').on('click', function() {
-        app.router.back();
     });
 });
