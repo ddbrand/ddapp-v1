@@ -35,7 +35,9 @@ function gethighscores(trainingid, trainingscore) {
                     closeTimeout: 12000,
                 });
                 toastCenter.open();
+                console.log(data);
             } else {
+                console.log(data.value.userList);
                 for (i = 0; i < data.value.userList.length; i++) {
                     // check the first entry with the highest score from any user
                     if(i === 0) {
@@ -65,6 +67,7 @@ $$(document).on('click', '.actunit', function() {
     var thisunit = $(this).attr('data-unitid');
     var thisunitscore = $(this).attr('data-unitscore');
     gethighscores(thisunit, thisunitscore);
+    console.log('afterclick ' + thisunit, thisunitscore);
     var maintitle = thisunit.split('[')[0];
     var subtitle = thisunit.split('[').pop().split(']')[0];
     $$('.actstoragetitle').html(maintitle);

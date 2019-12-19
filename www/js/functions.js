@@ -967,4 +967,3 @@ function refresh_stats() {
         }
     });
 }
-refresh_stats();

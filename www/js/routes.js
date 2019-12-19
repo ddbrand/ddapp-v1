@@ -772,7 +772,6 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
-
             }
         }
     },
