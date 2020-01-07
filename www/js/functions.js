@@ -83,6 +83,7 @@ function login(callback) {
             } else {
                 localStorage.setItem("username", username_cookie);
                 localStorage.setItem("pass", password_cookie);
+                app.init();
                 callback(true);
             }
         },

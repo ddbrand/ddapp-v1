@@ -182,8 +182,7 @@ function setgoals(thisplanname, goals) {
 }
 
 // MAIN FUNCTION
-
-$$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
+function pullworkouts() {
         var searchbar = app.searchbar.create({
         el: '.searchbar',
         searchContainer: '.workoutset',
@@ -421,23 +420,23 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
     if (localStorage.getItem('language') == 'de') {
         if (localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
-            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
 
         } else {
             xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
-            //xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
         }
     } else {
         if (localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
-            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
+            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
         } else {
             xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
-            // xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
-            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
+            xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
+            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
         }
     }
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -449,4 +448,4 @@ $$(document).on('page:init', '.page[data-name="workouts"]', function (e) {
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     }, 1000);
 
-});
+}

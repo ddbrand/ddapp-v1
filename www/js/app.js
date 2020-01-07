@@ -64,6 +64,7 @@ $$('#my-login-screen .login-button').on('click', function () {
             app.tab.show("#view-home", true);
             app.toolbar.show('.toolbar-bottom', true);
             trainingplans();
+            pullmytrainings();
             homeView.router.navigate('/', {
                 reloadCurrent: true,
                 reloadAll: true,

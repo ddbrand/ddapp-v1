@@ -49,6 +49,9 @@ routes = [
                     StatusBar.styleLightContent();
                     StatusBar.backgroundColorByName("black");
                 }, 2000);
+                app.init();
+                pullworkouts();
+                pullmytrainings();
                 autologin(function (callback) {
                     if (callback === false) {
                         localStorage.setItem('theme', 'theme-dark');
@@ -784,6 +787,7 @@ routes = [
         on: {
             pageInit: function (event, page) {
                 translate_strings();
+                pullworkouts();
             }
         }
     },
