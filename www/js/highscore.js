@@ -35,12 +35,29 @@ function gethighscores(trainingid, trainingscore) {
                     closeTimeout: 12000,
                 });
                 toastCenter.open();
-                console.log(data);
+                console.log('get highscore failed: ', data);
             } else {
                 console.log(data.value.userList);
                 for (i = 0; i < data.value.userList.length; i++) {
                     // check the first entry with the highest score from any user
                     if(i === 0) {
+                        var currentscore_gauge = app.gauge.create({
+                            el: '.currentscore',
+                            type: 'circle',
+                            value: 0,
+                            size: 220,
+                            borderColor: '#2196f3',
+                            borderWidth: 10,
+                            valueText: trainingscore,
+                            valueFontSize: 32,
+                            valueTextColor: '#2196f3',
+                            labelText: translate_strings('calculating'),
+                        });
+                        var thisunit = trainingid;
+                        var maintitle = thisunit.split('[')[0];
+                        var subtitle = thisunit.split('[').pop().split(']')[0];
+                        $$('.actstoragetitle').html(maintitle);
+                        $$('.levels').html(subtitle);
                         var circlefill = trainingscore / data.value.userList[i].score;
                         console.log('Currentscore Gauge is filled to ' + circlefill);
                         currentscore_gauge.update({
@@ -49,12 +66,21 @@ function gethighscores(trainingid, trainingscore) {
                         });
                     }
                     // check if current user is in highscore ranking
-                    if(data.value.userList[i].name === localStorage.getItem('username')) {
+                    console.log(data.value.userList[i].name + ' ' + localStorage.getItem('username') + ' / ' + data.value.userList[i].score + ' ' + trainingscore);
+                    if(data.value.userList[i].name === localStorage.getItem('username') && data.value.userList[i].score == trainingscore) {
+                        if(data.value.userList[i].rank === 1) {
+                            $$('.ranks').html('<img src="img/Gold.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />');
+                        } else if(data.value.userList[i].rank === 2) {
+                            $$('.ranks').html('<img src="img/Silber.svg" alt="Silber" class="inlinemedal" style="width: 32px;" />');
+                        } else if(data.value.userList[i].rank === 3) {
+                            $$('.ranks').html('<img src="img/Bronze.svg" alt="Bronze" class="inlinemedal" style="width: 32px;" />');
+                        } else {
 
+                            $$('.ranks').html(JSON.stringify(data.value.userList[i].rank));
+                        }
                     }
                 }
-                $('td.scores').html(trainingscore);
-
+                $$('td.scores').html(trainingscore);
             }
         },
         error: function (errMsg) {
@@ -66,10 +92,10 @@ function gethighscores(trainingid, trainingscore) {
 $$(document).on('click', '.actunit', function() {
     var thisunit = $(this).attr('data-unitid');
     var thisunitscore = $(this).attr('data-unitscore');
-    gethighscores(thisunit, thisunitscore);
-    console.log('afterclick ' + thisunit, thisunitscore);
     var maintitle = thisunit.split('[')[0];
     var subtitle = thisunit.split('[').pop().split(']')[0];
+    console.log('fired gethighscore(' + thisunit + ', ' + thisunitscore + ')');
+    gethighscores(thisunit, thisunitscore);
     $$('.actstoragetitle').html(maintitle);
 });
 

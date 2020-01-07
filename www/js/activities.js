@@ -84,7 +84,7 @@ function pullmytrainings() {
                     var isodate = new Date(data.value[i].timeStampIso);
                     var thisscore = data.value[i].score;
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:  '2-digit', minute: '2-digit' };
-                    $('.activitiesset .actlist ul').append('<li>\n' +
+                    $$('.activitiesset .actlist ul').append('<li>\n' +
                         '      <a href="/activities/highscore/" class="actunit item-link item-content chevron-center"  data-unitscore="' + thisscore + '" data-unitid="' + unitname + '">\n' +
                         '        <div class="item-inner">\n' +
                         '          <div class="item-title">\n' +
@@ -105,6 +105,15 @@ function pullmytrainings() {
         }
     });
 }
+
+$$(document).on('click', '.actunit', function() {
+    var thisunit = $(this).attr('data-unitid');
+    var thisunitscore = $(this).attr('data-unitscore');
+    gethighscores(thisunit, thisunitscore);
+    var maintitle = thisunit.split('[')[0];
+    var subtitle = thisunit.split('[').pop().split(']')[0];
+    $$('.actstoragetitle').html(maintitle);
+});
 
 $$('.refreshstats').on('click', function() {
     pullmytrainings();

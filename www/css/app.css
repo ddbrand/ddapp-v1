@@ -561,4 +561,17 @@ h2.pagetitle {
   color: #5ac8fa !important;
 }
 
+.fontbold {
+  font-weight: bold;
+}
+
+.hideline:before {
+  background-color: transparent !important;
+}
+
+.inlinemedal {
+  display: inline-block;
+  margin-top: 5px;
+}
+
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }
