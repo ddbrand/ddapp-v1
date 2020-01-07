@@ -97,7 +97,39 @@ $$(document).on('click', '.actunit', function() {
     console.log('fired gethighscore(' + thisunit + ', ' + thisunitscore + ')');
     gethighscores(thisunit, thisunitscore);
     $$('.actstoragetitle').html(maintitle);
+    $$(document).on('click', '.nativeshare', function () {
+        shareit(thisunit, 'supi');
+    });
 });
+
+function shareit(traintitle,  circletext) {
+    navigator.screenshot.URI(function (error, res) {
+        if (error) {
+            // alert(error);
+        } else {
+            var myBaseString = res.URI;
+            var block = myBaseString.split(";");
+            var dataType = block[0].split(":")[1];// In this case "image/png"
+            var realData = block[1].split(",")[1];// In this case "iVBORw0KGg...."
+            var folderpath = cordova.file.dataDirectory;
+            var filename = "myimage.png";
+            savebase64AsImageFile(folderpath, filename, realData, dataType);
+            var options = {
+                message: translate_strings('sharetext', traintitle, circletext),  // not supported on some apps (Facebook, Instagram)
+                subject: '#ddrobotec', // fi. for email
+                files: [folderpath + filename], // an array of filenames either locally or remotely
+            };
+            var onSuccess = function (result) {
+                console.log("Share completed? " + result.completed); // On Android apps mostly return false even while it's true
+                console.log("Shared to app: " + result.app); // On Android result.app since plugin version 5.4.0 this is no longer empty. On iOS it's empty when sharing is cancelled (result.completed=false)
+            };
+            var onError = function (msg) {
+                alert("Sharing failed with message: " + msg);
+            };
+            window.plugins.socialsharing.shareWithOptions(options, onSuccess, onError);
+        }
+    }, 'png', 60);
+}
 
 $$(document).on('click', '.highscoreback', function() {
     localStorage.removeItem('thisactunit');

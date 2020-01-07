@@ -113,7 +113,6 @@ function html_fst_level(name) {
         "           </div>";
     return markup;
 }
-
 /** E generating first level HTML markup for Treeview menu **/
 
 /** S generating third level HTML markup for Treeview menu **/
@@ -133,18 +132,7 @@ function html_thd_level(name, planid, planauthor, planduration, plandescription,
         '          <div class="item-subtitle">by ' + planauthor + '</div>\n' +
         '          <div class="item-text">' + plandescription + '</div>\n' +
         '        </div>\n' +
-        '    </li>';/*
-    var markup = "<div class=\"treeview-item child-pace\" data-element-slug=\"" + string_to_slug(name) + "\" >\n" +
-        "             <div class=\"treeview-item-root\">\n" +
-        "                 <div class=\"treeview-item-content\">\n" +
-        "                     <label class=\"needsclick checkbox\">\n" +
-        "                         <input class=\"needsclick checkbox\" type=\"checkbox\"  data-id=\'" + planid + "'>\n" +
-        "                         <i class=\"needsclick icon-checkbox\"></i>\n" +
-        "                     </label>\n" +
-        "                     <div class=\"sheet-open treeview-item-label\" data-sheet=\".sheet-" + string_to_slug(name) + "\">" + name + "</div>\n" +
-        "                 </div>\n" +
-        "             </div>\n" +
-        "         </div>";*/
+        '    </li>';
     return markup;
 }
 
@@ -215,7 +203,6 @@ function pullworkouts() {
         var countlist = $('.sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     });
-
     $$('body').on('change', 'input.checkbox', function(e) {
         if (e.target.checked) {
             $(this).prop('checked', true);
@@ -252,15 +239,11 @@ function pullworkouts() {
         }
         check_selected_boxes();
     });
-
-
-
     $(document).on("taphold", '.sheeter-open', function(e) {
-            var sheetel = $(this).attr('data-sheet');
-            app.sheet.open(sheetel);
+        var sheetel = $(this).attr('data-sheet');
+        app.sheet.open(sheetel);
         e.preventDefault();
     });
-
     $$('#price-filter').on('range:change', function (e) {
         var range = app.range.get(e.target);
         $('.sheeter-open').each(function(index) {
@@ -287,7 +270,6 @@ function pullworkouts() {
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
         $$('.price-value').text((range.value[0])+' min - '+(range.value[1]) + ' min');
     });
-
     $('.categoriesfilter').on('click', 'button', function() {
         $(this).toggleClass('button-fill');
         $(this).toggleClass('catchoice');
@@ -335,16 +317,13 @@ function pullworkouts() {
         var countlist = $('.sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     });
-
     if (localStorage.getItem("myplans") === null) {
         $$('.myplansind i .badge').html('0');
     } else {
         var myplansindicator = JSON.parse(localStorage.getItem("myplans"));
         $$('.myplansind i .badge').html(myplansindicator.length - 1);
     }
-
     check_selected_boxes();
-
     var xhr = new XMLHttpRequest();
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === 4) {
@@ -376,23 +355,18 @@ function pullworkouts() {
                     if (!allcats.includes(thiscategory)) {
                         // collected main category name in array
                         allcats.push(thiscategory);
-                        //$('.workoutset .treeview').append(html_fst_level(thiscategory));
                         $('.workoutset .treeview div.treeview-item[data-slug=' + string_to_slug(thiscategory) + ']').append('<div class="treeview-item-children" data-children-slug="' + string_to_slug(thiscategory) + '"></div>');
                     }
                     $('.workoutset .list.media-list ul').append(html_thd_level(thisplanname, thisplan, thisplanauthor, thisplanduration, thisplandescription, thisplanunits, thiscategory));
-
                     $('.modalsheets').append(sheet_markup(thisplanname, thisplandescription, thisplanunits, thisplanduration, thisplanauthor, thisplan, thisgoals));
                     setgoals(thisplanname, thisgoals);
                     $$('.dynamic-sheet').on('click', function () {
-
                         // Close inline sheet before
                         app.sheet.close('.sheet-' + string_to_slug(thisplanname));
-
                         // Open dynamic sheet
                         app.sheet.open('.sheet-' + string_to_slug(thisplanname));
                     });
                 }
-
                 durations.sort(function(a, b){return a - b});
                 setTimeout(function() {
                     console.log(durations);
@@ -414,29 +388,23 @@ function pullworkouts() {
     });
     // END MAIN FUNCTION
 
-
     // CONNECTION POOL
     xhr.withCredentials = true;
     if (localStorage.getItem('language') == 'de') {
         if (localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
             xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
-            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
-
         } else {
             xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=de");
             xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
-            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
         }
     } else {
         if (localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=en");
             xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
-            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
         } else {
             xhr.open("GET", "https://data-manager-1.dd-brain.com/api/json/workouts/list/2?lang=en");
             xhr.setRequestHeader("Authorization", 'Basic ' + btoa(localStorage.getItem('username') + ':' + localStorage.getItem('pass')));
-            //xhr.setRequestHeader('Authorization', 'Basic ' + btoa('mario' + ':' + 'test92'));
         }
     }
     xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
@@ -447,5 +415,4 @@ function pullworkouts() {
         var countlist = $('.workoutset .sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     }, 1000);
-
 }
