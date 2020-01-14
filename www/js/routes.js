@@ -730,7 +730,7 @@ routes = [
         url: './pages/activities.html',
 
         options: {
-            transition: 'f7-dive',
+            transition: 'f7-circle',
         },
         on: {
             pageInit: function (event, page) {
@@ -743,7 +743,7 @@ routes = [
         path: '/activities/highscore/',
         url: './pages/activities/highscore.html',
         options: {
-            transition: 'f7-dive',
+            transition: 'f7-circle',
         },
         on: {
             pageInit: function (event, page) {

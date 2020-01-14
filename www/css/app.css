@@ -574,4 +574,29 @@ h2.pagetitle {
   margin-top: 5px;
 }
 
+.frompart {
+  display: inline-block;
+  position: relative;
+  top: -10px;
+}
+
+.frompartno {
+  display: inline-block;
+  position: relative;
+}
+
+.md .list .leaderboarddrop .item-media, .md .list .lastsessions .item-media, .md .list .leaderboardentries .item-media {
+  min-width: 10px;
+}
+
+.textranklead {
+  width: 26px;
+  display: inline-block;
+  text-align: center;
+}
+
+.lastsessioncontent .links-list a {
+  height: auto !important;
+}
+
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }

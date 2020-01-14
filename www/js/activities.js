@@ -22,13 +22,10 @@ function pullunitmeta() {
                 toastCenter.open();
                 callback(false);
             } else {
-                console.log('show medals overfun');
                 $('.actunit').each(function (index) {
                     for (i = 0; i < data.value.length; i++) {
-                        console.log('show all medals prepare');
                         var currentname = $(this).attr('data-unitid');
                         var currentscore = $(this).attr('data-unitscore');
-                        console.log('debug ' + currentname + ' ' + currentscore);
                             var unitname = data.value[i].name;
                             var unitscore = data.value[i].score;
                             var unitrank = data.value[i].rank;
@@ -79,13 +76,14 @@ function pullmytrainings() {
                 toastCenter.open();
                 callback(false);
             } else {
+                $$('.activitiesset .actlist ul').html('');
                 for (i = 0; i < data.value.length; i++) {
                     var unitname = data.value[i].name;
                     var isodate = new Date(data.value[i].timeStampIso);
                     var thisscore = data.value[i].score;
                     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour:  '2-digit', minute: '2-digit' };
                     $$('.activitiesset .actlist ul').append('<li>\n' +
-                        '      <a href="/activities/highscore/" class="actunit item-link item-content chevron-center"  data-unitscore="' + thisscore + '" data-unitid="' + unitname + '">\n' +
+                        '      <a href="/activities/highscore/" class="actunit item-link item-content chevron-center"  data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + thisscore + '" data-unitid="' + unitname + '">\n' +
                         '        <div class="item-inner">\n' +
                         '          <div class="item-title">\n' +
                         '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
@@ -109,7 +107,8 @@ function pullmytrainings() {
 $$(document).on('click', '.actunit', function() {
     var thisunit = $(this).attr('data-unitid');
     var thisunitscore = $(this).attr('data-unitscore');
-    gethighscores(thisunit, thisunitscore);
+    var shortdate = $(this).attr('data-shortdate');
+    gethighscores(thisunit, thisunitscore, shortdate);
     var maintitle = thisunit.split('[')[0];
     var subtitle = thisunit.split('[').pop().split(']')[0];
     $$('.actstoragetitle').html(maintitle);
