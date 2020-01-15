@@ -156,8 +156,6 @@ function gethighscores(trainingid, trainingscore, shortdate) {
 
                         for (i2 = 0; i2 < placed.length; i2++) {
                             function sessionhtml(medal) {
-                                var mainscore = placed[i2].split(';')[0];
-
                                 $$('.lastsessioncontent .links-list ul.sessionoverview').append('<li>\n' +
                                 '      <a href="/activities/highscore/" data-animate="true" data-reload-current="true" class="actunit no-padding-left item-link item-content" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
                                     '      <div class="no-chevron actunit item-content" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +

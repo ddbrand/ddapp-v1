@@ -114,6 +114,11 @@ $$(document).on('click', '.actunit', function() {
     $$('.actstoragetitle').html(maintitle);
 });
 
+setTimeout(function() {
+    var countlist = $('.activitiesset .actlist ul li:visible').length;
+    $('.activities_counter').html(countlist + ' ' + translate_strings('sessiondisplayed'));
+}, 1000);
+
 $$('.refreshstats').on('click', function() {
     pullmytrainings();
 });

@@ -926,7 +926,7 @@ function showmyplans() {
     xhr.send();
 }
 
-function refresh_stats() {
+/*function refresh_stats() {
     var username = localStorage.getItem('username');
     $.ajax({
         beforeSend: function() {
@@ -967,4 +967,4 @@ function refresh_stats() {
             });
         }
     });
-}
+}*/

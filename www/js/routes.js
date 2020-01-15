@@ -1078,7 +1078,7 @@ routes = [
                         closeButton: true
                     });
                     toastCenter.open();
-                    refresh_stats();
+                    pullmytrainings();
                     userView.router.navigate('/user/', {reloadAll: true, animate: true});
                 });
                 $$('.login_add_screen_open').on('click', function () {

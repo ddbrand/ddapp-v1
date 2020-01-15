@@ -101,20 +101,6 @@ function check_selected_boxes() {
     });
 }
 
-/** S generating first level HTML markup for Treeview menu **/
-function html_fst_level(name) {
-    var markup = "<div class=\"treeview-item\" data-slug=\"" + string_to_slug(name) + "\">\n" +
-        "                <div class=\"treeview-item-root\">\n" +
-        "                    <div class=\"treeview-toggle\"></div>\n" +
-        "                    <div class=\"treeview-item-content\">\n" +
-        "                        <div class=\"treeview-item-label treeview-item-toggle\">" + name + "</div>\n" +
-        "                    </div>\n" +
-        "                </div>" +
-        "           </div>";
-    return markup;
-}
-/** E generating first level HTML markup for Treeview menu **/
-
 /** S generating third level HTML markup for Treeview menu **/
 function html_thd_level(name, planid, planauthor, planduration, plandescription, planunits, plancat) {
     var minutesduration = Math.floor(planduration / 60);
@@ -127,7 +113,6 @@ function html_thd_level(name, planid, planauthor, planduration, plandescription,
         '        <div class="display-inline vertical-align-middle">' + name + '</div></div>\n' +
         '            <div class="item-after">' + planunits + ' units</div>\n' +
         '          </div>\n' +
-
         '        </label>\n' +
         '          <div class="item-subtitle">by ' + planauthor + '</div>\n' +
         '          <div class="item-text">' + plandescription + '</div>\n' +
@@ -171,6 +156,7 @@ function setgoals(thisplanname, goals) {
 
 // MAIN FUNCTION
 function pullworkouts() {
+    $$('.workoutset .list.media-list ul, .modalsheets, .categoriesfilter').html('');
         var searchbar = app.searchbar.create({
         el: '.searchbar',
         searchContainer: '.workoutset',
