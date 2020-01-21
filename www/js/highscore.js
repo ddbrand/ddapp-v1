@@ -3,7 +3,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
     $$('.lastsessioncontent .list ul.sessionoverview').html('');
     $$('.trainingfullname').html(trainingid);
     var username = localStorage.getItem('username');
-    username = "Duffman";
+    username = "duffman";
     var currentscore_gauge = app.gauge.create({
         el: '.currentscore',
         type: 'circle',
