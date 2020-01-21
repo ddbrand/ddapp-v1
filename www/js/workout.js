@@ -317,7 +317,7 @@ function pullworkouts() {
             var response_obj = JSON.parse(this.responseText);
             if (response_obj.success == false) {
             } else {
-                $$('.workoutset .treeview').html('');
+                $$('.workoutset .list ul, .modalsheets').html('');
                 var allcats = [];
                 var durations = [];
                 var allsubcats = [];
@@ -367,6 +367,7 @@ function pullworkouts() {
                     console.log(allcats);
                     $('#price-filter').attr('data-value-left', '3').attr('data-value-right', '33');
                 }, 1000);
+                $('.categoriesfilter').html('');
                 for (i4 = 0; i4 < allcats.length; i4++) {
                     $('.categoriesfilter').append('<button class="button button-outline display-inline-block width-auto catchoice" data-cat="' + string_to_slug(allcats[i4]) + '">' + allcats[i4] + '</button>');
                 }
