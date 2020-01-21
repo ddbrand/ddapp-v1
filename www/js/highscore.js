@@ -3,6 +3,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
     $$('.lastsessioncontent .list ul.sessionoverview').html('');
     $$('.trainingfullname').html(trainingid);
     var username = localStorage.getItem('username');
+    username = "Duffman";
     var currentscore_gauge = app.gauge.create({
         el: '.currentscore',
         type: 'circle',
@@ -17,7 +18,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
     });
     $.ajax({
         type: "GET",
-        url: "https://data-manager-1-dev.dd-brain.com/api/json/leaderboard?activity=" + trainingid,
+        url: "https://data-manager-1.dd-brain.com/api/json/leaderboard?activity=" + trainingid,
         xhrFields: {
             withCredentials: true
         },
@@ -64,7 +65,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                         });
                     }
                     // check if current user is in highscore ranking
-                    if(data.value.userList[i].name == localStorage.getItem('username')) {
+                    if(data.value.userList[i].name == username) {
                         if(data.value.userList[i].rank === 1) {
                             $$('.ranks').html('<img src="img/Gold.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />');
                             $('.ranks').append('<span class="frompart">&nbsp;/&nbsp;' + data.value.userList.length + '</span>');
@@ -116,7 +117,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
     });
     $.ajax({
         type: "GET",
-        url: "https://data-manager-1-dev.dd-brain.com/api/json/activities?name=" + username,
+        url: "https://data-manager-1.dd-brain.com/api/json/activities?name=" + username,
         xhrFields: {
             withCredentials: true
         },

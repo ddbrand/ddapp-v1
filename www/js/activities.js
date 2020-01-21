@@ -1,8 +1,9 @@
 function pullunitmeta() {
     var username = localStorage.getItem('username');
+    username = 'Duffman';
     $.ajax({
         type: "GET",
-        url: "https://data-manager-1-dev.dd-brain.com/api/json/highscores?name=" + username,
+        url: "https://data-manager-1.dd-brain.com/api/json/highscores?name=" + username,
         xhrFields: {
             withCredentials: true
         },
@@ -54,9 +55,10 @@ function pullunitmeta() {
 
 function pullmytrainings() {
     var username = localStorage.getItem('username');
+    username = 'Duffman';
     $.ajax({
         type: "GET",
-        url: "https://data-manager-1-dev.dd-brain.com/api/json/activities?name=" + username,
+        url: "https://data-manager-1.dd-brain.com/api/json/activities?name=" + username,
         xhrFields: {
             withCredentials: true
         },
