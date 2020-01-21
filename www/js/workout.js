@@ -129,6 +129,7 @@ function sheet_markup(thisplanname, plandescription, planunits, planduration, pl
     var markup = '<div class="sheet-modal sheet-' + string_to_slug(thisplanname) + ' my-sheet-swipe-to-step swipeout" style="height:auto;">\n' +
         '            <div class="sheet-modal-inner">\n' +
         '               <div class="sheet-modal-swipe-step">\n' +
+        '                <div class="pullline modaldrop"></div>\n' +
         '                   <div class="display-flex padding">\n' +
         '                       <label class=\"checkbox margin-top-half\">\n' +
         '                           <input class="needsclick checkbox" type=\"checkbox\"  data-id="' + thisplan + '">\n' +
