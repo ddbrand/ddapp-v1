@@ -599,4 +599,21 @@ h2.pagetitle {
   height: auto !important;
 }
 
+.currentactivity {
+  border-left: 3px solid #0089cd;
+  border-right: 3px solid #e21a27;
+}
+
+.moresessions {
+  width: 100%;
+}
+
+.pullline {
+  width: 45%;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  background-color: rgba(255, 255, 255, 0.1);
+  margin: 0 auto 25px auto;
+}
+
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }

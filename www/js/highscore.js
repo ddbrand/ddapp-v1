@@ -58,7 +58,6 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                         $$('.actstoragetitle').html(maintitle);
                         $$('.levels').html(subtitle);
                         var circlefill = trainingscore / data.value.userList[i].score;
-                        console.log('Currentscore Gauge is filled to ' + circlefill);
                         currentscore_gauge.update({
                             value: circlefill,
                             labelText: 'Highscore: ' + data.value.userList[i].score
@@ -137,7 +136,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                 toastCenter.open();
                 callback(false);
             } else {
-                $$('.lastsessioncontent .list ul.sessionoverview').html('');
+                $('.lastsessioncontent .list ul.sessionoverview').html('');
                 for (i = 0; i < data.value.length; i++) {
                     var unitname = data.value[i].name;
                     var isodate = new Date(data.value[i].timeStampIso);
@@ -153,35 +152,50 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                     if (data.value[i].name === trainingid) {
                         placed = JSON.parse(localStorage.getItem('placedarray'));
                         placed.push(data.value[i].score + ';' + data.value[i].rank);
-
                         for (i2 = 0; i2 < placed.length; i2++) {
-                            function sessionhtml(medal) {
-                                $$('.lastsessioncontent .links-list ul.sessionoverview').append('<li>\n' +
-                                '      <a href="/activities/highscore/" data-animate="true" data-reload-current="true" class="actunit no-padding-left item-link item-content" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
-                                    '      <div class="no-chevron actunit item-content" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
-                                    '        <div class="item-inner">\n' +
-                                    '          <div class="item-title">\n' +
-                                    '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
-                                    '            </div>\n' +
-                                    '        <div class="item-after">' + medal + '</div>' +
-                                    '        </div>\n' +
-                                    '      </div>\n' +
-
-                                    '      </a>\n' +
-                                    '    </li>');
+                            function sessionhtml(medal, trainingscore) {
+                                console.error(trainingscore + ' // ' + data.value[i].score);
+                                if(trainingscore != data.value[i].score) {
+                                    $$('.lastsessioncontent .links-list ul.sessionoverview').append('<li>\n' +
+                                    '      <a href="/activities/highscore/" data-animate="true" data-reload-current="true" class="actunit no-padding-left item-link" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
+                                        '      <div class="no-chevron actunit item-content moresessions" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
+                                        '        <div class="item-inner">\n' +
+                                        '          <div class="item-title">\n' +
+                                        '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
+                                        '            </div>\n' +
+                                        '            <div class="item-after">' + medal + '</div>' +
+                                        '          </div>\n' +
+                                        '       </div>\n' +
+                                        '   </a>\n' +
+                                        '</li>');
+                                } else {
+                                    $$('.lastsessioncontent .links-list ul.sessionoverview').append('<li class="currentactivity">\n' +
+                                        '      <a href="#" class="no-chevron no-padding-left item-link " data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
+                                        '      <div class="no-chevron item-content moresessions" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
+                                        '        <div class="item-inner">\n' +
+                                        '          <div class="item-title">\n' +
+                                        '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '' +
+                                        '            <div class="item-footer">Score: ' + data.value[i].score + '</div>' +
+                                        '            </div>\n' +
+                                        '        <div class="item-after">' + medal + '</div>' +
+                                        '        </div>\n' +
+                                        '      </div>\n' +
+                                        '      </a>\n' +
+                                        '    </li>');
+                                }
                             }
                             if(placed[i2] == data.value[i].score + ';' + 1) {
-                                sessionhtml('<img src="img/Gold.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />');
+                                sessionhtml('<img src="img/Gold.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />', trainingscore);
                                 placed.splice( placed.indexOf(placed[i2]), 1 );
                             } else if (placed[i2] == data.value[i].score + ';' + 2) {
-                                sessionhtml('<img src="img/Silber.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />');
+                                sessionhtml('<img src="img/Silber.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />', trainingscore);
                                 placed.splice( placed.indexOf(placed[i2]), 1 );
                             } else if (placed[i2] == data.value[i].score + ';' + 3) {
-                                sessionhtml('<img src="img/Bronze.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />');
+                                sessionhtml('<img src="img/Bronze.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />', trainingscore);
                                 placed.splice( placed.indexOf(placed[i2]), 1 );
                             } else {
                                 if(data.value[i].score + ';' + 1 !== placed[i2] || data.value[i].score + ';' + 2 !== placed[i2] || data.value[i].score + ';' + 3 !== placed[i2]) {
-                                    sessionhtml('');
+                                    sessionhtml('&nbsp;', trainingscore);
                                     placed.splice( placed.indexOf(placed[i2]), 1 );
                                 }
                             }
@@ -203,6 +217,8 @@ $$(document).on('click', '.actunit', function() {
     var maintitle = thisunit.split('[')[0];
     var subtitle = thisunit.split('[').pop().split(']')[0];
     console.log('fired gethighscore(' + thisunit + ', ' + thisunitscore + ')');
+    localStorage.removeItem('placedarray');
+    var placedarray = [];
     gethighscores(thisunit, thisunitscore, shortdate);
     $$('.actstoragetitle').html(maintitle);
     $$(document).on('click', '.nativeshare', function () {
