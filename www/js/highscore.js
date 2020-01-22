@@ -115,6 +115,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
             //alert(JSON.stringify(errMsg));
         }
     });
+    var username = localStorage.getItem('username');
     $.ajax({
         type: "GET",
         url: "https://data-manager-1.dd-brain.com/api/json/activities?name=" + username,
