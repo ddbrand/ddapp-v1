@@ -620,4 +620,15 @@ h2.pagetitle {
   margin: 25px auto 0 auto;
 }
 
+.block-title {
+  border-left: #0089cd 3px solid;
+  border-right: #e21a27 3px solid;
+  font-size: 18px;
+  height: 20px;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 3px;
+  display: inline-block;
+}
+
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }
