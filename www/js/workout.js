@@ -187,7 +187,7 @@ function pullworkouts() {
     });
     $$('.filter-open').on('click', function () {
         app.sheet.open('.sheet-modal-top');
-        var countlist = $('.sheeter-open:visible').length;
+        var countlist = $('.workoutset .sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     });
     $$('body').on('change', 'input.checkbox', function(e) {
@@ -253,7 +253,7 @@ function pullworkouts() {
                 $(this).hide();
             }
         });
-        var countlist = $('.sheeter-open:visible').length;
+        var countlist = $('.workoutset .sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
         $$('.price-value').text((range.value[0])+' min - '+(range.value[1]) + ' min');
     });
@@ -301,7 +301,7 @@ function pullworkouts() {
                 }
             });
         }
-        var countlist = $('.sheeter-open:visible').length;
+        var countlist = $('.workoutset .sheeter-open:visible').length;
         $('.workout_counter').html(countlist + ' ' + translate_strings('plansdisplayed'));
     });
     if (localStorage.getItem("myplans") === null) {
