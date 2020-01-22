@@ -338,7 +338,6 @@ function pullworkouts() {
                     var thisplandescription = response_obj.value[i]['description'];
                     var thisgoals = response_obj.value[i]['goals'];
                     durations.push(thisplanduration);
-                    $('#test').html(thisgoals[0] + ' ' + thisgoals[1]);
                     if (!allcats.includes(thiscategory)) {
                         // collected main category name in array
                         allcats.push(thiscategory);
@@ -356,16 +355,17 @@ function pullworkouts() {
                 }
                 durations.sort(function(a, b){return a - b});
                 setTimeout(function() {
-                    console.log(durations);
                     var _r = app.range.get('#price-filter');
-                    var min_mins = Math.floor(durations[0] / 60);
-                    var max_mins = Math.floor(durations.slice(-1)[0] / 60);
+                    var min_mins = Math.floor(durations[0] / 60) - 1;
+                    var max_mins = Math.floor(durations.slice(-1)[0] / 60) + 1;
+                    console.error('MIN: ' + min_mins);
+                    console.error('MAX: ' + max_mins);
                     $$('.price-value').html(min_mins + ' min - ' + max_mins + ' min');
                     _r.min = min_mins;
                     _r.max = max_mins;
-                    console.log(_r.knobs);
-                    console.log(allcats);
-                    $('#price-filter').attr('data-value-left', '3').attr('data-value-right', '33');
+                    app.range.setValue('#price-filter', [min_mins, max_mins]);
+                    $('#price-filter').attr('data-value-left', min_mins);
+                    $('#price-filter').attr('data-value-right', max_mins);
                 }, 1000);
                 $('.categoriesfilter').html('');
                 for (i4 = 0; i4 < allcats.length; i4++) {
