@@ -281,23 +281,6 @@ routes = [
         }
     },
     {
-        path: '/stats/',
-        url: './pages/stats.html',
-        options: {
-            transition: 'f7-dive',
-        },
-        on: {
-            pageAfterIn: function (event, page) {
-                translate_strings();
-                refresh_stats();
-                // Add 'refresh' listener on it
-                $$('.refreshstats').on('click', function() {
-                    refresh_stats();
-                });
-            }
-        }
-    },
-    {
         path: '/training_detail/',
         url: './pages/training_detail.html',
         options: {

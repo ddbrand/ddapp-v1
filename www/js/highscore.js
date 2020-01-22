@@ -151,7 +151,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                         minute: '2-digit'
                     };
                     if (data.value[i].name === trainingid) {
-                        placed = JSON.parse(localStorage.getItem('placedarray'));
+                        var placed = JSON.parse(localStorage.getItem('placedarray'));
                         placed.push(data.value[i].score + ';' + data.value[i].rank);
                         for (i2 = 0; i2 < placed.length; i2++) {
                             function sessionhtml(medal, trainingscore) {
@@ -161,7 +161,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                                         '      <div class="no-chevron actunit item-content moresessions" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
                                         '        <div class="item-inner">\n' +
                                         '          <div class="item-title">\n' +
-                                        '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
+                                        '            <div class="item-header">' + isodate.toLocaleDateString(localStorage.getItem('language'), options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
                                         '            </div>\n' +
                                         '            <div class="item-after">' + medal + '</div>' +
                                         '          </div>\n' +
@@ -174,7 +174,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                                         '      <div class="no-chevron item-content moresessions" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +
                                         '        <div class="item-inner">\n' +
                                         '          <div class="item-title">\n' +
-                                        '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '' +
+                                        '            <div class="item-header">' + isodate.toLocaleDateString(localStorage.getItem('language'), options) + '</div>' + data.value[i].name + '' +
                                         '            <div class="item-footer">Score: ' + data.value[i].score + '</div>' +
                                         '            </div>\n' +
                                         '        <div class="item-after">' + medal + '</div>' +

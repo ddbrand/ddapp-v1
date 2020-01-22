@@ -88,16 +88,14 @@ function pullmytrainings() {
                         '      <a href="/activities/highscore/" class="actunit item-link item-content chevron-center"  data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + thisscore + '" data-unitid="' + unitname + '">\n' +
                         '        <div class="item-inner">\n' +
                         '          <div class="item-title">\n' +
-                        '            <div class="item-header">' + isodate.toLocaleDateString('en-US', options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
+                        '            <div class="item-header">' + isodate.toLocaleDateString(localStorage.getItem('language'), options) + '</div>' + data.value[i].name + '<div class="item-footer">Score: ' + data.value[i].score + '</div>' +
                         '            </div>\n' +
                         '        <div class="item-after"></div>' +
                         '        </div>\n' +
                         '      </a>\n' +
                         '    </li>');
-
                 }
                 pullunitmeta();
-                console.log('medal pull fired');
             }
         },
         error: function (errMsg) {
