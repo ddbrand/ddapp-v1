@@ -77,6 +77,19 @@ function pullmytrainings() {
                 callback(false);
             } else {
                 $$('.activitiesset .actlist ul').html('');
+                if(data.value.length === 0) {
+                    $$('.activitiesset').html('<div class="block text-align-center notfound">' + translate_strings('notrainingactivity') + '</div>');
+                } else {
+                    $$('.activitiesset').html('<div class="block text-align-right">\n' +
+                        '                <p class="activities_counter" style="font-style:italic; opacity: 0.5; font-size: 13px; margin-bottom: -25px;"></p>\n' +
+                        '            </div>\n' +
+                        '            <div class="actlist list">\n' +
+                        '                <ul></ul>\n' +
+                        '            </div>\n' +
+                        '            <div class="block text-align-right">\n' +
+                        '                <p class="activities_counter" style="font-style:italic; opacity: 0.5; font-size: 13px; margin-top: -25px;"></p>\n' +
+                        '            </div>');
+                }
                 for (i = 0; i < data.value.length; i++) {
                     var unitname = data.value[i].name;
                     var isodate = new Date(data.value[i].timeStampIso);

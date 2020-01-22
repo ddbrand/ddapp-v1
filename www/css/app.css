@@ -631,4 +631,10 @@ h2.pagetitle {
   display: inline-block;
 }
 
+.notfound {
+  font-size: 14px;
+  opacity: 0.6;
+  font-style: italic;
+}
+
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }

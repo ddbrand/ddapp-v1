@@ -855,8 +855,15 @@ function showmyplans() {
                 var checkedplans = [];
                 var checkedplantitles = [];
                 var i;
-                if(localStorage.getItem("myplans") === '[null]') {
-                    $('.myworkouts').html('<p class="block text-align-center" style="font-size: 14px; opacity: 0.5;">' + translate_strings('noplansselected') + '</p>')
+                if(localStorage.getItem("myplans") === '[null]' || localStorage.getItem("myplans") === null) {
+                    $('.myworkouts').html('<p class="block text-align-center notfound">' + translate_strings('noplansselected') + '</p>')
+                } else {
+                    $('.myworkouts').html('<div class="list media-list chevron-center">\n' +
+                        '                <div class="list-group">\n' +
+                        '                    <ul class="myplanslist no-chevron">\n' +
+                        '                    </ul>\n' +
+                        '                </div>\n' +
+                        '            </div>');
                 }
                 for (i = 0; i < response_obj.value.length; i++) {
                     console.log('MY PLANS ARRAY', localStorage.getItem("myplans"));
