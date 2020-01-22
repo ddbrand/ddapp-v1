@@ -155,7 +155,6 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                         placed.push(data.value[i].score + ';' + data.value[i].rank);
                         for (i2 = 0; i2 < placed.length; i2++) {
                             function sessionhtml(medal, trainingscore) {
-                                console.error(trainingscore + ' // ' + data.value[i].score);
                                 if(trainingscore != data.value[i].score) {
                                     $$('.lastsessioncontent .links-list ul.sessionoverview').append('<li>\n' +
                                     '      <a href="/activities/highscore/" data-animate="true" data-reload-current="true" class="actunit no-padding-left item-link" data-shortdate="' + data.value[i].timeStampIso.split("T")[0] + '" data-unitscore="' + data.value[i].score + '" data-unitid="' + data.value[i].name + '">\n' +

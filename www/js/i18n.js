@@ -252,7 +252,7 @@ function translate_strings(key, value, value2) {
             successdevlogin: "You are successfully logged in as a developer.",
             noplansselected: "No training plans have yet been selected on this device.",
             plansdisplayed: "plans are displayed",
-            sessiondisplayed: "plans are displayed",
+            sessiondisplayed: "sessions are displayed",
             resetedworkouts: "Workouts were successfully reseted",
             language: "Language",
             english: "English",
