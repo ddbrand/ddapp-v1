@@ -21,7 +21,7 @@ function translate_strings(key, value, value2) {
             starttitle: ", bereit für dein Training",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "Aktivitätsübersicht",
-            checkoutspotlights: "Spotlights",
+            checkoutspotlights: "Blog",
             browseworkouts: "Workouts",
             qrcodehint: "Scanne den QR-Code, der auf dem Anmeldebildschirm des DD Systems angezeigt wird, um dich mit dem Robotic Personal Trainer zu verbinden.",
             youractivity: "Deine Aktivitäten",
@@ -88,7 +88,9 @@ function translate_strings(key, value, value2) {
             attention: 'Achtung...',
             confirmresetplans: 'Möchten Sie wirklich Ihre gewählten Workouts zurücksetzen?',
             languageswitched: "Sprache erfolgreich geändert.",
-            calculating: 'wird berrechnet...'
+            calculating: 'wird berrechnet...',
+            blog: 'DD Blog',
+            blogintro: ''
         };
     } else if (localStorage.getItem('language') === 'ja') {
         var Messages = {
@@ -112,7 +114,7 @@ function translate_strings(key, value, value2) {
             starttitle: "。 トレーニングの準備ができました",
             qrcodelogin: "QRコードログイン",
             viewyouractivity: "あなたのアクティビティ",
-            checkoutspotlights: "DD スポットライト",
+            checkoutspotlights: "DD ブログ",
             browseworkouts: "トレーニング",
             qrcodehint: "DDシステムログイン画面のQRコードをスキャンして、ロボットトレーナーと接続して下さい。",
             youractivity: "あなたのアクティビティ",
@@ -202,7 +204,7 @@ function translate_strings(key, value, value2) {
             starttitle: ", ready for your training",
             qrcodelogin: "QR-Code Login",
             viewyouractivity: "View Your Activity",
-            checkoutspotlights: "Check Out Spotlights",
+            checkoutspotlights: "Check Out Blog",
             browseworkouts: "Browse Workouts",
             qrcodehint: "Scan the QR-Code displayed on the DD System login screen to connect to the Robotic Personal Trainer.",
             youractivity: "Your activity",

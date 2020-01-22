@@ -462,18 +462,20 @@ routes = [
         }
     },
     {
-        path: '/stories/',
-        url: './pages/stories.html',
+        path: '/blog/',
+        url: './pages/blog.html',
         options: {
             transition: 'f7-dive',
         },
         on: {
             pageInit: function (event, page) {
-                $.ajax({
+                /*$.ajax({
                     url: "https://dev2.ddrobotec.com/wp-content/themes/ddrobotec/api/laststories.php",
                 }).done(function (result) {
                     $('.story_container').html(result);
-                });
+                });*/
+                translate_strings();
+                pullblogentries();
             }
         }
     },
