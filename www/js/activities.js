@@ -96,6 +96,7 @@ function pullmytrainings() {
                         '    </li>');
                 }
                 pullunitmeta();
+                refresh_activitiescounter();
             }
         },
         error: function (errMsg) {
@@ -114,9 +115,13 @@ $$(document).on('click', '.actunit', function() {
     $$('.actstoragetitle').html(maintitle);
 });
 
-setTimeout(function() {
+function refresh_activitiescounter() {
     var countlist = $('.activitiesset .actlist ul li:visible').length;
     $('.activities_counter').html(countlist + ' ' + translate_strings('sessiondisplayed'));
+}
+
+setTimeout(function() {
+    refresh_activitiescounter();
 }, 1000);
 
 $$('.refreshstats').on('click', function() {
