@@ -358,8 +358,6 @@ function pullworkouts() {
                     var _r = app.range.get('#price-filter');
                     var min_mins = Math.floor(durations[0] / 60) - 1;
                     var max_mins = Math.floor(durations.slice(-1)[0] / 60) + 1;
-                    console.error('MIN: ' + min_mins);
-                    console.error('MAX: ' + max_mins);
                     $$('.price-value').html(min_mins + ' min - ' + max_mins + ' min');
                     _r.min = min_mins;
                     _r.max = max_mins;

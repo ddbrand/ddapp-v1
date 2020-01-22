@@ -1,6 +1,5 @@
 function pullunitmeta() {
     var username = localStorage.getItem('username');
-    username = 'duffman';
     $.ajax({
         type: "GET",
         url: "https://data-manager-1.dd-brain.com/api/json/highscores?name=" + username,
@@ -55,7 +54,6 @@ function pullunitmeta() {
 
 function pullmytrainings() {
     var username = localStorage.getItem('username');
-    username = 'duffman';
     $.ajax({
         type: "GET",
         url: "https://data-manager-1.dd-brain.com/api/json/activities?name=" + username,
