@@ -151,7 +151,7 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                         minute: '2-digit'
                     };
                     if (data.value[i].name === trainingid) {
-                        var placed = JSON.parse(localStorage.getItem('placedarray'));
+                        var placed = JSON.parse(localStorage.getItem('placedarray')) || [];
                         placed.push(data.value[i].score + ';' + data.value[i].rank);
                         for (i2 = 0; i2 < placed.length; i2++) {
                             function sessionhtml(medal, trainingscore) {
