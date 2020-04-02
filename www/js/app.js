@@ -35,16 +35,22 @@ $(function() {
  * @version 1.0.0 **/
 var homeView = app.views.create('#view-home', {
     url: '/',
-    reloadPages: true
+    stackPages: true,
 });
 var statsView = app.views.create('#view-stats', {
-    url: '/activities/'
+    url: '/activities/',
+    stackPages: true,
+    preloadPreviousPage: false,
 });
 var plansView = app.views.create('#view-plans', {
-    url: '/workouts/'
+    url: '/workouts/',
+    stackPages: true,
+    preloadPreviousPage: false,
 });
 var userView = app.views.create('#view-user', {
-    url: '/user/'
+    url: '/user/',
+    stackPages: true,
+    preloadPreviousPage: false,
 });
 
 
@@ -129,6 +135,7 @@ $$(document).on('page:init', function () {
         StatusBar.backgroundColorByName("black");
         StatusBar.backgroundColorByHexString("#000000");
     }
+
 
     // check if the developermode currently active or inactive.
     devcheck();

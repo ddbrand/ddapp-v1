@@ -261,12 +261,19 @@ div.list-button {
 .nobg {
   background-color: transparent !important;
 }
+.page-previous.nobg {
+  display: none;
+}
 h2.pagetitle {
   text-align: center;
   font-weight: normal;
   margin-top: 50px;
   margin-bottom: 5px;
   font-size: 28px;
+}
+.page-previous[data-name="activities"], .page-previous[data-name="user"], .page-previous[data-name="workouts"] {
+  display: none;
+  visibility: hidden;
 }
 .startpage h2.pagetitle {
   color: white;
@@ -638,7 +645,10 @@ h2.pagetitle {
 }
 
 .blogthumb {
-  max-width: 100%;
+  max-width: calc(100% + 32px);
+  margin-top: -8px;
+  border-radius: 6px;
+  margin-left: -16px;
 }
 
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }

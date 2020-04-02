@@ -111,7 +111,7 @@ function html_thd_level(name, planid, planauthor, planduration, plandescription,
         '          <div class="item-title-row">\n' +
         '            <div class="item-title">' +
         '        <div class="display-inline vertical-align-middle">' + name + '</div></div>\n' +
-        '            <div class="item-after">' + planunits + ' units</div>\n' +
+        '            <div class="item-after">' + planunits + ' ' + translate_strings('units') + '</div>\n' +
         '          </div>\n' +
         '        </label>\n' +
         '          <div class="item-subtitle">by ' + planauthor + '</div>\n' +
@@ -136,7 +136,7 @@ function sheet_markup(thisplanname, plandescription, planunits, planduration, pl
         '                           <i class=\"icon-checkbox\"></i>\n' +
         '                       </label>\n' +
         '                       <b class="padding-left-half display-inline-block align-content-center" style="padding: 8px; font-size: 16px;">' + thisplanname + '</b>' +
-        '                   </div><div class="display-flex padding-left padding-right justify-content-center"><div class="hey margin-right"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">info</i><b>&nbsp;' + planunits + ' training units</b></div><div class="margin-left"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">access_time</i><b>&nbsp;' + minutesduration + ' mins &nbsp;' + seconds + ' secs</b></div></div>\n' +
+        '                   </div><div class="display-flex padding-left padding-right justify-content-center"><div class="hey margin-right"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">info</i><b>&nbsp;' + planunits + ' ' + translate_strings('units') + '</b></div><div class="margin-left"><i class="icon material-icons" style="font-size: 16px; display: inline-block; margin-top: -5px;">access_time</i><b>&nbsp;' + minutesduration + ' mins &nbsp;' + seconds + ' secs</b></div></div>\n' +
         '           </div>\n' +
         '           <div class="card">\n' +
         '               <div class="card-content card-content-padding"><ul class="goals"></ul></div>' +
@@ -376,7 +376,7 @@ function pullworkouts() {
 
     // CONNECTION POOL
     xhr.withCredentials = true;
-    if (localStorage.getItem('language') == 'de') {
+    if (localStorage.getItem('language') === 'de') {
         if (localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
             xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));

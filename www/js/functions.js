@@ -818,7 +818,7 @@ function planchoice() {
         }
     });
     xhr.withCredentials = true;
-    if(localStorage.getItem('language') == 'de') {
+    if(localStorage.getItem('language') === 'de') {
         if(localStorage.getItem('dev_login') === 'ok') {
             xhr.open("GET", "https://data-manager-1-dev.dd-brain.com/api/json/workouts/list/2?lang=de");
             xhr.setRequestHeader('Authorization', 'Basic ' + btoa(localStorage.getItem('dev_username') + ':' + localStorage.getItem('dev_pass')));
@@ -879,7 +879,7 @@ function showmyplans() {
                             '<div class="item-inner">\n' +
                             '<div class="item-title-row">\n' +
                             '<div class="item-title" data-id="' + thisplan + '">' + thisplanname + '</div>\n' +
-                            '<div class="item-after">' + thisplanunits + ' units</div>\n' +
+                            '<div class="item-after">' + thisplanunits + ' ' + translate_strings('units') + '</div>\n' +
                             '</div>\n' +
                             '<div class="item-subtitle">by ' +  thisplanauthor + '</div>\n' +
                             '<div class="item-text">' + thisplandescription + '</div>\n' +

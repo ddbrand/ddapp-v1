@@ -186,13 +186,13 @@ function gethighscores(trainingid, trainingscore, shortdate) {
                                 }
                             }
                             if(placed[i2] == data.value[i].score + ';' + 1) {
-                                sessionhtml('<img src="img/Gold.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />', trainingscore);
+                                sessionhtml('<img src="img/Gold.svg" alt="Gold" class="inlinemedal" style="width: 32px; height: 32px;" />', trainingscore);
                                 placed.splice( placed.indexOf(placed[i2]), 1 );
                             } else if (placed[i2] == data.value[i].score + ';' + 2) {
-                                sessionhtml('<img src="img/Silber.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />', trainingscore);
+                                sessionhtml('<img src="img/Silber.svg" alt="Gold" class="inlinemedal" style="width: 32px; height: 32px;" />', trainingscore);
                                 placed.splice( placed.indexOf(placed[i2]), 1 );
                             } else if (placed[i2] == data.value[i].score + ';' + 3) {
-                                sessionhtml('<img src="img/Bronze.svg" alt="Gold" class="inlinemedal" style="width: 32px;" />', trainingscore);
+                                sessionhtml('<img src="img/Bronze.svg" alt="Gold" class="inlinemedal" style="width: 32px; height: 32px;" />', trainingscore);
                                 placed.splice( placed.indexOf(placed[i2]), 1 );
                             } else {
                                 if(data.value[i].score + ';' + 1 !== placed[i2] || data.value[i].score + ';' + 2 !== placed[i2] || data.value[i].score + ';' + 3 !== placed[i2]) {
@@ -258,5 +258,7 @@ function shareit(traintitle,  circletext) {
 
 $$(document).on('click', '.highscoreback', function() {
     localStorage.removeItem('thisactunit');
+    $('.page-previous[data-name="activities"]').show();
+    $('.page-previous[data-name="activities"]').css('visibility', 'visible');
     statsView.router.back('/activities/', {animate: true});
 });

@@ -44,6 +44,10 @@ function getblogpostthumbnail(id) {
 pullblogentries();
 
 $$(document).on('click', '.blog.timeline .timeline-item', function() {
-   var bloglink = $$(this).attr('data-link');
+    var bloglink = $$(this).attr('data-link');
     window.open(bloglink, '_system');
+});
+
+$$(document).on('click', '.backtostart', function() {
+    homeView.router.back('/', {animate: true});
 });
