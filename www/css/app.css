@@ -650,5 +650,15 @@ h2.pagetitle {
   border-radius: 6px;
   margin-left: -16px;
 }
+.card_wrap {
+  margin: 15px auto 25px auto;
+  max-width: 90%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.card_wrap .card-footer, .card_wrap .card-header, .card_wrap {
+  justify-content: left;
+  font-size: 18px;
+}
 
 @media screen and (orientation:landscape) { html.with-statusbar-overlay .framework7-root { padding-top: 0; } html.with-statusbar-overlay .statusbar-overlay { height: 0 ; } html.with-statusbar-overlay .framework7-root>.photo-browser, html.with-statusbar-overlay body>.photo-browser { top: 0; height:100%; } }

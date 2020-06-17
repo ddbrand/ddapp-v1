@@ -158,4 +158,23 @@ $$(document).on('page:init', function () {
         }
         statsView.router.back('/training_detail/', {force: true, ignoreCache: true, animate: true})
     });
+
+    $.ajax({
+        type: "GET",
+        url: "https://truerank.ddrobotec.com/inc/trueranks.php?app_request=" + localStorage.getItem('username'),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        timeout: 25000,
+        success: function (data) {
+            $('.card_wrap').show();
+            $('.rank_container').html(data[0]);
+            $('.score_container').html(data[1]);
+            $('.team_container').html(data[2]);
+            $('.outof_container').html(data[3]);
+        },
+        error: function (errMsg) {
+            //alert(JSON.stringify(errMsg));
+            $('.card_wrap').hide();
+        }
+    });
 });
